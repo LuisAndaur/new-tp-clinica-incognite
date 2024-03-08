@@ -1,0 +1,23 @@
+.container{
+    width: 100%;
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+img{
+    width: 20%;
+}
+
+h5{
+    margin-top: 3%;
+    font-size: 2em;
+    font-weight: 900;
+    color: darkblue;
+}
+
+button{
+    margin-top: 3%;
+}

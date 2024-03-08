@@ -1,0 +1,48 @@
+<div class="contenedor">
+  <mat-card class="tarjeta">
+    <mat-card-title class="title">Iniciar sesión</mat-card-title>
+    <mat-card-content>
+    <form class="form" [formGroup]="form" (ngSubmit)="submit()">
+
+      <mat-form-field>
+        <mat-label>Correo electrónico</mat-label>
+        <input type="mail" matInput placeholder="Correo electrónico" formControlName="email">
+        <mat-error *ngIf="form.controls['email'].hasError('required') && form.controls['email'].touched">
+          <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+          El email es requerido.
+        </mat-error>
+        <mat-error *ngIf="form.controls['email'].hasError('email')">
+          <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+          Formato email inválido.
+        </mat-error>
+      </mat-form-field>    
+
+      <mat-form-field>
+        <mat-label>Contraseña</mat-label>
+        <input type="password" matInput placeholder="Contraseña" formControlName="password" max="7">
+        <mat-error *ngIf="form.controls['password'].hasError('required') && form.controls['password'].touched">
+          <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+          La password es requerido.
+        </mat-error>
+        <mat-error *ngIf="form.controls['password'].hasError('minlength')">
+          <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+          Mínimo 6 caracteres.
+        </mat-error>
+        <mat-error *ngIf="form.controls['password'].hasError('maxlength')">
+          <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+          Máximo 8 caracteres.
+        </mat-error>
+      </mat-form-field>
+
+
+      <div class="button">
+        <button type="submit" [disabled]="form.invalid" mat-raised-button color="primary">Ingresar</button>
+        <button type="button" routerLink="/bienvenida" mat-raised-button color="warn">Cancelar</button>
+        <button type="button" (click)="completarDatos()" mat-raised-button color="warn">AutoCompletar</button>
+      </div>
+
+    </form>
+
+    </mat-card-content>
+  </mat-card>
+</div>

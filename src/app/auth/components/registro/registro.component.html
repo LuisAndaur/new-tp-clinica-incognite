@@ -1,0 +1,16 @@
+<div class="contenedor">
+    <mat-card class="tarjeta">
+      <mat-card-title class="title">Usuarios</mat-card-title>
+      <mat-card-content>
+        <mat-form-field style="width: 500px;">
+          <mat-label>Seleccione tipo de usuario</mat-label>
+          <mat-select (selectionChange)="seleccion($event.value)">
+            <mat-option value="paciente">Paciente</mat-option>
+            <mat-option value="especialista">Especialista</mat-option>
+          </mat-select>
+        </mat-form-field> 
+          <app-resgistro-paciente *ngIf="user=='paciente'"></app-resgistro-paciente>
+          <app-resgistro-especialista *ngIf="user=='especialista'"></app-resgistro-especialista>
+      </mat-card-content>
+    </mat-card>
+</div>

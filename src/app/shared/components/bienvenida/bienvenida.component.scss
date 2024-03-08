@@ -1,0 +1,45 @@
+div {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  h1{
+    font-weight: 600;
+    font-size: 5em;
+    text-align: center;
+    margin-top: 4%;
+    color: rgb(0, 123, 255);
+    text-shadow: .02em .02em 0 rgba(0,0,0,.25);
+    white-space: nowrap;
+  }
+
+  hr{
+    margin: 5px 0 30px 0;
+  }
+  
+  h1 span{
+    color: dimgray;
+    font-size: .3em;
+  }
+  
+  .img{
+    cursor: pointer;
+    width: 16%;
+    margin-top: 5%;
+  }
+
+  .login{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  
+  .imgLog{
+    cursor: pointer;
+    width: 16%;
+    margin-top: 5%;
+  }
+  

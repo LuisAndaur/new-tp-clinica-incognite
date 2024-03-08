@@ -1,0 +1,143 @@
+<div class="contenedor">
+    <mat-card class="tarjeta">
+      <mat-card-title class="title">Administrador</mat-card-title>
+      <mat-card-content>
+      <form class="form" [formGroup]="form" (ngSubmit)="submit()">
+
+        <mat-form-field>
+          <mat-label>Nombre</mat-label>
+          <input type="text" matInput placeholder="Nombre" formControlName="nombre">
+          <mat-error *ngIf="form.controls['nombre'].hasError('required') && form.controls['nombre'].touched">
+            <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+            El nombre es requerido.
+          </mat-error>
+          <mat-error *ngIf="form.controls['nombre'].hasError('minLength')">
+            <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+            Nombre muy corto.
+          </mat-error>
+          <mat-error *ngIf="form.controls['nombre'].hasError('maxLength')">
+            <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+            Nombre muy largo.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Apellido</mat-label>
+          <input type="text" matInput placeholder="Apellido" formControlName="apellido">
+          <mat-error *ngIf="form.controls['apellido'].hasError('required') && form.controls['apellido'].touched">
+            <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+            El apellido es requerido.
+          </mat-error>
+          <mat-error *ngIf="form.controls['apellido'].hasError('minLength')">
+            <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+            Apellido muy corto.
+          </mat-error>
+          <mat-error *ngIf="form.controls['apellido'].hasError('maxLength')">
+            <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+            Apellido muy largo.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Edad</mat-label>
+            <input type="number" matInput placeholder="edad" formControlName="edad">
+            <mat-error *ngIf="form.controls['edad'].hasError('required') && form.controls['edad'].touched">
+              <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+              La edad es requerida.
+            </mat-error>
+            <mat-error *ngIf="form.controls['edad'].hasError('min')">
+              <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+              Edad mínima 1.
+            </mat-error>
+            <mat-error *ngIf="form.controls['edad'].hasError('max')">
+              <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+              Edad máxima 120.
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>DNI</mat-label>
+            <input type="number" matInput placeholder="dni" formControlName="dni">
+            <mat-error *ngIf="form.controls['dni'].hasError('required') && form.controls['dni'].touched">
+              <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+              El dni es requerido.
+            </mat-error>
+            <mat-error *ngIf="form.controls['dni'].hasError('min')">
+              <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+              El dni muy corto.
+            </mat-error>
+            <mat-error *ngIf="form.controls['dni'].hasError('max')">
+              <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+              El dni muy largo.
+            </mat-error>
+        </mat-form-field>
+  
+        <mat-form-field>
+          <mat-label>Correo electrónico</mat-label>
+          <input type="mail" matInput placeholder="Correo electrónico" formControlName="email">
+          <mat-error *ngIf="form.controls['email'].hasError('required') && form.controls['email'].touched">
+            <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+            El email es requerido.
+          </mat-error>
+          <mat-error *ngIf="form.controls['email'].hasError('email')">
+            <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+            Formato inválido.
+          </mat-error>
+        </mat-form-field> 
+        
+        <mat-form-field>
+            <mat-label>Imagen 1</mat-label>
+            <ngx-mat-file-input placeholder="Imagen1" formControlName="imagen1" (change)="cargarImg(0)">
+                <mat-icon ngxMatFileInputIcon>attach_file</mat-icon>
+            </ngx-mat-file-input>
+            <mat-error *ngIf="form.controls['imagen1'].hasError('required') && form.controls['imagen1'].touched">
+              <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+              La imagen 1 es requerida.
+            </mat-error>
+        </mat-form-field>
+  
+        <mat-form-field>
+          <mat-label>Contraseña</mat-label>
+          <input type="password" matInput placeholder="Contraseña" formControlName="password">
+          <mat-error *ngIf="form.controls['password'].hasError('required') && form.controls['password'].touched">
+            <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+            La password es requerido.
+          </mat-error>
+          <mat-error *ngIf="form.controls['password'].hasError('minLength')">
+            <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+            Contraseña muy corta.
+          </mat-error>
+          <mat-error *ngIf="form.controls['password'].hasError('maxLength')">
+            <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+            Contraseña muy larga.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Repita la contraseña</mat-label>
+          <input type="password" matInput placeholder="Contraseña" formControlName="password2">
+          <mat-error *ngIf="form.controls['password2'].hasError('required') && form.controls['password2'].touched">
+            <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+            Repetir la password es requerido.
+          </mat-error>
+          <mat-error *ngIf="form.controls['password2'].hasError('minLength')">
+            <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+            Contraseña muy corta.
+          </mat-error>
+          <mat-error *ngIf="form.controls['password2'].hasError('maxLength')">
+            <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+            Contraseña muy larga.
+          </mat-error>
+        </mat-form-field>
+  
+  
+        <div class="button">
+          <button type="submit" [disabled]="form.invalid" mat-raised-button color="primary">Registrarse</button>
+          <button type="button" routerLink="/bienvenida" mat-raised-button color="warn">Cancelar</button>
+        </div>
+  
+      </form>
+  
+      </mat-card-content>
+    </mat-card>
+  </div>

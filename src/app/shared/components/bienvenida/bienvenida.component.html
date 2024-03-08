@@ -1,0 +1,10 @@
+<app-navbar (currentHijo)="currentPadre($event)" ></app-navbar>
+<div>
+    <h1><span>Bienvenido a la</span><br><hr>CLÍNICA</h1>
+      <img *ngIf="userCurrent" src="./../../../../assets/logo.png" routerLink="/juegos" alt="" class="img">
+      
+      <div class="login">
+        <img *ngIf="!userCurrent" src="./../../../../assets/login-registro/login.png" routerLink="/auth/login" alt="" class="imgLog">
+        <img *ngIf="!userCurrent" src="./../../../../assets/login-registro/registro.png" routerLink="/auth/registro" alt="" class="imgLog">
+      </div>
+  </div>
