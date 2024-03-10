@@ -1,7 +1,35 @@
 .tarjeta {
     background-color: azure;
     min-width: 400px;
-    max-width: 600px;
+    max-width: 400px;
+  }
+  .imagenes{
+    width: 100%;
+    display: flex;
+  }
+
+  .radio {
+    display: none;
+  }
+  
+  img{
+    width: 30%;
+  }
+  
+  .radio-image-paciente {
+    background-color: darkslateblue;
+    border: 0.3rem solid darkslateblue;
+    border-radius: 10%;
+  }
+  
+  .radio-image-especialista {
+    background-color: deeppink;
+    border: 0.3rem solid deeppink;
+    border-radius: 10%;
+  }
+  
+  input[type="radio"]:checked + label .radio-image {
+    border-color: var(--bs-primary);
   }
   
   .contenedor {
@@ -16,6 +44,10 @@
     display: flex;
     justify-content: center;
     padding: 10px 0;
+  }
+
+  .especialista{
+    margin-left: 25%;
   }
   
   .form{

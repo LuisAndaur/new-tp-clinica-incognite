@@ -9,13 +9,15 @@ import { RouterModule } from '@angular/router';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { FechaFullPipe } from '../pipes/fecha-full.pipe';
 
 @NgModule({
   declarations: [
     NavbarComponent,
     BienvenidaComponent,
     ErrorComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    FechaFullPipe
   ],
   imports: [
     CommonModule,
@@ -28,7 +30,8 @@ import { MatIconModule } from '@angular/material/icon';
     NavbarComponent,
     BienvenidaComponent,
     ErrorComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    FechaFullPipe
   ]
 })
 export class SharedModule { }

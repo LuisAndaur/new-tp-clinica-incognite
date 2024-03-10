@@ -18,6 +18,7 @@ import localeEs from '@angular/common/locales/es';
 import { registerLocaleData } from '@angular/common';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SharedModule } from './shared/shared.module';
+import { FechaFullPipe } from './pipes/fecha-full.pipe';
 registerLocaleData(localeEs, 'es');
 
 @NgModule({
@@ -40,7 +41,7 @@ registerLocaleData(localeEs, 'es');
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage())
-  ],
+  ],  
   providers: [
     {provide: LOCALE_ID, useValue: 'es'}
   ],

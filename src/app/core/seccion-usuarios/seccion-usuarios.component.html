@@ -6,9 +6,9 @@
           The actual rendered columns are set as a property on the row definition" -->
   
     <!-- fecha Column -->
-    <ng-container matColumnDef="fecharegistro">
+    <ng-container matColumnDef="fechaRegistro">
       <th mat-header-cell *matHeaderCellDef> Fecha </th>
-      <td mat-cell *matCellDef="let element"> {{element.fechaRegistro}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.fechaRegistro | fechaFull}} </td>
     </ng-container>
   
     <!-- nombre Column -->
@@ -50,23 +50,29 @@
     <!-- rol Column -->
     <ng-container matColumnDef="rol">
         <th mat-header-cell *matHeaderCellDef> Rol </th>
-        <td mat-cell *matCellDef="let element"> {{element.tipo}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.tipo | uppercase}} </td>
     </ng-container>
 
     <!-- estado Column -->
     <ng-container matColumnDef="estado">
         <th mat-header-cell *matHeaderCellDef> Estado </th>
-        <td mat-cell *matCellDef="let element"> {{element.edad}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.estado | uppercase}} </td>
     </ng-container>
+
+    <!-- estado Column -->
+    <ng-container matColumnDef="accion">
+      <th mat-header-cell *matHeaderCellDef> Acción </th>
+      <td mat-cell *matCellDef="let element"> {{element.edad}} </td>
+  </ng-container>
   
     <tr mat-header-row *matHeaderRowDef="usuariosColumnas"></tr>
     <tr mat-row *matRowDef="let row; columns: usuariosColumnas;"></tr>
   </table>
 
-    
+    <br>
 <div class="contenedor">
     <mat-card class="tarjeta">
-      <mat-card-title class="title">Usuarios</mat-card-title>
+      <mat-card-title class="title">Agregar usuario</mat-card-title>
       <mat-card-content>
         <mat-form-field style="width: 500px;">
           <mat-label>Seleccione tipo de usuario</mat-label>

@@ -9,7 +9,7 @@ import { SwalService } from 'src/app/shared/services/swal.service';
   styleUrls: ['./seccion-usuarios.component.scss']
 })
 export class SeccionUsuariosComponent implements OnInit{
-  usuariosColumnas: string[] = ['fecha de registro', 'nombre', 'apellido', 'edad', 'dni', 'obraSocial', 'Especialidad', 'rol', 'estado', 'acción'];
+  usuariosColumnas: string[] = ['fechaRegistro', 'nombre', 'apellido', 'edad', 'dni', 'obraSocial', 'especialidad', 'rol', 'estado', 'accion'];
   dataUsuarios: Array<any> = [];
   user!: string;
 

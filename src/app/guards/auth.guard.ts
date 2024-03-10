@@ -9,6 +9,7 @@ export const authGuard: CanActivateFn = (route, state) => {
 
   const usuario = local.getItem('usuario');
   if(usuario.id){
+    console.log('guard: ', true)
     return true;
   }
   router.navigate(["/error"]);

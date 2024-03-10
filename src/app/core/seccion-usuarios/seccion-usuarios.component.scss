@@ -1,3 +1,21 @@
 table {
-    width: 100%;
-  }
+  width: 100%;
+}
+
+.contenedor {
+  // height: 86vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tarjeta {
+  background-color: azure;
+}
+
+.title{  
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
+}

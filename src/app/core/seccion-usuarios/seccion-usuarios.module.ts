@@ -12,7 +12,7 @@ import { MatSelectModule } from '@angular/material/select';
 
 
 @NgModule({
-  declarations: [ SeccionUsuariosComponent ],
+  declarations: [ SeccionUsuariosComponent],
   imports: [
     CommonModule,
     SeccionUsuariosRoutingModule,

@@ -4,6 +4,20 @@
   max-width: 600px;
 }
 
+.tarjeta2 {
+  background-color:floralwhite;
+  min-width: 100px;
+  max-width: 170px;
+}
+
+.usuarios{
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  cursor: pointer;
+  margin: 5px 0;
+}
+
 .contenedor {
   height: 86vh;
   display: flex;
@@ -16,6 +30,18 @@
   display: flex;
   justify-content: center;
   padding: 30px 0;
+}
+
+.title2{  
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
+}
+
+.imagen{
+  width: 20%;
+  border-radius: 10%;
 }
 
 .form{

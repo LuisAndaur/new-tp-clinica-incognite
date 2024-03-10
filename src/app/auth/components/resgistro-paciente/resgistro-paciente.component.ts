@@ -70,7 +70,7 @@ export class ResgistroPacienteComponent {
               this.db.guardarPaciente(user)
               .then(()=>{
                 this.swal.success("Se registró el paciente");
-                this.router.navigateByUrl('/bienvenida');
+                
               })
               .catch((e:Error)=>{
                 console.log("ERROR DENTRO DE GUARDAR PACIENTE");
@@ -80,6 +80,7 @@ export class ResgistroPacienteComponent {
                 this.form.reset();
                 this.auth.logout();
                 this.spinner.ocultar();
+                this.router.navigateByUrl('/bienvenida');
               });
 
             })
@@ -88,6 +89,7 @@ export class ResgistroPacienteComponent {
               this.swal.error(e.message);
             })
             .finally(()=>{
+              this.auth.logout();
               this.spinner.ocultar();
             });
     }

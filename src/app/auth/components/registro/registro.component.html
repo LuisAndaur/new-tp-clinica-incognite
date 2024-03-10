@@ -2,13 +2,29 @@
     <mat-card class="tarjeta">
       <mat-card-title class="title">Usuarios</mat-card-title>
       <mat-card-content>
-        <mat-form-field style="width: 500px;">
+        <div class="imagenes">
+          
+            <div class="especialista">
+              <input class="radio" type="radio" id="radio1" name="radioGroup" (change)="seleccion('especialista')">
+              <label for="radio1">
+                <img src="../../../../assets/registro/especialista.png" alt="Especialista" class="radio-image-especialista">
+              </label>
+            </div>
+
+            <div class="paciente">
+              <input class="radio" type="radio" id="radio2" name="radioGroup" (change)="seleccion('paciente')">
+              <label for="radio2">
+                <img src="../../../../assets/registro/paciente.png" alt="Pacientes" class="radio-image-paciente">
+              </label>
+            </div>
+        </div>
+        <!-- <mat-form-field style="width: 500px;">
           <mat-label>Seleccione tipo de usuario</mat-label>
           <mat-select (selectionChange)="seleccion($event.value)">
             <mat-option value="paciente">Paciente</mat-option>
             <mat-option value="especialista">Especialista</mat-option>
           </mat-select>
-        </mat-form-field> 
+        </mat-form-field>  -->
           <app-resgistro-paciente *ngIf="user=='paciente'"></app-resgistro-paciente>
           <app-resgistro-especialista *ngIf="user=='especialista'"></app-resgistro-especialista>
       </mat-card-content>

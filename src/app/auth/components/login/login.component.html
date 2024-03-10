@@ -38,11 +38,40 @@
       <div class="button">
         <button type="submit" [disabled]="form.invalid" mat-raised-button color="primary">Ingresar</button>
         <button type="button" routerLink="/bienvenida" mat-raised-button color="warn">Cancelar</button>
-        <button type="button" (click)="completarDatos()" mat-raised-button color="warn">AutoCompletar</button>
+        
       </div>
 
     </form>
 
+    </mat-card-content>
+  </mat-card>
+
+
+  <mat-card class="tarjeta2">
+    <mat-card-title class="title2">Usuarios</mat-card-title>
+    <mat-card-content class="usuarios" (click)="autoCompletar('administrador')">
+      <img class="imagen" src="../../../../assets/acceso-rapido/admin.jpg" alt="administrador">
+      <p>Administrador</p>
+    </mat-card-content>
+    <mat-card-content class="usuarios" (click)="autoCompletar('paciente1')">
+      <img class="imagen" src="../../../../assets/acceso-rapido/paciente-1.jpg" alt="paciente 1">
+      <p>Paciente 1</p>
+    </mat-card-content>
+    <mat-card-content class="usuarios" (click)="autoCompletar('paciente2')">
+      <img class="imagen" src="../../../../assets/acceso-rapido/paciente-2.jpg" alt="paciente 1">
+      <p>Paciente 2</p>
+    </mat-card-content>
+    <mat-card-content class="usuarios" (click)="autoCompletar('paciente3')">
+      <img class="imagen" src="../../../../assets/acceso-rapido/paciente-3.jpg" alt="paciente 1">
+      <p>Paciente 3</p>
+    </mat-card-content>
+    <mat-card-content class="usuarios" (click)="autoCompletar('especialista1')">
+      <img class="imagen" src="../../../../assets/acceso-rapido/especialista-1.jpg" alt="paciente 1">
+      <p>Especialista 1</p>
+    </mat-card-content>
+    <mat-card-content class="usuarios" (click)="autoCompletar('especialista2')">
+      <img class="imagen" src="../../../../assets/acceso-rapido/especialista-2.jpg" alt="paciente 1">
+      <p>Especialista 2</p>
     </mat-card-content>
   </mat-card>
 </div>

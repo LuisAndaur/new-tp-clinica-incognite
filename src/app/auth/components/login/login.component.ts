@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Usuario } from 'src/app/shared/models/usuario.class';
 import { FirestoreService } from 'src/app/shared/services/firestore.service';
 import { LocalstorageService } from 'src/app/shared/services/localstorage.service';
 import { SpinnerService } from 'src/app/shared/services/spinner.service';
@@ -58,6 +59,12 @@ export class LoginComponent implements OnInit {
 
                     if(verificadoMail){
                       if(user['tipo'] == 'paciente'){
+                        if(user['estado'] == 'pendiente'){
+                          let auxUser = new Usuario();
+                          auxUser = user;
+                          auxUser.estado = 'aceptado';
+                          this.db.actualizarEstado(auxUser)
+                        }
                         this.ingreso.setRegistroIngreso(this.email?.value);
                         this.localStorage.setItem('usuario', user);
                         console.log('Current: ', this.localStorage.getItem('usuario'));
@@ -114,8 +121,27 @@ export class LoginComponent implements OnInit {
     return this.form.get('password');
   }
 
-  completarDatos() {
-    this.form.controls['email'].setValue('landaur@gmail.com');
-    this.form.controls['password'].setValue('123456');
-  }
+  autoCompletar(tipo: string) {
+   if(tipo == 'paciente1'){
+     this.form.controls['email'].setValue('yirzuritru@gufum.com');
+     this.form.controls['password'].setValue('123123');
+   }else if(tipo == 'paciente2'){
+     this.form.controls['email'].setValue('molmusorki@gufum.com');
+     this.form.controls['password'].setValue('123123');
+   }else if(tipo == 'paciente3'){
+     this.form.controls['email'].setValue('yarkedusta@gufum.com');
+     this.form.controls['password'].setValue('123123');
+   }else if(tipo == 'especialista1'){
+     this.form.controls['email'].setValue('vadrovaydu@gufum.com');
+     this.form.controls['password'].setValue('123123');
+   }else if(tipo == 'especialista2'){
+     this.form.controls['email'].setValue('kqozpnryazlvjyqyrc@cazlq.com');
+     this.form.controls['password'].setValue('123123');
+   }else if(tipo == 'administrador'){
+     this.form.controls['email'].setValue('kepsezikke@gufum.com');
+     this.form.controls['password'].setValue('123123');
+   }else{
+     this.swal.error("No existe");
+   }
+ }
 }

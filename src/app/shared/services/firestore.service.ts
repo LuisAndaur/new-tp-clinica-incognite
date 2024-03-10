@@ -50,6 +50,14 @@ export class FirestoreService {
     const q = query(usuariosRef, orderBy('tipo', 'asc'));
     return collectionData(q,{ idField: 'id' }) ;
   }
+
+  actualizarEstado(user: Usuario): Promise<void> {
+
+    const userRef = doc(collection(this.db, this.cUsuarios), user.id);
+    return updateDoc(userRef, {
+      ...user,
+    });
+  }
   
   async guardarPaciente(paciente: Paciente){
 
