@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CaptchaDirective } from 'src/app/shared/directives/captcha.directive';
 import { Especialidad } from 'src/app/shared/models/especialidad.class';
 import { Especialista } from 'src/app/shared/models/especialista.class';
 import { FirestoreService } from 'src/app/shared/services/firestore.service';
 import { SpinnerService } from 'src/app/shared/services/spinner.service';
 import { SwalService } from 'src/app/shared/services/swal.service';
+import { environment } from 'src/environments/environment.dev';
 import { AuthService } from '../../services/auth.service';
 import { confirmPasswordValidator } from '../../validators/confirm-password.validator';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-resgistro-especialista',
   templateUrl: './resgistro-especialista.component.html',
   styleUrls: ['./resgistro-especialista.component.scss']
@@ -22,9 +25,15 @@ export class ResgistroEspecialistaComponent implements OnInit {
   especialidadesElegidas: Array<Especialidad> = [];
   faltaCargarEspecialidades: boolean = true;
   nuevaEspecialidad:string = ''; 
-  especialidadElegida:string = ''; 
-
+  especialidadElegida:string = '';
   speciality!: string;
+  isChecked: boolean = false;
+  captchaCode: string = '';
+  isCaptcha!: boolean;
+  myCaptcha!: string;
+  regenerate: boolean = false;
+  insertUser: string = '';
+  isOk: boolean = false;
 
   constructor(private auth: AuthService,
               private db: FirestoreService,
@@ -75,6 +84,13 @@ export class ResgistroEspecialistaComponent implements OnInit {
   async submit() {
     debugger;
     if (this.form.valid) {
+      if(this.isChecked){
+        if(!this.isCaptcha){
+          this.swal.warning('Complete el CAPTCHA!');
+          return;
+        }
+      }
+      
       this.spinner.mostrar();
       await this.auth.verificationUser(this.email?.value, this.password?.value)
             .then( data => {
@@ -217,14 +233,37 @@ debugger;
     }
   }
 
-  private seterSelectEspecialidades(): void {
+  onCaptchaGenerador(code: string): void {
+    debugger;
+    this.captchaCode = code;
+    console.log('CaptchaGenerete: ', this.captchaCode);
+  }
 
-    if(this.faltaCargarEspecialidades == false){
-        const largo = this.listaEspecialidades.length -1;
-        const especialidad = this.listaEspecialidades[largo].especialidad;
-
+  onCaptchaVerificador(isVerified: boolean): void {
+    if (isVerified) {
+      console.log('Captcha verificado correctamente');
+      console.log('CaptchaVerificate OK: ', this.captchaCode);
+      this.isCaptcha = isVerified;
+    } else {
+      console.log('Captcha incorrecto');
+      console.log('CaptchaVerificate BAD: ', this.captchaCode);
+      this.isCaptcha = isVerified;
     }
   }
+
+  verificar(){
+    if (this.isCaptcha) {
+      this.regenerate = false;
+      this.isOk = true;
+      this.swal.success('¡CAPTCHA correcto!');
+    } 
+    else {
+      this.regenerate = true;
+      this.isOk = false;
+      this.swal.error('¡CAPTCHA incorrecto! Intentalo de nuevo.');
+    }
+  }
+
 
   get nombre() {
     return this.form.get('nombre');

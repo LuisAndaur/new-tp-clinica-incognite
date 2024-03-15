@@ -18,6 +18,13 @@ export class ResgistroPacienteComponent {
   form!: FormGroup;
   img1:any;
   img2:any;
+  isChecked: boolean = false;
+  captchaCode: string = '';
+  isCaptcha!: boolean;
+  myCaptcha!: string;
+  regenerate: boolean = false;
+  insertUser: string = '';
+  isOk: boolean = false;
 
   constructor(private auth: AuthService,
               private db: FirestoreService,
@@ -58,6 +65,14 @@ export class ResgistroPacienteComponent {
 
   async submit() {
     if (this.form.valid) {
+
+      if(this.isChecked){
+        if(!this.isCaptcha){
+          this.swal.warning('Complete el CAPTCHA!');
+          return;
+        }
+      }
+      
       this.spinner.mostrar();
       debugger;
       await this.auth.verificationUser(this.email?.value, this.password?.value)
@@ -116,6 +131,38 @@ export class ResgistroPacienteComponent {
       this.img2 = newFile;
     }
   }
+
+  onCaptchaGenerador(code: string): void {
+    debugger;
+    this.captchaCode = code;
+    console.log('CaptchaGenerete: ', this.captchaCode);
+  }
+
+  onCaptchaVerificador(isVerified: boolean): void {
+    if (isVerified) {
+      console.log('Captcha verificado correctamente');
+      console.log('CaptchaVerificate OK: ', this.captchaCode);
+      this.isCaptcha = isVerified;
+    } else {
+      console.log('Captcha incorrecto');
+      console.log('CaptchaVerificate BAD: ', this.captchaCode);
+      this.isCaptcha = isVerified;
+    }
+  }
+
+  verificar(){
+    if (this.isCaptcha) {
+      this.regenerate = false;
+      this.isOk = true;
+      this.swal.success('¡CAPTCHA correcto!');
+    } 
+    else {
+      this.regenerate = true;
+      this.isOk = false;
+      this.swal.error('¡CAPTCHA incorrecto! Intentalo de nuevo.');
+    }
+  }
+
 
   get nombre() {
     return this.form.get('nombre');

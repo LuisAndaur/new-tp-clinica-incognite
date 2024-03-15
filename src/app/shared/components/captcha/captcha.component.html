@@ -1,0 +1,17 @@
+<form #captchaForm="ngForm">
+    <div class="contenedor">
+      <h3>CAPTCHA</h3>
+      <h2>{{captchaText}}</h2>
+      <mat-form-field>
+        <mat-label>Por favor, complete el CAPTCHA: </mat-label>
+        <input matInput type="text" [(ngModel)]="userAnswer" placeholder="Ingrese el texto aquí" name="userAnswer" required>
+        <mat-error *ngIf="!captchaOk">
+          Respuesta incorrecta, inténtalo de nuevo.
+        </mat-error>
+        <mat-hint class="hint" *ngIf="captchaOk">
+          ¡No eres un robot! CAPTCHA correcto.
+        </mat-hint>
+      </mat-form-field>
+      <button mat-raised-button color="primary" (click)="onSubmit()">Enviar</button>
+    </div>
+  </form>  

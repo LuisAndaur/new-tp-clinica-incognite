@@ -18,16 +18,19 @@ import localeEs from '@angular/common/locales/es';
 import { registerLocaleData } from '@angular/common';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SharedModule } from './shared/shared.module';
-import { FechaFullPipe } from './pipes/fecha-full.pipe';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 registerLocaleData(localeEs, 'es');
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    
     
   ],
   imports: [
     BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     NgxSpinnerModule,
@@ -41,7 +44,7 @@ registerLocaleData(localeEs, 'es');
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage())
-  ],  
+  ],
   providers: [
     {provide: LOCALE_ID, useValue: 'es'}
   ],

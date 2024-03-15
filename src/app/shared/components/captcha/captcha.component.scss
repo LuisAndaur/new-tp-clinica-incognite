@@ -1,0 +1,41 @@
+.contenedor {
+    background-color: azure;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 30px;
+}
+  
+
+mat-form-field{
+    width: 100%;
+    background-color: azure;
+}
+
+h2 {
+    color: #555;
+    width: 100%;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    letter-spacing: 8px;
+    border: 1px dashed #888;
+    font-family: monospace;
+    background: #e9e9e9;
+
+}
+
+// .error {
+//     // padding: 16px;
+//     // width: 300px;
+//     color: white;
+//     background-color: red;
+// }
+
+.hint{
+    // padding: 16px;
+    width: 300px;
+    color: green;
+    // background-color: green;
+}

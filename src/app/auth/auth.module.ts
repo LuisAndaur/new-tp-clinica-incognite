@@ -5,6 +5,7 @@ import { RegistroComponent } from './components/registro/registro.component';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -17,6 +18,9 @@ import { ResgistroAdminComponent } from './components/resgistro-admin/resgistro-
 import { ResgistroPacienteComponent } from './components/resgistro-paciente/resgistro-paciente.component';
 import { ResgistroEspecialistaComponent } from './components/resgistro-especialista/resgistro-especialista.component';
 import { NgxMatFileInputModule } from '@angular-material-components/file-input';
+import { SharedModule } from '../shared/shared.module';
+import { RecaptchaModule } from 'ng-recaptcha';
+import { CaptchaDirective } from '../shared/directives/captcha.directive';
 
 
 
@@ -26,7 +30,8 @@ import { NgxMatFileInputModule } from '@angular-material-components/file-input';
     RegistroComponent,
     ResgistroAdminComponent,
     ResgistroPacienteComponent,
-    ResgistroEspecialistaComponent
+    ResgistroEspecialistaComponent,
+    
   ],
   imports: [
     CommonModule,
@@ -41,8 +46,11 @@ import { NgxMatFileInputModule } from '@angular-material-components/file-input';
     MatFormFieldModule,
     MatCardModule,
     MatSelectModule,
+    MatCheckboxModule,
     MatListModule,
-    NgxMatFileInputModule
+    NgxMatFileInputModule,
+    SharedModule,
+    RecaptchaModule
   ],
   exports: [
     LoginComponent,

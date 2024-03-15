@@ -123,19 +123,19 @@ export class LoginComponent implements OnInit {
 
   autoCompletar(tipo: string) {
    if(tipo == 'paciente1'){
-     this.form.controls['email'].setValue('yirzuritru@gufum.com');
+     this.form.controls['email'].setValue('difyafulto@gufum.com');
      this.form.controls['password'].setValue('123123');
    }else if(tipo == 'paciente2'){
-     this.form.controls['email'].setValue('molmusorki@gufum.com');
+     this.form.controls['email'].setValue('fuspigerki@gufum.com');
      this.form.controls['password'].setValue('123123');
    }else if(tipo == 'paciente3'){
-     this.form.controls['email'].setValue('yarkedusta@gufum.com');
+     this.form.controls['email'].setValue('tagnoyotra@gufum.com');
      this.form.controls['password'].setValue('123123');
    }else if(tipo == 'especialista1'){
-     this.form.controls['email'].setValue('vadrovaydu@gufum.com');
+     this.form.controls['email'].setValue('');
      this.form.controls['password'].setValue('123123');
    }else if(tipo == 'especialista2'){
-     this.form.controls['email'].setValue('kqozpnryazlvjyqyrc@cazlq.com');
+     this.form.controls['email'].setValue('');
      this.form.controls['password'].setValue('123123');
    }else if(tipo == 'administrador'){
      this.form.controls['email'].setValue('kepsezikke@gufum.com');

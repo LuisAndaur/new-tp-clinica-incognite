@@ -154,8 +154,16 @@
             Contraseña muy larga.
           </mat-error>
         </mat-form-field>
-  
-  
+
+        <mat-checkbox [(ngModel)]="isChecked" [ngModelOptions]="{standalone: true}">Captcha</mat-checkbox>
+
+        <mat-form-field *ngIf="isChecked">
+          <mat-label>Complete el CAPTCHA: {{captchaCode}}</mat-label>
+          <input matInput type="text" [myCaptcha]="captchaCode" (captchaCodeGenerated)="onCaptchaGenerador($event)"
+          (captchaVerified)="onCaptchaVerificador($event)" [regenerate]="regenerate" [disabled]="isOk" placeholder="Ingrese el código de captcha">
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="verificar()">Verificar</button><br><br>
+
         <div class="button">
           <button type="button" [disabled]="form.invalid" mat-raised-button color="primary" (click)="submit()">Registrarse</button>
           <button type="button" routerLink="/bienvenida" mat-raised-button color="warn">Cancelar</button>
