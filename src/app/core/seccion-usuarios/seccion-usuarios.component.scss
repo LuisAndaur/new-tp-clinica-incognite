@@ -19,3 +19,31 @@ table {
   justify-content: center;
   padding: 10px 0;
 }
+
+.aceptar{
+  border: none;
+  background: none;
+  color: green;
+  cursor: pointer;
+}
+
+.rechazar{
+  border: none;
+  background: none;
+  color: red;
+  cursor: pointer;
+}
+
+.aceptar:disabled{
+  border: none;
+  background: none;
+  color: #818181;
+  cursor: none;
+}
+
+.rechazar:disabled{
+  border: none;
+  background: none;
+  color: #818181;
+  cursor: none;
+}

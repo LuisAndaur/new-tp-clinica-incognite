@@ -90,6 +90,11 @@ export class ResgistroEspecialistaComponent implements OnInit {
           return;
         }
       }
+
+      if(this.especialidadesElegidas.length<1 ){
+        this.swal.warning('Seleccione una ESPECIALIDAD!');
+        return;
+      }
       
       this.spinner.mostrar();
       await this.auth.verificationUser(this.email?.value, this.password?.value)
@@ -101,6 +106,7 @@ export class ResgistroEspecialistaComponent implements OnInit {
               user.estado = 'pendiente';
               this.db.guardarEspecialista(user)
               .then(()=>{
+                this.auth.logout();
                 this.swal.success("Se registró el especialista");
                 this.router.navigateByUrl('/bienvenida');
               })

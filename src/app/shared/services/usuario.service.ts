@@ -7,13 +7,13 @@ import { Usuario } from '../models/usuario.class';
 })
 export class UsuarioService {
 
-  private userColleccion = 'usuarios';
+  private cUsuarios = 'usuarios';
 
   constructor( private db: Firestore ) {}
 
   // agregarUsuario(usuario: Usuario) {
 
-  //   const usuarioRef = doc(collection(this.db, this.userColleccion), usuario.id);
+  //   const usuarioRef = doc(collection(this.db, this.cUsuarios), usuario.id);
   //   return setDoc(usuarioRef, {...usuario});
 
   // }
@@ -30,7 +30,7 @@ export class UsuarioService {
   async obtenerUsuario(email:string)
   {
     let usuario = null;
-    const querySnapshot = await getDocs(collection(this.db, "usuarios"));
+    const querySnapshot = await getDocs(collection(this.db, this.cUsuarios));
     querySnapshot.forEach((doc) =>
     {
       let profile = doc.data();

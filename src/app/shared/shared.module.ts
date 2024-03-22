@@ -16,6 +16,10 @@ import { CaptchaComponent } from './components/captcha/captcha.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EstadoDirective } from './directives/estado.directive';
+import { HorariosComponent } from './components/horarios/horarios.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -25,7 +29,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     SpinnerComponent,
     CaptchaComponent,
     FechaFullPipe,
-    CaptchaDirective
+    CaptchaDirective,
+    EstadoDirective,
+    HorariosComponent
   ],
   imports: [
     CommonModule,
@@ -36,6 +42,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatButtonModule,
     MatIconModule,
     MatInputModule,
+    MatCardModule,
+    MatCheckboxModule,
     MatFormFieldModule,
     RecaptchaModule
   ],
@@ -46,7 +54,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CaptchaComponent,
     SpinnerComponent,
     FechaFullPipe,
-    CaptchaDirective
+    CaptchaDirective,
+    EstadoDirective,
+    HorariosComponent
   ]
 })
 export class SharedModule { }

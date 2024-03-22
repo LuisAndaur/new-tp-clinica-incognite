@@ -8,6 +8,7 @@ import { SeccionUsuariosComponent } from './seccion-usuarios.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
+import {MatIconModule} from '@angular/material/icon';
 
 
 
@@ -18,6 +19,7 @@ import { MatSelectModule } from '@angular/material/select';
     SeccionUsuariosRoutingModule,
     MatTableModule,
     MatFormFieldModule,
+    MatIconModule,
     MatCardModule,
     MatSelectModule,
     SharedModule,

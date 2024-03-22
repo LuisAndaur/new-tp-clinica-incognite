@@ -2,6 +2,7 @@
     <span><img class="logo" src="../../../../assets/logo.png" alt="">Clínica</span>
     <!-- <div class="spacer"></div> -->
     <a mat-button routerLink="/bienvenida">Home</a>
+    <a *ngIf="currentUser" mat-button routerLink="/mi-perfil">Mi perfil</a>
     <a *ngIf="usuarioActual.tipo == 'administrador'" mat-button routerLink="/seccion-usuarios">Sección usuarios</a>
     
 

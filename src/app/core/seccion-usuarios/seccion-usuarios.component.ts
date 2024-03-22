@@ -21,10 +21,45 @@ export class SeccionUsuariosComponent implements OnInit{
 
     this.db.obtenerUsuarios().subscribe((users) => {
       this.dataUsuarios = users;
+      console.log('Uusuarios: ', this.dataUsuarios);
     });
   }
 
   seleccion(user: string){
     this.user = user;
+  }
+
+  aceptar(usuario:any, estado: string){
+    this.spinner.mostrar();
+    usuario.estado = estado;
+    this.db.actualizarUsuario(usuario)
+      .then(()=>{
+        this.swal.success("Se actualizó el estado!");
+      })
+      .catch((e:Error)=>{
+        this.swal.error(e.message);
+      })
+      .finally(()=>{
+        this.spinner.ocultar();
+      });
+  }
+
+  rechazar(usuario:any, estado: string){
+    this.spinner.mostrar();
+    usuario.estado = estado;
+    this.db.actualizarUsuario(usuario)
+      .then(()=>{
+        this.swal.success("Se actualizó el estado!");
+      })
+      .catch((e:Error)=>{
+        this.swal.error(e.message);
+      })
+      .finally(()=>{
+        this.spinner.ocultar();
+      });
+  }
+
+  actualizarEstado(usuario:any, estado: string): boolean{
+    return usuario.estado == estado;
   }
 }

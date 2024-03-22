@@ -64,6 +64,7 @@ export class ResgistroAdminComponent {
               user.estado = 'aceptado';
               this.db.guardarAdministrador(user)
               .then(()=>{
+                this.auth.logout();
                 this.swal.success("Se registró al administrador");
                 this.router.navigateByUrl('/bienvenida');
               })

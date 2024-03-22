@@ -1,0 +1,36 @@
+<div class="contenedor">
+    <mat-card class="tarjeta">
+      <mat-card-title class="title">Horarios</mat-card-title>
+      <mat-card-content>
+      <form class="form" [formGroup]="this.formHorarios" (ngSubmit)="this.Confirmar()">
+        <!-- <form [formGroup]="this.formHorarios" (ngSubmit)="this.Confirmar()">
+
+            <h1>Horarios</h1> -->
+
+            <ng-container *ngFor="let dia of this.dias index as i">
+                
+                <!-- <label>{{dia}}:</label> -->
+                
+                <!-- <input type="checkbox" (change)="this.CambiarValor(i, dia)"> -->
+                <mat-checkbox  (change)="this.CambiarValor(i, dia)">{{dia}}: </mat-checkbox>
+                
+                <input type="number" min="8" max="19" placeholder="De horas" formControlName="{{dia + 'Inicio'}}" onkeydown="return false">
+                <label>:</label>
+                <input type="number" min="0" max="59" placeholder="De minutos" formControlName="{{dia + 'InicioMinutos'}}" onkeydown="return false">
+                
+                <label>-</label>
+                
+                <input type="number" min="8" max="19" placeholder="Hasta horas" formControlName="{{dia + 'Fin'}}" onkeydown="return false">
+                <label>:</label>
+                <input type="number" min="0" max="59" placeholder="Hasta minutos" formControlName="{{dia + 'FinMinutos'}}" onkeydown="return false">
+                
+                <br>
+            </ng-container>
+            
+            <input type="submit" value="Confirmar">
+            <input type="button" value="Volver" (click)="this.Salir()">
+
+        </form>
+    </mat-card-content>
+</mat-card>
+</div>

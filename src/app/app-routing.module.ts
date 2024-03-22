@@ -8,6 +8,7 @@ const routes: Routes = [
   { path: 'bienvenida', component: BienvenidaComponent },
   { path: 'auth', loadChildren: () => import('./auth/auth.module').then( m => m.AuthModule) },
   { path: 'seccion-usuarios', loadChildren: () => import('./core/seccion-usuarios/seccion-usuarios.module').then( m => m.SeccionUsuariosModule) },
+  { path: 'mi-perfil', loadChildren: () => import('./core/mi-perfil/mi-perfil.module').then( m => m.MiPerfilModule) },
   { path: 'error', component: ErrorComponent},
   { path: '**', redirectTo: 'error', pathMatch: 'full' }
 ];

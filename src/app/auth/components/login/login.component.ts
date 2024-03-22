@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit {
                           let auxUser = new Usuario();
                           auxUser = user;
                           auxUser.estado = 'aceptado';
-                          this.db.actualizarEstado(auxUser)
+                          this.db.actualizarUsuario(auxUser)
                         }
                         this.ingreso.setRegistroIngreso(this.email?.value);
                         this.localStorage.setItem('usuario', user);
@@ -132,10 +132,10 @@ export class LoginComponent implements OnInit {
      this.form.controls['email'].setValue('tagnoyotra@gufum.com');
      this.form.controls['password'].setValue('123123');
    }else if(tipo == 'especialista1'){
-     this.form.controls['email'].setValue('');
+     this.form.controls['email'].setValue('yelmihogni@gufum.com');
      this.form.controls['password'].setValue('123123');
    }else if(tipo == 'especialista2'){
-     this.form.controls['email'].setValue('');
+     this.form.controls['email'].setValue('malmisepsi@gufum.com');
      this.form.controls['password'].setValue('123123');
    }else if(tipo == 'administrador'){
      this.form.controls['email'].setValue('kepsezikke@gufum.com');
