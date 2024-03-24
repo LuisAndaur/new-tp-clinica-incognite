@@ -30,11 +30,12 @@ export class NavbarComponent implements OnInit {
     this.currentHijo.emit(this.currentUser);
 
     this.usuarioActual = this.localStorage.getItem('usuario');
+    console.log('CURRENT-USER: ', this.usuarioActual);
 
     this.auth.currentUser().subscribe((usuario) => {
-      console.log('CURRENT-USER-NAV: ', usuario);
+
       if(usuario != null){
-        console.log('CURRENT-USER-NAV: ', usuario);
+
         this.currentUser = true;
         this.currentHijo.emit(this.currentUser);
         this.usuario = usuario;

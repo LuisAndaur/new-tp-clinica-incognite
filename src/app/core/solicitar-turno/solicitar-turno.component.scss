@@ -1,0 +1,90 @@
+.contenedor{
+    margin: auto;
+    width: 80%;
+}
+
+.tarjeta{
+    padding: 10px;
+}
+
+.especialistas{
+    width: 100%;
+    display: flex;
+}
+
+.especialista{
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.especialidades{
+    width: 100%;
+    display: flex;
+}
+
+.especialidad{
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dias{
+    width: 100%;
+    display: flex;
+}
+
+.dia{
+    margin: 5px;
+}
+
+.horas{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.pDia{
+    margin: 0;
+}
+
+.pHora{
+    margin: 0;
+}
+
+.bEspecialista{
+    width: 70%;
+    background-color: white;
+    border-radius: 8px;
+}
+
+.bEspecialidad{
+    padding: 0 20px 0;
+    width: 70%;
+    background-color: white;
+    border-radius: 8px;
+}
+
+.bDia{
+    width: 100%;
+    height: 75px;
+    background-color: rgb(87, 207, 193);
+    cursor: pointer;
+}
+
+.bHora{
+    margin: 3px;
+    padding: 10px 10px;
+    width: 100px;
+    background-color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+img{
+    width: 100%;
+    cursor: pointer;
+}
+

@@ -1,0 +1,71 @@
+<app-navbar></app-navbar>
+
+<mat-form-field>
+    <mat-label>Filtro</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+</mat-form-field>
+
+<table mat-table [dataSource]="dataTurnos" class="mat-elevation-z8">
+
+    <!-- fecha -->
+    <ng-container matColumnDef="fecha">
+      <th mat-header-cell *matHeaderCellDef> Fecha </th>
+      <td mat-cell *matCellDef="let element"> {{element.fecha}} </td>
+    </ng-container>
+  
+    <!-- inicio Column -->
+    <ng-container matColumnDef="inicio">
+      <th mat-header-cell *matHeaderCellDef> Inicio </th>
+      <td mat-cell *matCellDef="let element"> {{element.inicio}} </td>
+    </ng-container>
+  
+    <!-- fin Column -->
+    <ng-container matColumnDef="fin">
+      <th mat-header-cell *matHeaderCellDef> Fin </th>
+      <td mat-cell *matCellDef="let element"> {{element.fin}} </td>
+    </ng-container>
+  
+    <!-- duracion Column -->
+    <ng-container matColumnDef="duracion">
+      <th mat-header-cell *matHeaderCellDef> Duracion </th>
+      <td mat-cell *matCellDef="let element"> {{element.duracion}} </td>
+    </ng-container>
+
+    <!-- paciente Column -->
+    <ng-container matColumnDef="paciente">
+        <th mat-header-cell *matHeaderCellDef> Paciente </th>
+        <td mat-cell *matCellDef="let element"> {{element.paciente}} </td>
+    </ng-container>
+
+    <!-- especialista Column -->
+    <ng-container matColumnDef="especialista">
+        <th mat-header-cell *matHeaderCellDef> Especialista </th>
+        <td mat-cell *matCellDef="let element"> {{element.especialista}} </td>
+    </ng-container>
+
+    <!-- especialidad Column -->
+    <ng-container matColumnDef="especialidad">
+        <th mat-header-cell *matHeaderCellDef> Especialidad </th>
+        <td mat-cell *matCellDef="let element">{{element.especialidad}}</td>
+    </ng-container>
+
+    <!-- estado Column -->
+    <ng-container matColumnDef="estado" >
+        <th mat-header-cell *matHeaderCellDef> Estado </th>
+        <td mat-cell *matCellDef="let element" myEstado> {{element.estado | uppercase}} </td>
+    </ng-container>
+
+    <!-- accion Column -->
+    <ng-container matColumnDef="accion">
+      <th mat-header-cell *matHeaderCellDef> Acción </th>
+      <td  mat-cell *matCellDef="let element">
+        <button mat-icon-button title="Cancelar turno" class="cancelar" *ngIf="element.estado != 'Aceptado' || element.estado != 'Cancelado'  || element.estado != 'Realizado' || element.estado != 'Rechazado'" (click)="cancelarTurno(element.id)" [disabled]="element.estado == 'Cancelado'">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </td>
+  </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="usuariosColumnas"></tr>
+    <tr mat-row *matRowDef="let row; columns: usuariosColumnas;"></tr>
+  </table>
+

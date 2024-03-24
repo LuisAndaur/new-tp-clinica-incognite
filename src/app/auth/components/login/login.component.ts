@@ -126,16 +126,16 @@ export class LoginComponent implements OnInit {
      this.form.controls['email'].setValue('difyafulto@gufum.com');
      this.form.controls['password'].setValue('123123');
    }else if(tipo == 'paciente2'){
-     this.form.controls['email'].setValue('fuspigerki@gufum.com');
+     this.form.controls['email'].setValue('rortasaspa@gufum.com');
      this.form.controls['password'].setValue('123123');
    }else if(tipo == 'paciente3'){
-     this.form.controls['email'].setValue('tagnoyotra@gufum.com');
+     this.form.controls['email'].setValue('hepseharta@gufum.com');
      this.form.controls['password'].setValue('123123');
    }else if(tipo == 'especialista1'){
-     this.form.controls['email'].setValue('yelmihogni@gufum.com');
+     this.form.controls['email'].setValue('cimlokeyda@gufum.com');
      this.form.controls['password'].setValue('123123');
    }else if(tipo == 'especialista2'){
-     this.form.controls['email'].setValue('malmisepsi@gufum.com');
+     this.form.controls['email'].setValue('lortihumle@gufum.com');
      this.form.controls['password'].setValue('123123');
    }else if(tipo == 'administrador'){
      this.form.controls['email'].setValue('kepsezikke@gufum.com');

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { addDoc, collection, collectionData, doc, Firestore, getDocs, orderBy, query, setDoc, updateDoc } from '@angular/fire/firestore';
+import { addDoc, collection, collectionData, doc, Firestore, getDocs, orderBy, query, setDoc, updateDoc, where } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Especialista } from '../models/especialista.class';
 import { Horarios } from '../models/horarios.class';
@@ -54,6 +54,12 @@ export class FirestoreService {
     return collectionData(q,{ idField: 'id' }) ;
   }
 
+  obtenerUsuariosPorFiltro(clave:string, valor: string) {
+    const colleccionRef = collection(this.db, this.cUsuarios);
+    const q = query(colleccionRef, where(clave, '==', valor));
+    return collectionData(q, { idField: 'id' });
+  }
+
   actualizarUsuario(user: Usuario): Promise<void> {
 
     const userRef = doc(collection(this.db, this.cUsuarios), user.id);
@@ -96,7 +102,6 @@ export class FirestoreService {
   }
 
   modificarEspecialista(especialista: Especialista, id: string): Promise<void> {
-    especialista.img = {... especialista.img}
 
     especialista.horarios = especialista.horarios.map((horarios: Horarios) => { return { ...horarios } });
     const documento = doc(collection(this.db, this.cUsuarios), id);
@@ -191,6 +196,46 @@ export class FirestoreService {
 
   obtenerTurno(turno: Turno){
     return addDoc(collection(this.db, this.cTurnos), {...turno});
+  }
+
+  obtenerTurnosCompletos() {
+    const turnosRef = collection(this.db, this.cTurnos);
+    const q = query(turnosRef, where('estadoTurno', '!=', 'Libre'));
+    return collectionData(q,{ idField: 'id' }) ;
+  }
+
+  obtenerTurnosPaciente(email: string) {
+    const turnosRef = collection(this.db, this.cTurnos);
+    const q = query(turnosRef, where('estadoTurno', '!=', 'Libre'), where('paciente.email', '==', email));
+    return collectionData(q,{ idField: 'id' }) ;
+  }
+
+  obtenerTurnosPorEspecialistaYEspecialidad(idEspecialista: string, especialidad: string){
+    debugger;
+    const posibilidades : Array<string> = ['Libre'];
+
+    const q = query(collection(this.db, this.cTurnos),
+      where('especialista.id', '==', idEspecialista),
+      where('especialidad.especialidad', '==', especialidad),
+      where('estadoTurno', 'in', posibilidades),
+      );
+    return collectionData(q, { idField: 'id' });
+  }
+
+  modificarTurno(turno:Turno){
+
+    if(turno.historiaClinica){
+      // turno.historiaClinica.d1 = {... turno.historiaClinica.d1}
+      // turno.historiaClinica.d2 = {... turno.historiaClinica.d2}
+      // turno.historiaClinica.d3 = {... turno.historiaClinica.d3}
+      // turno.historiaClinica = {... turno.historiaClinica}
+      turno.historiaClinica = {... turno.historiaClinica}
+    }
+
+    const documento = doc(collection(this.db, this.cTurnos), turno.id);
+    return updateDoc(documento, {
+      ...turno
+    });
   }
 
   existeTurno(dia:number, horaInicio:number, horaFinal:number, horarios:Array<Horarios>) {

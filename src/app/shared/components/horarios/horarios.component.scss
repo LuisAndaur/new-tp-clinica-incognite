@@ -1,12 +1,12 @@
-.tarjeta {
-    background-color: azure;
-    min-width: 400px;
-    max-width: 600px;
-  }
-  
-  .contenedor {
-    // height: 86vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+.card {
+  max-width: 400px;
+}
+ 
+button{
+  margin: 0 5px;
+  width: 47%;
+}
+
+.mdc-data-table__cell, .mdc-data-table__header-cell {
+  padding: 0 0 0 16px;
+}

@@ -25,9 +25,13 @@ export class EstadoDirective {
         case " RECHAZADO ":
           renderer.setStyle(elementRef.nativeElement, 'color', 'red');
           break;
-          case " REALIZADO ":
+        case " REALIZADO ":
           renderer.setStyle(elementRef.nativeElement, 'color', 'chartreuse');
           break;
+
+        case " SOLICITADO ":
+            renderer.setStyle(elementRef.nativeElement, 'color', 'darkcyan');
+            break;
       }
     }, 100);
 

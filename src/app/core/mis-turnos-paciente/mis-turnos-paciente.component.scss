@@ -1,0 +1,22 @@
+table {
+    width: 100%;
+  }
+  
+  .mat-mdc-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+  
+  .cancelar{
+    border: none;
+    background: none;
+    color: red;
+    cursor: pointer;
+  }
+  
+  .cancelar:disabled{
+    border: none;
+    background: none;
+    color: #818181;
+    cursor: none;
+  }

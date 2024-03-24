@@ -20,6 +20,9 @@ import { EstadoDirective } from './directives/estado.directive';
 import { HorariosComponent } from './components/horarios/horarios.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatCardModule } from '@angular/material/card';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -43,6 +46,9 @@ import { MatCardModule } from '@angular/material/card';
     MatIconModule,
     MatInputModule,
     MatCardModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatTableModule,
     MatCheckboxModule,
     MatFormFieldModule,
     RecaptchaModule

@@ -1,0 +1,122 @@
+<app-navbar></app-navbar>
+<div class="contenedor">
+    <mat-card class="tarjeta">
+      <mat-card-title class="title">Solicitar turno</mat-card-title>
+      <mat-card-content>
+        <div *ngIf="currentUser.tipo == 'administrador'">
+            <div *ngIf="pacientes?.length; else esperandoPacientes">
+              <h4>Pacientes</h4>
+              <h6 *ngIf="pacienteElegido != null">Turno para: {{pacienteElegido.nombre}} {{pacienteElegido.apellido}}</h6>
+              <ol>
+                <li class="li-hover" *ngFor="let paciente of pacientes" (click)="seleccionarPaciente(paciente)" style="cursor: pointer;">
+                  {{paciente.nombre}} {{paciente.apellido}}
+                </li>
+              </ol>
+            </div>
+            <ng-template #esperandoPacientes>
+              <div *ngIf="pacientes === null;else noHayPacientes">
+                <div class="spinner-border" role="status">
+                  <span class="visually-hidden"></span>
+                </div>
+    
+              </div>
+              <ng-template #noHayPacientes>
+                <h5>No hay pacientes</h5>
+              </ng-template>
+            </ng-template>
+          </div>
+
+          <div>
+            <ng-container *ngIf="pacienteElegido != null">
+              <ng-container *ngIf="especialistas?.length; else buscandoEspecialistas">
+                <h4>Especialistas</h4>
+                <div class="especialistas">
+                  <div class="especialista" *ngFor="let especialista of especialistas">
+                    <button class="bEspecialista" type="button"  (click)="seleccionarEspecialista(especialista)">
+                      <img class="avatar__img" [src]="especialista.img" [alt]="especialista.nombre">
+                    </button>
+                    <p>{{ especialista.nombre }} {{ especialista.apellido }}</p>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-template #buscandoEspecialistas>
+                <div *ngIf="especialistas === null;else noHayEspecialistas" >
+                  <div class="spinner-border" role="status">
+                    <span class="visually-hidden"></span>
+                  </div>
+                </div>
+              </ng-template>
+              <ng-template #noHayEspecialistas>
+                  <h5>No hay especialistas</h5>
+              </ng-template>
+            </ng-container>
+          </div>
+
+
+          <div *ngIf="filtroEspecialidadesDelEspecialista != null">
+            <div *ngIf="especialidades?.length; else esperandoEspecialidades">
+              <h4>Especialidades de <strong>{{ filtroEspecialista!.nombre }} {{ filtroEspecialista!.apellido }}</strong></h4>
+              <div class="especialidades">
+                <div class="especialidad" *ngFor="let especialidad of filtroEspecialidadesDelEspecialista!">
+                  <button type="button" class="bEspecialidad" (click)="seleccionarEspecialidad(especialidad)">
+                    <img  src="./../../../assets/especialidad/img-default.png" [alt]="especialidad.especialidad">
+                  </button>
+                  <p>{{especialidad.especialidad}}</p>
+                </div>
+              </div>
+            </div>
+            <ng-template #esperandoEspecialidades>
+              <div *ngIf="especialidades === null;else noHayEspecialidades">
+                <div class="spinner-border" role="status">
+                  <span class="visually-hidden"></span>
+                </div>
+    
+              </div>
+              <ng-template #noHayEspecialidades>
+                <h5>No hay especialidades</h5>
+              </ng-template>
+            </ng-template>
+          </div>
+    
+          <div>
+            <ng-container *ngIf="filtroEspecialidad">
+              <ng-container *ngIf="turnos?.length; else esperandoTurnos">
+                <h5>Días de <strong>'{{this.filtroEspecialidad}}'</strong> disponibles.</h5>
+                <div class="dias">
+                  <div class="dia" *ngFor="let turno of filtroDiasTurnos">
+                    <button type="button" class="bDia" (click)="seleccionarDia(turno.fechaInicio)">
+                      <p class="pDia">{{turno.fechaInicio | date: 'dd-MM-yyyy' }}</p>
+                    </button>
+                  </div>
+                </div>
+              </ng-container>
+    
+              <ng-container *ngIf="filtroHorasTurnos != null && filtroDiasTurnos?.length;">
+                <h5>Horarios disponibles para el <strong>{{this.fechaDelTurno}}</strong></h5>
+                <div class="horas">
+                  <div class="hora" *ngFor="let turno of filtroHorasTurnos">
+                    <button type="button" class="bHora" (click)="seleccionarTurno(turno)">
+                      <p class="pHora">{{turno.fechaInicio | date: 'h:mm a' }}</p>
+                    </button>
+                  </div>
+                </div>
+              </ng-container>
+    
+              <ng-template #esperandoTurnos>
+                <div *ngIf="turnos === null;else noHayTurnosDisponibles">
+                  <div class="spinner-border" role="status">
+                    <span class="visually-hidden"></span>
+                  </div>
+                </div>
+                <ng-template #noHayTurnosDisponibles>
+                  <h5 class="text-danger">No hay turnos disponibles.</h5>
+                </ng-template>
+              </ng-template>
+            </ng-container>
+          </div>
+        
+
+
+      </mat-card-content>
+    </mat-card>
+</div>

@@ -1,0 +1,116 @@
+<app-navbar></app-navbar>
+
+<mat-form-field>
+    <mat-label>Filtro</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+</mat-form-field>
+
+<table mat-table [dataSource]="DataTurnoPacientes" class="mat-elevation-z8">
+
+    <!-- fecha -->
+    <ng-container matColumnDef="fecha">
+      <th mat-header-cell *matHeaderCellDef> Fecha </th>
+      <td mat-cell *matCellDef="let element"> {{element.fecha}} </td>
+    </ng-container>
+  
+    <!-- inicio Column -->
+    <ng-container matColumnDef="inicio">
+      <th mat-header-cell *matHeaderCellDef> Inicio </th>
+      <td mat-cell *matCellDef="let element"> {{element.inicio}} </td>
+    </ng-container>
+  
+    <!-- fin Column -->
+    <ng-container matColumnDef="fin">
+      <th mat-header-cell *matHeaderCellDef> Fin </th>
+      <td mat-cell *matCellDef="let element"> {{element.fin}} </td>
+    </ng-container>
+  
+    <!-- duracion Column -->
+    <ng-container matColumnDef="duracion">
+      <th mat-header-cell *matHeaderCellDef> Duracion </th>
+      <td mat-cell *matCellDef="let element"> {{element.duracion}} </td>
+    </ng-container>
+
+    <!-- paciente Column -->
+    <ng-container matColumnDef="paciente">
+        <th mat-header-cell *matHeaderCellDef> Paciente </th>
+        <td mat-cell *matCellDef="let element"> {{element.paciente}} </td>
+    </ng-container>
+
+    <!-- especialista Column -->
+    <ng-container matColumnDef="especialista">
+        <th mat-header-cell *matHeaderCellDef> Especialista </th>
+        <td mat-cell *matCellDef="let element"> {{element.especialista}} </td>
+    </ng-container>
+
+    <!-- especialidad Column -->
+    <ng-container matColumnDef="especialidad">
+        <th mat-header-cell *matHeaderCellDef> Especialidad </th>
+        <td mat-cell *matCellDef="let element">{{element.especialidad}}</td>
+    </ng-container>
+
+    <!-- estado Column -->
+    <ng-container matColumnDef="estado" >
+        <th mat-header-cell *matHeaderCellDef> Estado </th>
+        <td mat-cell *matCellDef="let element" myEstado> {{element.estado | uppercase}} </td>
+    </ng-container>
+
+    <!-- accion Column -->
+    <ng-container matColumnDef="accion">
+      <th mat-header-cell *matHeaderCellDef> Acción </th>
+      <td  mat-cell *matCellDef="let element">
+        <!-- cancelar -->
+        <button mat-icon-button title="Cancelar" class="cancelar" *ngIf="element.estado != 'Cancelado'  || element.estado != 'Realizado'" (click)="cancelarTurno(element.id)" [disabled]="element.estado == 'Cancelado'">
+          <mat-icon>cancel</mat-icon>
+        </button>
+        <!-- reseña/comentarios -->
+        <button mat-icon-button title="reseña/comentarios" class="comentario" 
+        *ngIf="element.reseniaEspecialista
+        || element.comentarioEspecialista
+        || element.comentarioPaciente
+        || element.comentarioAdministrador" (click)="mostrarResenia(element)" [disabled]="!element.reseniaEspecialista
+                                                                                                || !element.comentarioEspecialista
+                                                                                                || !element.comentarioPaciente
+                                                                                                || !element.comentarioAdministrador">
+            <mat-icon>comment</mat-icon>
+          </button>
+        <!-- diagnostico -->
+        <button mat-icon-button title="diagnostico" class="diagnostico" 
+        *ngIf="element.diagnosticoEspecialista  != ''" (click)="mostrarDiagnostico(element)" [disabled]="element.diagnosticoEspecialista == ''">
+            <mat-icon>feed</mat-icon>
+        </button>
+
+        <!-- encuesta -->
+        <button mat-icon-button title="encuesta" class="encuesta" 
+        *ngIf="element.estado == 'Realizado'
+        && element.reseniaEspecialista
+        && element.encuestaPaciente == ''" (click)="realizarEncuesta(element)" [disabled]="element.encuestaPaciente">
+            <mat-icon>note_alt</mat-icon>
+        </button>
+
+        <!-- calificar -->
+        <button mat-icon-button title="calificar" class="calificar" 
+        *ngIf="element.estado == 'Realizado'
+        && element.calificacionPaciente == ''" (click)="calificar(element)" [disabled]="element.calificacionPaciente != ''">
+            <mat-icon>feed</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- h clinica Column -->
+    <ng-container matColumnDef="hc">
+        <th mat-header-cell *matHeaderCellDef> H. Clinica </th>
+        <td  mat-cell *matCellDef="let element">
+          <button mat-icon-button title="ver" class="historia" *ngIf="element.hc;else noTieneHistoriaClinica" (click)="mostrarHistoriaClinica(element.id)">
+            <mat-icon>visibility</mat-icon>
+          </button>
+          <ng-template #noTieneHistoriaClinica>
+            N/A
+          </ng-template>
+        </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="usuariosColumnas"></tr>
+    <tr mat-row *matRowDef="let row; columns: usuariosColumnas;"></tr>
+  </table>
+

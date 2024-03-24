@@ -1,36 +1,100 @@
-<div class="contenedor">
-    <mat-card class="tarjeta">
-      <mat-card-title class="title">Horarios</mat-card-title>
-      <mat-card-content>
-      <form class="form" [formGroup]="this.formHorarios" (ngSubmit)="this.Confirmar()">
-        <!-- <form [formGroup]="this.formHorarios" (ngSubmit)="this.Confirmar()">
 
-            <h1>Horarios</h1> -->
+    <mat-card class="card">
+        <mat-card-header>
+            <mat-card-title class="title">Cargar horario</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <form class="form" [formGroup]="form">
+                <mat-form-field style="width: 200px;">
+                    <mat-label>Especialidad</mat-label>
+                    <mat-select formControlName="especialidades">
+                      <mat-option *ngFor="let e of currentUser.especialidades;"
+                      [value]="e.id">{{e.especialidad | uppercase }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
 
-            <ng-container *ngFor="let dia of this.dias index as i">
+                <mat-form-field style="width: 150px; margin: 0 5px;">
+                    <mat-label>Día</mat-label>
+                    <mat-select formControlName="dia" (change)="cambioDeDia($event)">
+                      <mat-option *ngFor="let dia of this.dia;index as indice"
+                      [value]="indice+1">{{dia}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field style="width: 110px; margin: 0 5px;">
+                    <mat-label>Inicio</mat-label>
+                    <mat-select formControlName="horaInicio">
+                      <mat-option *ngFor="let hora of this.horaSeleccionInicio"
+                      [value]="hora">{{hora}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field style="width: 110px; margin: 0 5px;">
+                    <mat-label>Fin</mat-label>
+                    <mat-select formControlName="horaFinal">
+                      <mat-option *ngFor="let hora of this.horaSeleccionFinal"
+                      [value]="hora">{{hora}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field style="width: 110px; margin: 0 5px;">
+                    <mat-label>Duración</mat-label>
+                    <mat-select formControlName="duracion">
+                      <mat-option *ngFor="let duracion of this.duracion"
+                      [value]="duracion">{{duracion}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <button mat-raised-button color="primary" (click)="submit()">Guardar</button>
+                <button mat-raised-button color="accent" (click)="limpiar()">Limpiar</button>
+            </form>
+        </mat-card-content>
+    </mat-card>
+<br>
+    <mat-card class="card">
+        <mat-card-header>
+            <mat-card-title class="title">Mis horarios</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <ng-container *ngIf="currentUser?.horarios?.length;else noTieneHorarios">
+                <table mat-table [dataSource]="misHorarios" class="mat-elevation-z8">
+
+                    <!-- especialidad Column -->
+                    <ng-container matColumnDef="especialidad">
+                    <th mat-header-cell *matHeaderCellDef> Especialidad </th>
+                    <td mat-cell *matCellDef="let element"> {{element.especialidad.especialidad}} </td>
+                    </ng-container>
                 
-                <!-- <label>{{dia}}:</label> -->
+                    <!-- dia Column -->
+                    <ng-container matColumnDef="dia">
+                    <th mat-header-cell *matHeaderCellDef> Día </th>
+                    <td mat-cell *matCellDef="let element"> {{element.dia}} </td>
+                    </ng-container>
                 
-                <!-- <input type="checkbox" (change)="this.CambiarValor(i, dia)"> -->
-                <mat-checkbox  (change)="this.CambiarValor(i, dia)">{{dia}}: </mat-checkbox>
+                    <!-- inicio Column -->
+                    <ng-container matColumnDef="inicio">
+                    <th mat-header-cell *matHeaderCellDef> Inicio </th>
+                    <td mat-cell *matCellDef="let element"> {{element.horaInicio}} </td>
+                    </ng-container>
                 
-                <input type="number" min="8" max="19" placeholder="De horas" formControlName="{{dia + 'Inicio'}}" onkeydown="return false">
-                <label>:</label>
-                <input type="number" min="0" max="59" placeholder="De minutos" formControlName="{{dia + 'InicioMinutos'}}" onkeydown="return false">
+                    <!-- fin Column -->
+                    <ng-container matColumnDef="fin">
+                    <th mat-header-cell *matHeaderCellDef> Fin </th>
+                    <td mat-cell *matCellDef="let element"> {{element.horaFinal}} </td>
+                    </ng-container>
+
+                    <!-- duracion Column -->
+                    <ng-container matColumnDef="duracion">
+                        <th mat-header-cell *matHeaderCellDef> Duración </th>
+                        <td mat-cell *matCellDef="let element"> {{element.duracion}} </td>
+                    </ng-container>
                 
-                <label>-</label>
-                
-                <input type="number" min="8" max="19" placeholder="Hasta horas" formControlName="{{dia + 'Fin'}}" onkeydown="return false">
-                <label>:</label>
-                <input type="number" min="0" max="59" placeholder="Hasta minutos" formControlName="{{dia + 'FinMinutos'}}" onkeydown="return false">
-                
-                <br>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
             </ng-container>
-            
-            <input type="submit" value="Confirmar">
-            <input type="button" value="Volver" (click)="this.Salir()">
-
-        </form>
-    </mat-card-content>
-</mat-card>
-</div>
+            <ng-template #noTieneHorarios>
+                <mat-card-subtitle>No tiene horarios</mat-card-subtitle>
+            </ng-template>
+        </mat-card-content>
+    </mat-card>

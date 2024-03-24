@@ -1,14 +1,16 @@
 <mat-toolbar color="primary">
     <span><img class="logo" src="../../../../assets/logo.png" alt="">Clínica</span>
-    <!-- <div class="spacer"></div> -->
+
     <a mat-button routerLink="/bienvenida">Home</a>
     <a *ngIf="currentUser" mat-button routerLink="/mi-perfil">Mi perfil</a>
     <a *ngIf="usuarioActual.tipo == 'administrador'" mat-button routerLink="/seccion-usuarios">Sección usuarios</a>
-    
+    <a *ngIf="usuarioActual.tipo == 'administrador'" mat-button routerLink="/turnos">Turnos</a>
+    <a *ngIf="usuarioActual.tipo == 'administrador' || usuarioActual.tipo == 'paciente'" mat-button routerLink="/solicitar-turno">Solicitar turno</a>
+    <a *ngIf="usuarioActual.tipo == 'especialista' || usuarioActual.tipo == 'paciente'" mat-button routerLink="/mis-turnos">Mis turnos</a>
 
     <span *ngIf="currentUser">|</span>
 
-    <a *ngIf="currentUser" ng mat-button>{{userCurrent}}</a>
+    <a *ngIf="currentUser" ng mat-button>{{usuarioActual.nombre}} {{usuarioActual.apellido}} [{{usuarioActual.tipo}}]</a>
     <mat-icon *ngIf="currentUser" (click)="logout()" style="cursor: pointer;" aria-hidden="false" aria-label="logout icon" fontIcon="logout"></mat-icon>
-    <!-- <span *ngIf="currentUser" class="material-symbols-outlined" (click)="logout()" >logout</span> -->
+
 </mat-toolbar>

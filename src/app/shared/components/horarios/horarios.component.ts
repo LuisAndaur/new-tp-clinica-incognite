@@ -17,7 +17,7 @@ export class HorariosComponent {
 
   form!: FormGroup;
   currentUser!: Especialista;
-  dias: Array<string> = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+  dia: Array<string> = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
   horaSeleccionInicio: Array<number> = [];
   horaSeleccionFinal: Array<number> = [];
   horaInicio: Array<number> = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
@@ -26,6 +26,8 @@ export class HorariosComponent {
   horaSabadoFinal: Array<number> = [9, 10, 11, 12, 13, 14];
   duracion: Array<number> = [ 30, 60 ];
   horarios!: Horarios;
+  displayedColumns: string[] = ['especialidad', 'dia', 'inicio', 'fin', 'duracion'];
+  misHorarios: Array<Horarios> = [];
 
   constructor(
         private localStorage: LocalstorageService,
@@ -41,15 +43,17 @@ export class HorariosComponent {
     this.asignarDia("Lunes");
     this.formInit();
 
+    this.misHorarios = this.currentUser.horarios;
+
   }
 
 
   formInit(){
     this.form = new FormGroup({
       especialidades: new FormControl(this.currentUser.especialidades[0].id, Validators.required),
-      dias: new FormControl(1, Validators.required),
-      horariosInicio: new FormControl(this.horaSeleccionInicio[0], Validators.required),
-      horariosFinal: new FormControl(this.horaSeleccionFinal[0], Validators.required),
+      dia: new FormControl(1, Validators.required),
+      horaInicio: new FormControl(this.horaSeleccionInicio[0], Validators.required),
+      horaFinal: new FormControl(this.horaSeleccionFinal[0], Validators.required),
       duracion: new FormControl(this.duracion[0], Validators.required),
     });
   }
@@ -69,7 +73,7 @@ export class HorariosComponent {
           const turnos = this.db.generarTurnos(horarios.horaInicio,horarios.horaFinal,horarios.duracion);
           const turnosProyectados = this.db.proyectarTurnos(this.currentUser, turnos,horarios.diaNumero);
           this.actualizarEspecialista(horarios,turnosProyectados);
-         
+          this.misHorarios = this.currentUser.horarios;
         }
         else{
           this.swal.error("Ya existe este turno!");
@@ -88,7 +92,7 @@ export class HorariosComponent {
     this.asignarDia(event.target.value);
   }
 
-  borrar(){
+  limpiar(){
     this.form.reset();
   }
 
@@ -112,10 +116,10 @@ export class HorariosComponent {
 
   private obtenerHorarios(): Horarios{
     const horarios = new Horarios();
-    horarios.dia = this.dias[this.getDias?.value-1];
-    horarios.diaNumero = parseInt(this.getDias?.value);
-    horarios.horaInicio = parseInt(this.obtenerHorariosInicio?.value);
-    horarios.horaFinal = parseInt(this.obtenerHorariosFinal?.value);
+    horarios.dia = this.dia[this.getdia?.value-1];
+    horarios.diaNumero = parseInt(this.getdia?.value);
+    horarios.horaInicio = parseInt(this.obtenerhoraInicio?.value);
+    horarios.horaFinal = parseInt(this.obtenerhoraFinal?.value);
     horarios.duracion = parseInt(this.getduracion?.value);
     const especialidad = this.currentUser.especialidades.filter(e => e.id == this.getEspecialidades?.value)[0];
     horarios.especialidad = especialidad;
@@ -165,14 +169,14 @@ export class HorariosComponent {
   get getEspecialidades(){
     return this.form.get('especialidades');
   }
-  get getDias(){
-    return this.form.get('dias');
+  get getdia(){
+    return this.form.get('dia');
   }
-  get obtenerHorariosInicio(){
-    return this.form.get('horariosInicio');
+  get obtenerhoraInicio(){
+    return this.form.get('horaInicio');
   }
-  get obtenerHorariosFinal(){
-    return this.form.get('horariosFinal');
+  get obtenerhoraFinal(){
+    return this.form.get('horaFinal');
   }
   get getduracion(){
     return this.form.get('duracion');

@@ -1,11 +1,14 @@
-.example-card {
-    max-width: 400px;
-  }
-
-mat-card{
-    margin: auto;
+.contenedor{
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
 }
-//   .example-header-image {
-//     background-image: url('{{}}');
-//     background-size: cover;
-//   }
+
+.card {
+    max-width: 400px;
+}
+
+img{
+  margin: auto;
+  width: 50%;
+}
