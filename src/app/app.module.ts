@@ -19,16 +19,12 @@ import { registerLocaleData } from '@angular/common';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SharedModule } from './shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SolicitarTurnoComponent } from './core/solicitar-turno/solicitar-turno.component';
-import { AdminTurnosComponent } from './core/admin-turnos/admin-turnos.component';
-import { MisTurnosComponent } from './core/mis-turnos/mis-turnos.component';
-import { MisTurnosPacienteComponent } from './core/mis-turnos-paciente/mis-turnos-paciente.component';
-import { MisTurnosEspecialistaComponent } from './core/mis-turnos-especialista/mis-turnos-especialista.component';
 registerLocaleData(localeEs, 'es');
 
 @NgModule({
   declarations: [
     AppComponent
+    
   ],
   imports: [
     BrowserModule,

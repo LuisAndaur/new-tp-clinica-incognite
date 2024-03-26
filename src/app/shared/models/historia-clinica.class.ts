@@ -3,15 +3,16 @@ export class HistoriaClinica {
     peso!: number;
     temperatura!: number;
     presion!: number;
-    d1: Dinamico = new Dinamico();
-    d2: Dinamico = new Dinamico();
-    d3: Dinamico = new Dinamico();
-    d4: Dinamico = new Dinamico();
-    d5: Dinamico = new Dinamico();
-    d6: Dinamico = new Dinamico();
-}
-
-export class Dinamico{
-    clave!:string;
-    valor!:string;
+    clave_1!:string;
+    valor_1!:string;
+    clave_2!:string;
+    valor_2!:string;
+    clave_3!:string;
+    valor_3!:string;
+    clave_4!:string;
+    valor_4!:string;
+    clave_5!:string;
+    valor_5!:string;
+    clave_6!:string;
+    valor_6!:string;
 }

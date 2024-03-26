@@ -1,0 +1,213 @@
+<div class="contenedor">
+    <mat-card class="tarjeta">
+      <mat-card-title class="title">Cargar historia clínica</mat-card-title>
+      <mat-card-content>
+      <form class="form" [formGroup]="form">
+
+        <mat-form-field>
+            <mat-label>Altura</mat-label>
+            <input type="number" matInput placeholder="altura" formControlName="altura">
+            <mat-error *ngIf="form.controls['altura'].hasError('required') && form.controls['altura'].touched">
+              <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+              La altura es requerida.
+            </mat-error>
+            <mat-error *ngIf="form.controls['altura'].hasError('min')">
+              <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+              Altura mínima 10.
+            </mat-error>
+            <mat-error *ngIf="form.controls['altura'].hasError('max')">
+              <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+              Altura máxima 240.
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Peso</mat-label>
+            <input type="number" matInput placeholder="peso" formControlName="peso">
+            <mat-error *ngIf="form.controls['peso'].hasError('required') && form.controls['peso'].touched">
+              <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+              La peso es requerida.
+            </mat-error>
+            <mat-error *ngIf="form.controls['peso'].hasError('min')">
+              <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+              Peso mínima 1.
+            </mat-error>
+            <mat-error *ngIf="form.controls['peso'].hasError('max')">
+              <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+              Peso máxima 220.
+            </mat-error>
+        </mat-form-field>
+
+
+        <mat-form-field>
+            <mat-label>Temperatura</mat-label>
+            <input type="textbox" matInput placeholder="temperatura" formControlName="temperatura" decimal>
+            <mat-error *ngIf="form.controls['temperatura'].hasError('required') && form.controls['temperatura'].touched">
+              <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+              La temperatura es requerida.
+            </mat-error>
+            <mat-error *ngIf="form.controls['temperatura'].hasError('min')">
+              <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+              Temperatura mínima 1.
+            </mat-error>
+            <mat-error *ngIf="form.controls['temperatura'].hasError('max')">
+              <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+              Temperatura máxima 120.
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Presión</mat-label>
+            <input type="textbox" matInput placeholder="presion" formControlName="presion" decimal>
+            <mat-error *ngIf="form.controls['presion'].hasError('required') && form.controls['presion'].touched">
+              <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+              La presion es requerida.
+            </mat-error>
+            <mat-error *ngIf="form.controls['presion'].hasError('min')">
+              <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+              presion mínima 1.
+            </mat-error>
+            <mat-error *ngIf="form.controls['presion'].hasError('max')">
+              <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+              presion máxima 120.
+            </mat-error>
+        </mat-form-field>
+
+
+        <mat-form-field>
+            <mat-label>clave_1</mat-label>
+            <input type="text" matInput placeholder="Clave_1" formControlName="clave_1">
+            <mat-error *ngIf="form.controls['clave_1'].hasError('required') && form.controls['clave_1'].touched">
+              <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+              La clave_1 es requerida.
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>valor_1</mat-label>
+            <input type="text" matInput placeholder="valor_1" formControlName="valor_1">
+            <mat-error *ngIf="form.controls['valor_1'].hasError('required') && form.controls['valor_1'].touched">
+              <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+              El valor_1 es requerida.
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>clave_2</mat-label>
+            <input type="text" matInput placeholder="Clave_2" formControlName="clave_2">
+            <mat-error *ngIf="form.controls['clave_2'].hasError('required') && form.controls['clave_2'].touched">
+              <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+              La clave_2 es requerida.
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>valor_2</mat-label>
+            <input type="text" matInput placeholder="valor_2" formControlName="valor_2">
+            <mat-error *ngIf="form.controls['valor_2'].hasError('required') && form.controls['valor_2'].touched">
+              <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+              El valor_2 es requerida.
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>clave_3</mat-label>
+            <input type="text" matInput placeholder="Clave_3" formControlName="clave_3">
+            <mat-error *ngIf="form.controls['clave_3'].hasError('required') && form.controls['clave_3'].touched">
+              <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+              La clave_3 es requerida.
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>valor_3</mat-label>
+            <input type="text" matInput placeholder="valor_3" formControlName="valor_3">
+            <mat-error *ngIf="form.controls['valor_3'].hasError('required') && form.controls['valor_3'].touched">
+              <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+              El valor_3 es requerida.
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>clave_4</mat-label>
+            <input type="text" matInput placeholder="Clave_4" formControlName="clave_4">
+            <mat-error *ngIf="form.controls['clave_4'].hasError('required') && form.controls['clave_4'].touched">
+              <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+              La clave_4 es requerida.
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>valor_4</mat-label>
+            <div class="example-label-container">
+                <label id="example-name-label" class="example-name-label">Valor</label>
+                <label class="example-value-label">{{slider.value}}</label>
+              </div>
+              <mat-slider
+                  class="example-margin"
+                  [disabled]="disabled"
+                  [max]="max"
+                  [min]="min"
+                  [step]="step"
+                  [discrete]="thumbLabel"
+                  [showTickMarks]="showTicks">
+                <input matSliderThumb formControlName="valor_4" #slider>
+              </mat-slider>
+            <mat-error *ngIf="form.controls['valor_4'].hasError('required') && form.controls['valor_4'].touched">
+              <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+              El valor_4 es requerida.
+            </mat-error>
+        </mat-form-field>
+
+
+        <mat-form-field>
+            <mat-label>clave_5</mat-label>
+            <input type="text" matInput placeholder="Clave_5" formControlName="clave_5">
+            <mat-error *ngIf="form.controls['clave_5'].hasError('required') && form.controls['clave_5'].touched">
+              <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+              La clave_5 es requerida.
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>valor_5</mat-label>
+            <input type="number" matInput placeholder="valor_5" formControlName="valor_5">
+            <mat-error *ngIf="form.controls['valor_5'].hasError('required') && form.controls['valor_5'].touched">
+              <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+              La valor_5 es requerida.
+            </mat-error>
+            <mat-error *ngIf="form.controls['valor_5'].hasError('min')">
+              <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+              valor_5 mínima 1.
+            </mat-error>
+            <mat-error *ngIf="form.controls['valor_5'].hasError('max')">
+              <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+              valor_5 máxima 1000.
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>clave_6</mat-label>
+            <input type="text" matInput placeholder="Clave_6" formControlName="clave_6">
+            <mat-error *ngIf="form.controls['clave_6'].hasError('required') && form.controls['clave_6'].touched">
+              <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+              La clave_6 es requerida.
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>valor_6</mat-label>
+            <mat-slide-toggle formControlName="valor_6"></mat-slide-toggle>
+        </mat-form-field>
+
+  
+        <div class="button">
+          <button type="submit" [disabled]="form.invalid" mat-raised-button color="primary" (click)="submit()">Registrarse</button>
+          <button type="button" routerLink="/bienvenida" mat-raised-button color="warn">Cancelar</button>
+        </div>
+  
+      </form>
+  
+      </mat-card-content>
+    </mat-card>
+  </div>

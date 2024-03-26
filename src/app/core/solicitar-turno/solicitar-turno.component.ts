@@ -54,7 +54,8 @@ export class SolicitarTurnoComponent implements OnInit {
 
         this.db.obtenerUsuariosPorFiltro("tipo","paciente")
         .subscribe((_usuarios)=>{
-          this.pacientes = _usuarios as Array<Paciente>;
+          let aux = _usuarios as Array<Paciente>;
+          this.pacientes = aux.filter( (p) => p.estado != 'pendiente');
         });
 
       }
@@ -66,7 +67,10 @@ export class SolicitarTurnoComponent implements OnInit {
 
     this.db.obtenerUsuariosPorFiltro("tipo","especialista")
       .subscribe((_usuarios)=>{
-        this.especialistas = _usuarios as Array<Especialista>;
+        let aux1 = _usuarios as Array<Especialista>;
+        let aux2 = aux1.filter( (e) => e.estado != 'rechazado');
+        this.especialistas = aux2.filter( (e) => e.estado != 'pendiente');
+
       });
 
     this.db.obtenerEspecialidades()

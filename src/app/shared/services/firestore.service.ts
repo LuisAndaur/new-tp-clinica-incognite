@@ -210,6 +210,12 @@ export class FirestoreService {
     return collectionData(q,{ idField: 'id' }) ;
   }
 
+  obtenerTurnosEspecialista(id: string) {
+    const turnosRef = collection(this.db, this.cTurnos);
+    const q = query(turnosRef, where('estadoTurno', '!=', 'Libre'), where('especialista.id', '==', id));
+    return collectionData(q,{ idField: 'id' }) ;
+  }
+
   obtenerTurnosPorEspecialistaYEspecialidad(idEspecialista: string, especialidad: string){
     debugger;
     const posibilidades : Array<string> = ['Libre'];
@@ -358,6 +364,26 @@ export class FirestoreService {
         return _turno;
       });
     }) as any;
+  }
+
+  fechaCompleta(date: number): string {
+
+    let inputDate = new Date();
+    inputDate.setTime(date);
+
+    if (!inputDate) {
+      return '';
+    }
+
+    const diasSemana = ['DOMINGO', 'LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES', 'SÁBADO'];
+    const meses = ['ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE'];
+
+    const diaSemana = diasSemana[inputDate.getDay()];
+    const diaMes = inputDate.getDate();
+    const mes = meses[inputDate.getMonth()];
+    const ano = inputDate.getFullYear();
+
+    return `${diaSemana}, ${diaMes} DE ${mes} DE ${ano}`;
   }
 
   

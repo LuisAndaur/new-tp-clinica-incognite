@@ -23,6 +23,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { MatTableModule } from '@angular/material/table';
+import { FormatoDniPipe } from '../pipes/formato-dni.pipe';
+import { SliceHcPipe } from '../pipes/slice-hc.pipe';
+import { DecimalDirective } from './directives/decimal.directive';
 
 @NgModule({
   declarations: [
@@ -32,9 +35,12 @@ import { MatTableModule } from '@angular/material/table';
     SpinnerComponent,
     CaptchaComponent,
     FechaFullPipe,
+    FormatoDniPipe,
+    SliceHcPipe,
     CaptchaDirective,
     EstadoDirective,
-    HorariosComponent
+    DecimalDirective,
+    HorariosComponent,
   ],
   imports: [
     CommonModule,
@@ -60,8 +66,11 @@ import { MatTableModule } from '@angular/material/table';
     CaptchaComponent,
     SpinnerComponent,
     FechaFullPipe,
+    FormatoDniPipe,
+    SliceHcPipe,
     CaptchaDirective,
     EstadoDirective,
+    DecimalDirective,
     HorariosComponent
   ]
 })

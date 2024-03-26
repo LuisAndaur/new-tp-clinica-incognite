@@ -1,0 +1,107 @@
+table {
+    width: 100%;
+  }
+  
+  .mat-mdc-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+
+  .aceptar{
+    border: none;
+    background: none;
+    color: green;
+    cursor: pointer;
+  }
+  
+  .aceptar:disabled{
+    border: none;
+    background: none;
+    color: #818181;
+    cursor: none;
+  }
+  
+  .cancelar{
+    border: none;
+    background: none;
+    color: red;
+    cursor: pointer;
+  }
+  
+  .cancelar:disabled{
+    border: none;
+    background: none;
+    color: #818181;
+    cursor: none;
+  }
+
+  .rechazar{
+    border: none;
+    background: none;
+    color: rgb(205, 106, 0);
+    cursor: pointer;
+  }
+  
+  .rechazar:disabled{
+    border: none;
+    background: none;
+    color: #818181;
+    cursor: none;
+  }
+  
+
+  .comentario{
+    border: none;
+    background: none;
+    color: rgb(107, 20, 169);
+    cursor: pointer;
+  }
+  
+  .comentario:disabled{
+    border: none;
+    background: none;
+    color: #818181;
+    cursor: none;
+  }
+
+  .finalizar{
+    border: none;
+    background: none;
+    color: rgb(0, 153, 164);
+    cursor: pointer;
+  }
+  
+  .finalizar:disabled{
+    border: none;
+    background: none;
+    color: #818181;
+    cursor: none;
+  }
+
+  .diagnostico{
+    border: none;
+    background: none;
+    color: rgb(0, 92, 138);
+    cursor: pointer;
+  }
+  
+  .diagnostico:disabled{
+    border: none;
+    background: none;
+    color: #818181;
+    cursor: none;
+  }
+
+  .historia-crear{
+    border: none;
+    background: none;
+    color: rgb(164, 0, 90);
+    cursor: pointer;
+  }
+  
+  .historia-crear:disabled{
+    border: none;
+    background: none;
+    color: #818181;
+    cursor: none;
+  }
