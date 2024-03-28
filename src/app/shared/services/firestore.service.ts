@@ -216,6 +216,13 @@ export class FirestoreService {
     return collectionData(q,{ idField: 'id' }) ;
   }
 
+  obtenerTurnosEspecialistaAtendidos(id: string) {
+    const estados : Array<string> = ['Libre', 'Solicitado', 'Cancelado'];
+    const turnosRef = collection(this.db, this.cTurnos);
+    const q = query(turnosRef, where('estadoTurno', 'not-in', estados), where('especialista.id', '==', id));
+    return collectionData(q,{ idField: 'id' }) ;
+  }
+
   obtenerTurnosPorEspecialistaYEspecialidad(idEspecialista: string, especialidad: string){
     debugger;
     const posibilidades : Array<string> = ['Libre'];
