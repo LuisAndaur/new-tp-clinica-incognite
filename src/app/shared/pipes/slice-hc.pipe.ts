@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Turno } from '../shared/models/turno.class';
+import { Turno } from '../models/turno.class';
 
 @Pipe({
   name: 'sliceHc'

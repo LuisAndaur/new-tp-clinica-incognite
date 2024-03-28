@@ -1,0 +1,73 @@
+<br>
+<mat-form-field>
+  <mat-label>Filtro</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+</mat-form-field>
+
+<table mat-table [dataSource]="historiasClinicas" class="mat-elevation-z8">
+  
+    <!-- altura Column -->
+    <ng-container matColumnDef="altura">
+      <th mat-header-cell *matHeaderCellDef> ALTURA </th>
+      <td mat-cell *matCellDef="let element"> {{element.altura}} cm </td>
+    </ng-container>
+  
+    <!-- peso Column -->
+    <ng-container matColumnDef="peso">
+      <th mat-header-cell *matHeaderCellDef> PESO </th>
+      <td mat-cell *matCellDef="let element"> {{element.peso}} kgm</td>
+    </ng-container>
+  
+    <!-- temperatura Column -->
+    <ng-container matColumnDef="temperatura">
+      <th mat-header-cell *matHeaderCellDef> TEMPERATURA </th>
+      <td mat-cell *matCellDef="let element"> {{element.temperatura}} °C</td>
+    </ng-container>
+  
+    <!-- presion Column -->
+    <ng-container matColumnDef="presion">
+      <th mat-header-cell *matHeaderCellDef> PRESIÓN </th>
+      <td mat-cell *matCellDef="let element"> {{element.presion}} mm</td>
+    </ng-container>
+
+    <!-- clave_1 Column -->
+    <ng-container matColumnDef="clave_1">
+        <th mat-header-cell *matHeaderCellDef> D1. </th>
+        <td mat-cell *matCellDef="let element"> <strong>{{element.clave_1}}:</strong> {{element.valor_1}} </td>
+    </ng-container>
+
+    <!-- clave_2 Column -->
+    <ng-container matColumnDef="clave_2">
+      <th mat-header-cell *matHeaderCellDef> D2. </th>
+      <td mat-cell *matCellDef="let element"> <strong>{{element.clave_2}}:</strong> {{element.valor_2}} </td>
+    </ng-container>
+
+    <!-- clave_3 Column -->
+    <ng-container matColumnDef="clave_3">
+      <th mat-header-cell *matHeaderCellDef> D3. </th>
+      <td mat-cell *matCellDef="let element"> <strong>{{element.clave_3}}:</strong> {{element.valor_3}} </td>
+    </ng-container>
+
+    <!-- clave_4 Column -->
+    <ng-container matColumnDef="clave_4">
+      <th mat-header-cell *matHeaderCellDef> D4. </th>
+      <td mat-cell *matCellDef="let element"> <strong>{{element.clave_4}}:</strong> {{element.valor_4}} </td>
+    </ng-container>
+
+    <!-- clave_5 Column -->
+    <ng-container matColumnDef="clave_5">
+      <th mat-header-cell *matHeaderCellDef> D5. </th>
+      <td mat-cell *matCellDef="let element"> <strong>{{element.clave_5}}:</strong> {{element.valor_5}} </td>
+    </ng-container>
+
+    <!-- clave_6 Column -->
+    <ng-container matColumnDef="clave_6">
+      <th mat-header-cell *matHeaderCellDef> D6. </th>
+      <td mat-cell *matCellDef="let element"> <strong>{{element.clave_6}}:</strong> {{element.valor_6}} </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="hcColumnas"></tr>
+    <tr mat-row *matRowDef="let row; columns: hcColumnas;"></tr>
+  </table>
+
+  <button type="button" (click)="cerrarHclinica()" mat-raised-button color="warn">Cerrar</button>

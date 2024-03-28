@@ -20,8 +20,7 @@ export class Turno {
     especialista!: Especialista;
     especialidad!: Especialidad;
     comentarioEspecialista: string = "";
-    reseniaEspecialista: string = "";
     diagnosticoEspecialista: string = "";
     comentarioAdministrador: string = "";
-    historiaClinica?: HistoriaClinica;
+    historiaClinica!: HistoriaClinica;
 }

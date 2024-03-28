@@ -15,6 +15,9 @@ export interface DataTurno {
   especialista: string;
   especialidad: string;
   estado: string;
+  comentarioEspecialista: string;
+  comentarioPaciente: string;
+  comentarioAdministrador: string;
 }
 
 @Component({
@@ -96,13 +99,28 @@ export class AdminTurnosComponent implements OnInit {
         paciente: t.paciente.nombre + ' ' + t.paciente.apellido,
         especialista: t.especialista.nombre + ' ' + t.especialista.apellido,
         especialidad: t.especialidad.especialidad,
-        estado: t.estadoTurno
+        estado: t.estadoTurno,
+        comentarioEspecialista: t.comentarioEspecialista,
+        comentarioPaciente: t.comentarioPaciente,
+        comentarioAdministrador: t.comentarioAdministrador,
       };
 
       array.push(data);
     });
 
     return array;
+  }
+
+  mostrarResenia(turno: any){
+    if(turno?.comentarioEspecialista){
+      this.swal.infoTitle(turno?.comentarioEspecialista, "Comentario del Especialista");
+    }
+    if(turno?.comentarioPaciente){
+      this.swal.infoTitle(turno?.comentarioPaciente, "Comentario del Paciente");
+    }
+    if(turno?.comentarioAdministrador){
+      this.swal.infoTitle(turno?.comentarioAdministrador, "Comentario del Administrador");
+    }
   }
 
   applyFilter(event: Event) {

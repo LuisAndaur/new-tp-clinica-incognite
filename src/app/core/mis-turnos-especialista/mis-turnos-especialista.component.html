@@ -75,6 +75,7 @@
         *ngIf="element.estado != 'Aceptado'
         && element.estado != 'Realizado'
         && element.estado != 'Rechazado'
+        && element.estado != 'Finalizado'
         && element.estado != 'Cancelado'" (click)="cancelarTurno(element.id)" [disabled]="element.estado == 'Cancelado'">
             <mat-icon>cancel</mat-icon>
         </button>
@@ -84,6 +85,7 @@
         *ngIf="element.estado != 'Aceptado'
             && element.estado != 'Realizado'
             && element.estado != 'Rechazado'
+            && element.estado != 'Finalizado'
             && element.estado != 'Cancelado'" (click)="rechazarTurno(element.id)" [disabled]="element.estado == 'Rechazado'">
             <mat-icon>dangerous</mat-icon>
           </button>
@@ -97,17 +99,16 @@
           </button>
 
         <!-- escribir comentario y diagnostico -->
-        <button mat-icon-button title="edit" class="edit" 
+        <button mat-icon-button title="comentario/diagnostico" class="edit" 
         *ngIf="element.estado == 'Aceptado'
-        && !element.reseniaEspecialista
-        && !element.comentarioEspecialista" (click)="editarComentarioDiagnostico(element.id)">
+        && (element.comentarioEspecialista == ''
+        || element.diagnosticoEspecialista == '')" (click)="editarComentarioDiagnostico(element.id)">
             <mat-icon>edit_square</mat-icon>
           </button>
 
         <!-- Ver reseña/comentario  -->
         <button mat-icon-button title="comentario" class="comentario" 
-        *ngIf="element.reseniaEspecialista
-            || element.comentarioEspecialista
+        *ngIf="element.comentarioEspecialista
             || element.comentarioPaciente
             || element.comentarioAdministrador" (click)="mostrarResenia(element)">
             <mat-icon>chat-square-text</mat-icon>
@@ -115,14 +116,15 @@
 
         <!-- Ver diagnóstico -->
         <button mat-icon-button title="diagnostico" class="diagnostico" 
-        *ngIf="element.diagnosticoEspecialista != ''" (click)="mostrarDiagnostico(element)" [disabled]="element.estado == 'Finalizado'">
-            <mat-icon>file-earmark-text</mat-icon>
+        *ngIf="element.estado == 'Finalizado'
+        && element.diagnosticoEspecialista != ''" (click)="mostrarDiagnostico(element)">
+            <mat-icon>medication</mat-icon>
         </button>
 
         <!-- crear hc -->
         <button mat-icon-button title="historia-crear" class="historia-crear" 
-        *ngIf="!element.historiaClinica && element.estado == 'Realizado'" (click)="crearHistoriaClinica(element.id)" (click)="this.mostrarCrear = !this.mostrarCrear">
-            <mat-icon>checkbook</mat-icon>
+        *ngIf="!element.historiaClinica && element.estado == 'Finalizado'" (click)="crearHistoriaClinica(element.id)" (click)="this.mostrarCrear = !this.mostrarCrear">
+            <mat-icon>content_paste</mat-icon>
         </button>
       </td>
     </ng-container>
@@ -144,5 +146,5 @@
     <tr mat-row *matRowDef="let row; columns: usuariosColumnas;"></tr>
   </table>
 
-  <app-cargar-historia-clinica *ngIf="turnoSeleccionado != null && mostrarCrear" [turno]="turnoSeleccionado"></app-cargar-historia-clinica>
-
+  <app-cargar-historia-clinica *ngIf="turnoSeleccionado != null && mostrarCrear" [turno]="turnoSeleccionado" (mostrarCrear)="mostrarCrearHC($event)"></app-cargar-historia-clinica>
+<app-ver-historia-clinica *ngIf="turnoSeleccionado != null && mostrarhc" (viewHc)="verHistoria($event)" [emailPaciente]="emailPacientePadre" [idTurno]="idTurnoPadre"></app-ver-historia-clinica>

@@ -18,7 +18,6 @@ export interface DataTurnoEspecialista {
   especialista: string;
   especialidad: string;
   estado: string;
-  reseniaEspecialista: string;
   comentarioEspecialista: string;
   comentarioPaciente: string;
   comentarioAdministrador: string;
@@ -43,6 +42,8 @@ export class MisTurnosEspecialistaComponent implements OnInit {
   turnoSeleccionado!: Turno;
   mostrarCrear: boolean = false;
   mostrarhc: boolean = false;
+  emailPacientePadre: string = "";
+  idTurnoPadre: string = "";
 
   constructor(private db: FirestoreService,
               private localStorge: LocalstorageService,
@@ -133,7 +134,15 @@ export class MisTurnosEspecialistaComponent implements OnInit {
       }
     });
 
+    const rechazo = await this.swal.textareaTitle("Motivo del rechazo");
+
+    if(rechazo === null || rechazo === undefined ){
+      this.swal.info("No completó el Comentario, el turno no se rechazó!");
+      return;
+    }
+
     turnoARechazar.estadoTurno = "Rechazado";
+    turnoARechazar.comentarioEspecialista = rechazo;
     this.spinner.mostrar();
     this.db.modificarTurno(turnoARechazar)
       .then(()=>{
@@ -170,8 +179,9 @@ export class MisTurnosEspecialistaComponent implements OnInit {
       })
   }
 
-  editarComentarioDiagnostico(id: string){
+  async editarComentarioDiagnostico(id: string){
 
+    debugger;
     let turnoAComentar = new Turno();
     this.turnos?.forEach( t => {
       if(t.id === id){
@@ -179,55 +189,35 @@ export class MisTurnosEspecialistaComponent implements OnInit {
       }
     });
 
-    let comentario = this.completarComentarioEspecialista();
-    let diagnostico = this.completarDiagnosticoEspecialista().;
+    const comentario = await this.swal.textareaTitle("Comentario/reseña especialista");
+    const diagnostico = await this.swal.textareaTitle("Diagnóstico especialista");
 
     if(comentario === null || comentario === undefined || diagnostico === null || diagnostico === undefined){
-      this.swal.warning("No completó el Comentario/reseña ó el diagnóstico, el turno no se realizó!");
+      this.swal.info("No completó el Comentario/reseña y/o Diagnóstico, el turno no se realizó!");
       return;
     }
-    else{   
 
-      turnoAComentar.estadoTurno = "Realizado";
-      turnoAComentar.diagnosticoEspecialista = diagnostico;
-      turnoAComentar.comentarioEspecialista = comentario;
-      this.spinner.mostrar();
-      this.db.modificarTurno(turnoAComentar)
-        .then(()=>{
-          this.swal.success("Turno Realizado");
-        })
-        .catch((e:Error)=>{
-          this.swal.error(e.message);
-        })
-        .finally(()=>{
-          this.spinner.ocultar();
-        })
-      }
+    turnoAComentar.estadoTurno = "Realizado";
+    turnoAComentar.comentarioEspecialista = comentario;
+    turnoAComentar.diagnosticoEspecialista = diagnostico;
+
+    this.spinner.mostrar();
+    this.db.modificarTurno(turnoAComentar)
+      .then(()=>{
+        this.swal.success("Turno Realizado");
+      })
+      .catch((e:Error)=>{
+        this.swal.error(e.message);
+      })
+      .finally(()=>{
+        this.spinner.ocultar();
+      })
+
   }
 
-  private async completarComentarioEspecialista(){
-    await this.swal.textareaTitle("Comentario/reseña especialista").then((r) =>{
-      const respuesta = r;
-      return respuesta;
-    })
-    .catch((e: Error) => {
-      console.log(e);
-      return undefined;
-    });
-    
-  }
 
-  private async completarDiagnosticoEspecialista(){
-    await this.swal.textareaTitle("Diagnóstico especialista").then((r) =>{
-      const respuesta = r;
-      return respuesta;
-    });
-  }
 
   mostrarResenia(turno: any){
-    if(turno?.reseniaEspecialista){
-      this.swal.infoTitle(turno?.reseniaEspecialista, "Reseña del Especialista");
-    }
     if(turno?.comentarioEspecialista){
       this.swal.infoTitle(turno?.comentarioEspecialista, "Comentario del Especialista");
     }
@@ -297,7 +287,6 @@ export class MisTurnosEspecialistaComponent implements OnInit {
         especialista: t.especialista.nombre + ' ' + t.especialista.apellido,
         especialidad: t.especialidad.especialidad,
         estado: t.estadoTurno,
-        reseniaEspecialista: t.reseniaEspecialista,
         comentarioEspecialista: t.comentarioEspecialista,
         comentarioPaciente: t.comentarioPaciente,
         comentarioAdministrador: t.comentarioAdministrador,
@@ -314,7 +303,18 @@ export class MisTurnosEspecialistaComponent implements OnInit {
   }
 
   mostrarHistoriaClinica(id: string) {
-    
+
+    let auxTurno = new Turno();
+    this.turnos?.forEach( t => {
+      if(t.id === id){
+        auxTurno = t;
+      }
+    });
+
+    this.turnoSeleccionado = auxTurno;
+    this.idTurnoPadre = id;
+    this.emailPacientePadre = auxTurno.paciente.email;
+    this.mostrarhc = true;
   }
 
   crearHistoriaClinica(id: string){
@@ -333,5 +333,13 @@ export class MisTurnosEspecialistaComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.DataTurnoEspecialistas.filter = filterValue.trim().toLowerCase();
+  }
+
+  mostrarCrearHC(mostrarCrear: boolean){
+    this.mostrarCrear = mostrarCrear;
+  }
+
+  verHistoria(ver: boolean){
+    this.mostrarhc = ver;
   }
 }

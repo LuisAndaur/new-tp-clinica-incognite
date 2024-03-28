@@ -18,7 +18,6 @@ export interface DataTurnoPaciente {
   especialista: string;
   especialidad: string;
   estado: string;
-  reseniaEspecialista: string;
   comentarioEspecialista: string;
   comentarioPaciente: string;
   comentarioAdministrador: string;
@@ -37,7 +36,7 @@ export class MisTurnosPacienteComponent implements OnInit {
   currentUser!: Usuario;
   filtro: string = "";
   turnos: Array<any> | null = [];
-  usuariosColumnas: string[] = ['fecha', 'inicio', 'fin', 'duracion', 'paciente', 'especialista', 'especialidad', 'estado', 'accion', 'hc'];
+  usuariosColumnas: string[] = ['fecha', 'inicio', 'fin', 'duracion', 'paciente', 'especialista', 'especialidad', 'estado', 'accion'];
   DataTurnoPacientes: any;
 
   constructor(private db: FirestoreService,
@@ -98,9 +97,6 @@ export class MisTurnosPacienteComponent implements OnInit {
   }
 
   mostrarResenia(turno: any){
-    if(turno?.reseniaEspecialista){
-      this.swal.infoTitle(turno?.reseniaEspecialista, "Reseña del Especialista");
-    }
     if(turno?.comentarioEspecialista){
       this.swal.infoTitle(turno?.comentarioEspecialista, "Comentario del Especialista");
     }
@@ -203,7 +199,6 @@ export class MisTurnosPacienteComponent implements OnInit {
         especialista: t.especialista.nombre + ' ' + t.especialista.apellido,
         especialidad: t.especialidad.especialidad,
         estado: t.estadoTurno,
-        reseniaEspecialista: t.reseniaEspecialista,
         comentarioEspecialista: t.comentarioEspecialista,
         comentarioPaciente: t.comentarioPaciente,
         comentarioAdministrador: t.comentarioAdministrador,
@@ -218,17 +213,6 @@ export class MisTurnosPacienteComponent implements OnInit {
     return array;
   }
 
-  mostrarHistoriaClinica(id: string) {
-    // this.posicionDeHistoria = -1;
-    // this.turnosConHistoriasClinicas = this.turnosDePaciente?.filter(t=> {
-    //   return t.turno.historiaClinica && t.turno.idPaciente == _turnoEspecialista.turno.idPaciente;
-    // }).map((t,index)=>{
-    //   if(t.turno.fechaInicio == _turnoEspecialista.turno.fechaInicio){
-    //     this.posicionDeHistoria = index;
-    //   }
-    //   return t;
-    // })!;
-  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

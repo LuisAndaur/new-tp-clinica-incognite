@@ -1,8 +1,8 @@
 export class HistoriaClinica {
-    altura!: number;
-    peso!: number;
-    temperatura!: number;
-    presion!: number;
+    altura!: string;
+    peso!: string;
+    temperatura!: string;
+    presion!: string;
     clave_1!:string;
     valor_1!:string;
     clave_2!:string;

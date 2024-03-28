@@ -9,7 +9,7 @@ import { RouterModule } from '@angular/router';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { FechaFullPipe } from '../pipes/fecha-full.pipe';
+import { FechaFullPipe } from './pipes/fecha-full.pipe';
 import { CaptchaDirective } from './directives/captcha.directive';
 import { RecaptchaModule } from "ng-recaptcha";
 import { CaptchaComponent } from './components/captcha/captcha.component';
@@ -23,9 +23,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { MatTableModule } from '@angular/material/table';
-import { FormatoDniPipe } from '../pipes/formato-dni.pipe';
-import { SliceHcPipe } from '../pipes/slice-hc.pipe';
+import { FormatoDniPipe } from './pipes/formato-dni.pipe';
+import { SliceHcPipe } from './pipes/slice-hc.pipe';
 import { DecimalDirective } from './directives/decimal.directive';
+import { SiNoPipe } from './pipes/si-no.pipe';
+import { VerHistoriaClinicaComponent } from './components/ver-historia-clinica/ver-historia-clinica.component';
 
 @NgModule({
   declarations: [
@@ -37,10 +39,12 @@ import { DecimalDirective } from './directives/decimal.directive';
     FechaFullPipe,
     FormatoDniPipe,
     SliceHcPipe,
+    SiNoPipe,
     CaptchaDirective,
     EstadoDirective,
     DecimalDirective,
     HorariosComponent,
+    VerHistoriaClinicaComponent,
   ],
   imports: [
     CommonModule,
@@ -68,10 +72,12 @@ import { DecimalDirective } from './directives/decimal.directive';
     FechaFullPipe,
     FormatoDniPipe,
     SliceHcPipe,
+    SiNoPipe,
     CaptchaDirective,
     EstadoDirective,
     DecimalDirective,
-    HorariosComponent
+    HorariosComponent,
+    VerHistoriaClinicaComponent
   ]
 })
 export class SharedModule { }

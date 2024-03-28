@@ -7,6 +7,7 @@
     <a *ngIf="usuarioActual.tipo == 'administrador'" mat-button routerLink="/turnos">Turnos</a>
     <a *ngIf="usuarioActual.tipo == 'administrador' || usuarioActual.tipo == 'paciente'" mat-button routerLink="/solicitar-turno">Solicitar turno</a>
     <a *ngIf="usuarioActual.tipo == 'especialista' || usuarioActual.tipo == 'paciente'" mat-button routerLink="/mis-turnos">Mis turnos</a>
+    <a *ngIf="usuarioActual.tipo == 'especialista'" mat-button routerLink="/seccion-pacientes">Sección pacientes</a>
 
     <span *ngIf="currentUser">|</span>
 

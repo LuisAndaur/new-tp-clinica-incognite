@@ -48,11 +48,11 @@
             </mat-error>
             <mat-error *ngIf="form.controls['temperatura'].hasError('min')">
               <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
-              Temperatura mínima 1.
+              Temperatura mínima 32.
             </mat-error>
             <mat-error *ngIf="form.controls['temperatura'].hasError('max')">
               <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
-              Temperatura máxima 120.
+              Temperatura máxima 46.
             </mat-error>
         </mat-form-field>
 
@@ -137,28 +137,20 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field>
-            <mat-label>valor_4</mat-label>
-            <div class="example-label-container">
-                <label id="example-name-label" class="example-name-label">Valor</label>
-                <label class="example-value-label">{{slider.value}}</label>
-              </div>
-              <mat-slider
-                  class="example-margin"
-                  [disabled]="disabled"
-                  [max]="max"
-                  [min]="min"
-                  [step]="step"
-                  [discrete]="thumbLabel"
-                  [showTickMarks]="showTicks">
-                <input matSliderThumb formControlName="valor_4" #slider>
-              </mat-slider>
-            <mat-error *ngIf="form.controls['valor_4'].hasError('required') && form.controls['valor_4'].touched">
-              <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
-              El valor_4 es requerida.
-            </mat-error>
-        </mat-form-field>
-
+        <div class="example-label-container">
+            <label id="example-name-label" class="example-name-label">valor_4:      </label>
+            <label class="example-value-label">{{slider.value}}</label>
+          </div>
+          <mat-slider
+              class="example-margin"
+              [disabled]="disabled"
+              [max]="max"
+              [min]="min"
+              [step]="step"
+              [discrete]="thumbLabel"
+              [showTickMarks]="showTicks">
+            <input matSliderThumb formControlName="valor_4" #slider>
+          </mat-slider>
 
         <mat-form-field>
             <mat-label>clave_5</mat-label>
@@ -195,14 +187,17 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field>
-            <mat-label>valor_6</mat-label>
-            <mat-slide-toggle formControlName="valor_6"></mat-slide-toggle>
-        </mat-form-field>
+        <mat-slide-toggle formControlName="valor_6" (click)="valor()" >  valor_6:  {{valor_6?.value | siNo}}</mat-slide-toggle>
+        <mat-error *ngIf="form.controls['valor_6'].hasError('required') && form.controls['valor_6'].touched">
+          <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+          valor_6 es requerido.
+        </mat-error>
+
+          <br><br>
 
   
         <div class="button">
-          <button type="submit" [disabled]="form.invalid" mat-raised-button color="primary" (click)="submit()">Registrarse</button>
+          <button type="submit" [disabled]="form.invalid" mat-raised-button color="primary" (click)="submit()">Cargar Historia Clínica</button>
           <button type="button" routerLink="/bienvenida" mat-raised-button color="warn">Cancelar</button>
         </div>
   

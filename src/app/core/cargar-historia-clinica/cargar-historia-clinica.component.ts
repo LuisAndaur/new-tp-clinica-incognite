@@ -1,7 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/auth/services/auth.service';
 import { HistoriaClinica } from 'src/app/shared/models/historia-clinica.class';
 import { Turno } from 'src/app/shared/models/turno.class';
 import { FirestoreService } from 'src/app/shared/services/firestore.service';
@@ -23,10 +22,11 @@ export class CargarHistoriaClinicaComponent {
   thumbLabel = false;
   value = 0;
   form!: FormGroup;
+  valor_6_isChecked = false;
   @Input() turno!: Turno;
+  @Output() mostrarCrear = new EventEmitter<boolean>();
 
-  constructor(private auth: AuthService,
-              private db: FirestoreService,
+  constructor(private db: FirestoreService,
               private router: Router,
               private swal: SwalService,
               private spinner: SpinnerService
@@ -34,10 +34,11 @@ export class CargarHistoriaClinicaComponent {
 
 
   ngOnInit(){
+
     this.form = new FormGroup({
-      altura: new FormControl('', [Validators.required, Validators.min(1), Validators.max(120)]),
-      peso: new FormControl('', [Validators.required, Validators.min(1), Validators.max(120)]),
-      temperatura: new FormControl('', [Validators.required, Validators.min(1), Validators.max(120)]),
+      altura: new FormControl('', [Validators.required, Validators.min(10), Validators.max(240)]),
+      peso: new FormControl('', [Validators.required, Validators.min(1), Validators.max(220)]),
+      temperatura: new FormControl('', [Validators.required, Validators.min(32), Validators.max(46)]),
       presion: new FormControl('', [Validators.required, Validators.min(1), Validators.max(120)]),
       clave_1: new FormControl('', [Validators.required]),
       valor_1: new FormControl('', [Validators.required]),
@@ -50,7 +51,7 @@ export class CargarHistoriaClinicaComponent {
       clave_5: new FormControl('', [Validators.required]),
       valor_5: new FormControl('', [Validators.required, Validators.min(1), Validators.max(1000)]),
       clave_6: new FormControl('', [Validators.required]),
-      valor_6: new FormControl(''),
+      valor_6: new FormControl('', [Validators.required]),
     });
   }
 
@@ -60,18 +61,19 @@ export class CargarHistoriaClinicaComponent {
     historiaclinica.peso = this.peso?.value.toString();
     historiaclinica.temperatura = this.temperatura?.value.toString();
     historiaclinica.presion = this.presion?.value.toString();
-    historiaclinica.clave_1 = this.clave_1?.value.toString();
+    historiaclinica.clave_1 = this.clave_1?.value.toString().toUpperCase();
     historiaclinica.valor_1 = this.valor_1?.value.toString();
-    historiaclinica.clave_2 = this.clave_2?.value.toString();
+    historiaclinica.clave_2 = this.clave_2?.value.toString().toUpperCase();
     historiaclinica.valor_2 = this.valor_2?.value.toString();
-    historiaclinica.clave_3 = this.clave_3?.value.toString();
+    historiaclinica.clave_3 = this.clave_3?.value.toString().toUpperCase();
     historiaclinica.valor_3 = this.valor_3?.value.toString();
-    historiaclinica.clave_4 = this.clave_4?.value.toString();
+    historiaclinica.clave_4 = this.clave_4?.value.toString().toUpperCase();
     historiaclinica.valor_4 = this.valor_4?.value.toString();
-    historiaclinica.clave_5 = this.clave_5?.value.toString();
+    historiaclinica.clave_5 = this.clave_5?.value.toString().toUpperCase();
     historiaclinica.valor_5 = this.valor_5?.value.toString();
-    historiaclinica.clave_6 = this.clave_6?.value.toString();
-    historiaclinica.valor_6 = this.valor_6?.value.toString();
+    historiaclinica.clave_6 = this.clave_6?.value.toString().toUpperCase();
+    historiaclinica.valor_6 = this.valor_6?.value ? 'Si' : 'No';
+    debugger;
     return historiaclinica;
   }
 
@@ -95,6 +97,7 @@ export class CargarHistoriaClinicaComponent {
               .finally(()=>{
                 this.form.reset();
                 this.spinner.ocultar();
+                this.mostrarCrear.emit(false);
                 this.router.navigateByUrl('/mis-turnos');
               });
     }
@@ -165,6 +168,10 @@ export class CargarHistoriaClinicaComponent {
 
   get valor_6() {
     return this.form.get('valor_6');
+  }
+
+  valor(){
+    console.log("V6: ", this.valor_6?.value);
   }
 
 }
