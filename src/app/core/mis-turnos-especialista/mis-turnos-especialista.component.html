@@ -120,6 +120,13 @@
         && element.diagnosticoEspecialista != ''" (click)="mostrarDiagnostico(element)">
             <mat-icon>medication</mat-icon>
         </button>
+        
+        <!-- Ver calificacion -->
+        <button mat-icon-button title="calificacion" class="calificacion" 
+        *ngIf="element.estado == 'Finalizado'
+        && element.calificacionPaciente != ''" (click)="mostrarCalificacion(element)">
+            <mat-icon>stars</mat-icon>
+        </button>
 
         <!-- crear hc -->
         <button mat-icon-button title="historia-crear" class="historia-crear" 

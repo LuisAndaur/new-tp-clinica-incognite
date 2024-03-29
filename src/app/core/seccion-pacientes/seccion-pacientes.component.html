@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 <div class="contenedor">
 
-  <mat-card class="card" *ngFor="let item of pacienteTurnos">
+  <mat-card class="card" *ngFor="let item of pacienteTurnos" >
       <mat-card-header>
         <div mat-card-avatar style="background-image: url('{{item.paciente.img}}');background-size: cover;"></div>
         <mat-card-title>{{item.paciente.nombre}} {{item.paciente.apellido}}</mat-card-title>
@@ -20,9 +20,11 @@
         <p><strong>Fecha: </strong>{{turno.fecha}}</p>
         <p><strong>Hora: </strong>{{turno.horaInicio}}</p>
         <p><strong>Estado: </strong>{{turno.estadoTurno}}</p> 
-        <button mat-raised-button color="primary" >Ver historia clínica</button>
+        <button mat-raised-button color="primary" (click)="mostrarHistoriaClinica(turno.id)" >Ver historia clínica</button>
         <hr>
       </mat-card-content>
     </mat-card>
-    
 </div>
+
+<app-ver-historia-clinica *ngIf="turnoSeleccionado != null && mostrarhc" (viewHc)="verHistoria($event)" [emailPaciente]="emailPacientePadre" [idTurno]="idTurnoPadre"></app-ver-historia-clinica>
+

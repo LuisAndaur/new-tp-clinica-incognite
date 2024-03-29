@@ -7,10 +7,19 @@ table {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .tarjeta {
   background-color: azure;
+}
+
+.carta{
+  width: 30%;
+  height: 350px;
+  background-color: cornsilk;
+  margin: 5px;
 }
 
 .title{  

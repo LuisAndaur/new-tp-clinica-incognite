@@ -24,6 +24,7 @@ export interface DataTurnoPaciente {
   diagnosticoEspecialista: string;
   encuestaPaciente: string;
   calificacionPaciente: string;
+  historiaClinica: HistoriaClinica;
 }
 
 @Component({
@@ -36,8 +37,12 @@ export class MisTurnosPacienteComponent implements OnInit {
   currentUser!: Usuario;
   filtro: string = "";
   turnos: Array<any> | null = [];
-  usuariosColumnas: string[] = ['fecha', 'inicio', 'fin', 'duracion', 'paciente', 'especialista', 'especialidad', 'estado', 'accion'];
+  usuariosColumnas: string[] = ['fecha', 'inicio', 'fin', 'duracion', 'paciente', 'especialista', 'especialidad', 'estado', 'accion', 'hc'];
   DataTurnoPacientes: any;
+  turnoSeleccionado!: Turno;
+  mostrarhc: boolean = false;
+  emailPacientePadre: string = "";
+  idTurnoPadre: string = "";
 
   constructor(private db: FirestoreService,
               private localStorge: LocalstorageService,
@@ -204,13 +209,33 @@ export class MisTurnosPacienteComponent implements OnInit {
         comentarioAdministrador: t.comentarioAdministrador,
         diagnosticoEspecialista: t.diagnosticoEspecialista,
         encuestaPaciente: t.encuestaPaciente,
-        calificacionPaciente: t.calificacionPaciente
+        calificacionPaciente: t.calificacionPaciente,
+        historiaClinica: t.historiaClinica
       };
 
       array.push(data);
     });
 
     return array;
+  }
+
+  mostrarHistoriaClinica(id: string) {
+
+    let auxTurno = new Turno();
+    this.turnos?.forEach( t => {
+      if(t.id === id){
+        auxTurno = t;
+      }
+    });
+
+    this.turnoSeleccionado = auxTurno;
+    this.idTurnoPadre = id;
+    this.emailPacientePadre = auxTurno.paciente.email;
+    this.mostrarhc = true;
+  }
+
+  verHistoria(ver: boolean){
+    this.mostrarhc = ver;
   }
 
 

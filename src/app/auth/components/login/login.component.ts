@@ -1,3 +1,4 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -12,7 +13,24 @@ import { RegistroIngresoService } from '../../services/registro-ingreso.service'
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  animations: [
+    trigger('fadeInBottom', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(200%)' }),
+        animate('1000ms ease-in', style({ opacity: 1, transform: 'translateY(0)' })),
+      ]),
+      transition(':leave', [
+        animate('500ms ease-out', style({ opacity: 0, transform: 'translateY(100%)' })),
+      ]),
+    ]),
+    trigger('fadeInOut', [
+      state('void', style({
+        opacity: 0
+      })),
+      transition('void <=> *', animate(2000)),
+    ]),
+  ]
 })
 export class LoginComponent implements OnInit {
 

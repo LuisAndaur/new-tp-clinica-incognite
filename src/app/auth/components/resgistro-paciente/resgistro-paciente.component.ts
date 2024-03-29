@@ -7,11 +7,23 @@ import { SwalService } from 'src/app/shared/services/swal.service';
 import { AuthService } from '../../services/auth.service';
 import { confirmPasswordValidator } from '../../validators/confirm-password.validator';
 import { FirestoreService } from 'src/app/shared/services/firestore.service';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-resgistro-paciente',
   templateUrl: './resgistro-paciente.component.html',
-  styleUrls: ['./resgistro-paciente.component.scss']
+  styleUrls: ['./resgistro-paciente.component.scss'],
+  animations: [
+    trigger('fadeInRight', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateX(200%)' }),
+        animate('1000ms ease-in', style({ opacity: 1, transform: 'translateX(0)' })),
+      ]),
+      transition(':leave', [
+        animate('500ms ease-out', style({ opacity: 0, transform: 'translateX(100%)' })),
+      ]),
+    ])
+  ]
 })
 export class ResgistroPacienteComponent {
 

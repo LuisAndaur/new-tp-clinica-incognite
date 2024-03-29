@@ -1,3 +1,4 @@
+import { animate, group, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { Paciente } from 'src/app/shared/models/paciente.class';
 import { Turno } from 'src/app/shared/models/turno.class';
@@ -14,6 +15,7 @@ export interface PacienteTurnos{
   selector: 'app-seccion-pacientes',
   templateUrl: './seccion-pacientes.component.html',
   styleUrls: ['./seccion-pacientes.component.scss']
+  
 })
 export class SeccionPacientesComponent implements OnInit {
 
@@ -21,6 +23,10 @@ export class SeccionPacientesComponent implements OnInit {
   turnos: Array<any> | null = [];
   pacientes: Array<any> | null = [];
   pacienteTurnos: Array<PacienteTurnos> = [];
+  turnoSeleccionado!: Turno;
+  mostrarhc: boolean = false;
+  emailPacientePadre: string = "";
+  idTurnoPadre: string = "";
 
   constructor(private db: FirestoreService,
               private localStorage: LocalstorageService,
@@ -65,6 +71,25 @@ export class SeccionPacientesComponent implements OnInit {
 
     console.log('pacientesTurno: ', this.pacienteTurnos);
 
+  }
+
+  mostrarHistoriaClinica(id: string | undefined) {
+    debugger;
+    let auxTurno = new Turno();
+    this.turnos?.forEach( t => {
+      if(t.id === id){
+        auxTurno = t;
+      }
+    });
+
+    this.turnoSeleccionado = auxTurno;
+    this.idTurnoPadre = id as string;
+    this.emailPacientePadre = auxTurno.paciente.email;
+    this.mostrarhc = true;
+  }
+
+  verHistoria(ver: boolean){
+    this.mostrarhc = ver;
   }
 
 

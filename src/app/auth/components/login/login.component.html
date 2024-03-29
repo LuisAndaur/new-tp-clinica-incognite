@@ -1,5 +1,5 @@
 <div class="contenedor">
-  <mat-card class="tarjeta">
+  <mat-card class="tarjeta" [@fadeInBottom]>
     <mat-card-title class="title">Iniciar sesión</mat-card-title>
     <mat-card-content>
     <form class="form" [formGroup]="form" (ngSubmit)="submit()">
@@ -47,7 +47,7 @@
   </mat-card>
 
 
-  <mat-card class="tarjeta2">
+  <mat-card class="tarjeta2" [@fadeInOut]>
     <mat-card-title class="title2">Usuarios</mat-card-title>
     <mat-card-content class="usuarios" (click)="autoCompletar('administrador')">
       <img class="imagen" src="../../../../assets/acceso-rapido/admin.jpg" alt="administrador">

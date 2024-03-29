@@ -47,8 +47,9 @@ export class VerHistoriaClinicaComponent {
 
         this.turnos = dbTurnos;
         debugger;
-        if(this.idTurno != null){
-          let data = this.dataFilterHc(this.turnos);
+        if(this.idTurno != ''){
+          let aux = this.turnos.filter((x) => x.id == this.idTurno);
+          let data = this.dataFilterHc(aux);
           this.historiasClinicas = new MatTableDataSource(data);
         }
         else{
@@ -87,7 +88,11 @@ export class VerHistoriaClinicaComponent {
   private dataFilterHc(turnos: Turno[]){
     let array: HistoriaClinica[] = [];
     let data = <HistoriaClinica>{};
-    turnos.forEach( t => {
+    debugger;
+
+    let aux = turnos.filter((x) => x.historiaClinica != undefined)
+
+    aux.forEach( t => {
       data = <HistoriaClinica>{
         altura: t.historiaClinica.altura,
         peso: t.historiaClinica.peso,

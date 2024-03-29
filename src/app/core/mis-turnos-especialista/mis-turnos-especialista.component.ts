@@ -235,6 +235,12 @@ export class MisTurnosEspecialistaComponent implements OnInit {
     }
   }
 
+  mostrarCalificacion(turno: any){
+    if(turno?.calificacionPaciente){
+      this.swal.infoTitle(turno?.calificacionPaciente, "Calificación del paciente");
+    }
+  }
+
   async realizarEncuesta(turno: any){
     const respuesta = await this.swal.option(
       {"opcion1":"Si","opcion2":"No"},"Encuesta","¿Recomendaría la clinica?");

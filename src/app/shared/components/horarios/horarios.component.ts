@@ -1,3 +1,4 @@
+import { animate, query, stagger, state, style, transition, trigger } from '@angular/animations';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Especialista } from '../../models/especialista.class';
@@ -11,7 +12,25 @@ import { SwalService } from '../../services/swal.service';
 @Component({
   selector: 'app-horarios',
   templateUrl: './horarios.component.html',
-  styleUrls: ['./horarios.component.scss']
+  styleUrls: ['./horarios.component.scss'],
+  animations: [
+    trigger('slideAnimation', [
+      transition(':enter', [
+        style({ transform: 'translateY(100%)' }),
+        animate('500ms', style({ transform: 'translateY(0)' }))
+      ]),
+      transition(':leave', [
+        style({ transform: 'translateY(0%)' }),
+        animate('500ms', style({ transform: 'translateY(-100%)' }))
+      ])
+    ]),
+    trigger('fadeInOut', [
+      state('void', style({
+        opacity: 0
+      })),
+      transition('void <=> *', animate(1000)),
+    ]),
+  ]
 })
 export class HorariosComponent {
 

@@ -1,3 +1,4 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -15,7 +16,27 @@ import { confirmPasswordValidator } from '../../validators/confirm-password.vali
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-resgistro-especialista',
   templateUrl: './resgistro-especialista.component.html',
-  styleUrls: ['./resgistro-especialista.component.scss']
+  styleUrls: ['./resgistro-especialista.component.scss'],
+  animations: [
+    trigger('routeAnimation', [
+      state('*', style({
+        opacity: 1, transform: 'perspective(500px) translateZ(0px)'
+      })),
+      transition(':enter', [
+        style({ 
+          opacity: 0, transform: 'perspective(500px) translateZ(-400px)'
+        }), 
+        animate('3s ease')
+      ]),
+      transition(':leave', [
+        animate('3s ease', 
+          style({ 
+            opacity: 0, transform: 'perspective(500px) translateZ(-400px)'
+          }))
+      ])
+    ])
+
+  ]
 })
 export class ResgistroEspecialistaComponent implements OnInit {
 

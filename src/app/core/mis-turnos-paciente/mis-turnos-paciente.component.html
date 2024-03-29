@@ -100,9 +100,26 @@
       </td>
     </ng-container>
 
+    <!-- h clinica Column -->
+    <ng-container matColumnDef="hc">
+      <th mat-header-cell *matHeaderCellDef> H. Clinica </th>
+      <td  mat-cell *matCellDef="let element">
+        <button mat-icon-button title="ver" class="historia" *ngIf="element.historiaClinica;else noTieneHistoriaClinica" (click)="mostrarHistoriaClinica(element.id)">
+          <mat-icon>visibility</mat-icon>
+        </button>
+        <ng-template #noTieneHistoriaClinica>
+          N/A
+        </ng-template>
+      </td>
+  </ng-container>
+
 
   
     <tr mat-header-row *matHeaderRowDef="usuariosColumnas"></tr>
     <tr mat-row *matRowDef="let row; columns: usuariosColumnas;"></tr>
   </table>
+
+
+  <app-ver-historia-clinica *ngIf="turnoSeleccionado != null && mostrarhc" (viewHc)="verHistoria($event)" [emailPaciente]="emailPacientePadre" [idTurno]="idTurnoPadre"></app-ver-historia-clinica>
+
 
