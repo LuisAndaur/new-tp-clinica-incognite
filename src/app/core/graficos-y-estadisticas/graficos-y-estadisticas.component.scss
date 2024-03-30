@@ -1,0 +1,34 @@
+.botonera{
+    margin: auto;
+    width: 90%;
+    display: flex;
+    align-items: center;
+}
+
+.graficos{
+    margin: auto;
+    width: 90%;
+    display: flex;
+    align-items: center;
+}
+
+.area-grafico{
+    width: 95%;
+}
+
+
+.botones{
+    display: flex;
+}
+
+.botoneraFechas{
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+button{
+    margin: 5px;
+}

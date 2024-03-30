@@ -13,6 +13,7 @@ const routes: Routes = [
   { path: 'turnos', loadChildren: () => import('./core/admin-turnos/admin-turnos.module').then( m => m.AdminTurnosModule) },
   { path: 'mis-turnos', loadChildren: () => import('./core/mis-turnos/mis-turnos.module').then( m => m.MisTurnosModule) },
   { path: 'seccion-pacientes', loadChildren: () => import('./core/seccion-pacientes/seccion-pacientes.module').then( m => m.SeccionPacientesModule) },
+  { path: 'graficos-estadistica', loadChildren: () => import('./core/graficos-y-estadisticas/graficos-y-estadisticas.module').then( m => m.GraficosYEstadisticasModule) },
   { path: 'error', component: ErrorComponent},
   { path: '**', redirectTo: 'error', pathMatch: 'full' }
 ];

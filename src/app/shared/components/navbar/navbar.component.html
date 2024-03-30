@@ -5,6 +5,7 @@
     <a *ngIf="currentUser" mat-button routerLink="/mi-perfil">Mi perfil</a>
     <a *ngIf="usuarioActual.tipo == 'administrador'" mat-button routerLink="/seccion-usuarios">Sección usuarios</a>
     <a *ngIf="usuarioActual.tipo == 'administrador'" mat-button routerLink="/turnos">Turnos</a>
+    <a *ngIf="usuarioActual.tipo == 'administrador'" mat-button routerLink="/graficos-estadistica">Gráficos/Estadistica</a>
     <a *ngIf="usuarioActual.tipo == 'administrador' || usuarioActual.tipo == 'paciente'" mat-button routerLink="/solicitar-turno">Solicitar turno</a>
     <a *ngIf="usuarioActual.tipo == 'especialista' || usuarioActual.tipo == 'paciente'" mat-button routerLink="/mis-turnos">Mis turnos</a>
     <a *ngIf="usuarioActual.tipo == 'especialista'" mat-button routerLink="/seccion-pacientes">Sección pacientes</a>

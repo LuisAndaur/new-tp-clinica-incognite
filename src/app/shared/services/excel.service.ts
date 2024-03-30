@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as excel from 'exceljs';
+import * as XLSX from 'xlsx';
 import * as fs from 'file-saver';
 import { Paciente } from '../models/paciente.class';
 import { Turno } from '../models/turno.class';
@@ -59,6 +60,20 @@ export class ExcelService {
       fs.saveAs(blob, nombreArchivo + EXCEL_EXTENSION);
     })
 
+  }
+
+  descargarExcelGrafico(json: any[], nombreInforme: string): void {
+
+    let nombre = `Informe_grafico_de_${nombreInforme}`;
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
+    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    this.guardarArchivoExcel(excelBuffer, `${nombre}${this.formatearFecha()}`);
+  }
+
+  private guardarArchivoExcel(buffer: any, fileName: string): void {
+   const data: Blob = new Blob([buffer], {type: EXCEL_TYPE});
+   fs.saveAs(data, fileName + '_export_' + new  Date().getTime() + EXCEL_EXTENSION);
   }
 
   private formatearFecha() {

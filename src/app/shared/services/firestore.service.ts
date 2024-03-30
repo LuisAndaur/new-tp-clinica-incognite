@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { addDoc, collection, collectionData, doc, Firestore, getDocs, orderBy, query, setDoc, updateDoc, where } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
+import { Especialidad } from '../models/especialidad.class';
 import { Especialista } from '../models/especialista.class';
 import { Horarios } from '../models/horarios.class';
+import { LogIngresos } from '../models/log-ingresos.class';
 import { Paciente } from '../models/paciente.class';
 import { Turno } from '../models/turno.class';
 import { Usuario } from '../models/usuario.class';
@@ -16,6 +18,8 @@ export class FirestoreService {
   private cUsuarios:string = 'usuarios';
   private cEspecialidades:string = 'especialidades';
   private cTurnos:string = 'turnos';
+  private cRegistrosIngresos:string = 'registro-ingreso';
+  usuarios!: Observable<any[]>;
 
   constructor(private db: Firestore,
               private storage: StorageService) 
@@ -33,19 +37,114 @@ export class FirestoreService {
   }
 
   async obtenerUsuario(email:string){
-    let usuario = null;
+    let usuario = new Usuario();
     const querySnapshot = await getDocs(collection(this.db, this.cUsuarios));
     querySnapshot.forEach((doc) =>{
 
       let user = doc.data();
 
       if(user['email'] == email){
-        usuario = user;
+        usuario.id = user['id'];
+        usuario.nombre = user['nombre'];
+        usuario.apellido = user['apellido'];
+        usuario.email = user['email'];
+        usuario.edad = user['edad'];
+        usuario.estado = user['estado'];
+        usuario.dni = user['dni'];
+        usuario.tipo = user['tipo'];
+        usuario.fechaRegistro = user['fechaRegistro'];
       }
 
     });
 
     return usuario;
+  }
+
+  async obtenerRegistrosIngresos() : Promise<Array<LogIngresos>>{
+    let logIngresos = Array<LogIngresos>();
+    const querySnapshot = await getDocs(collection(this.db, this.cRegistrosIngresos));
+
+    for(let i = 0; i < querySnapshot.size; i++){
+      let datos = querySnapshot.docs[i].data();
+      let nuevoLog = new LogIngresos();
+      nuevoLog.email = datos['email'];
+      nuevoLog.fecha = datos['fecha'];
+      logIngresos.push(nuevoLog);
+    }
+    return logIngresos;
+  }
+
+  async obtenerLasEspecialidades() : Promise<Array<Especialidad>>{
+    let listaEspecialidades = Array<Especialidad>();
+    const querySnapshot = await getDocs(collection(this.db, this.cEspecialidades));
+
+    for(let i = 0; i < querySnapshot.size; i++){
+      let datos = querySnapshot.docs[i].data();
+      let auxEspecialidad = new Especialidad();
+      auxEspecialidad.especialidad = datos['especialidad'];
+      auxEspecialidad.id = datos['id'];
+      listaEspecialidades.push(auxEspecialidad);
+    }
+    return listaEspecialidades;
+  }
+
+  async obtenerLosEspecialistas() : Promise<Array<Especialista>>{
+    let listaEspecialistas = Array<Especialista>();
+    const querySnapshot = await getDocs(collection(this.db, this.cUsuarios));
+
+    for(let i = 0; i < querySnapshot.size; i++){
+      let datos = querySnapshot.docs[i].data();
+
+      if(datos['tipo'] == 'especialista'){
+        let auxEspecialista = new Especialista();
+        auxEspecialista.id = datos['id'];
+        auxEspecialista.nombre = datos['nombre'];
+        auxEspecialista.apellido = datos['apellido'];
+        auxEspecialista.edad = datos['edad'];
+        auxEspecialista.email = datos['email'];
+        auxEspecialista.dni = datos['dni'];
+        auxEspecialista.especialidades = datos['especialidades'];
+        auxEspecialista.estado = datos['estado'];
+        auxEspecialista.fechaRegistro = datos['fechaRegistro'];
+        auxEspecialista.horarios = datos['horarios'];
+        auxEspecialista.tipo = datos['tipo'];
+
+        listaEspecialistas.push(auxEspecialista);
+
+      }
+    }
+    return listaEspecialistas;
+  }
+
+  async obtenerLosTurnos() : Promise<Array<Turno>>{
+    let listaTurnos = Array<Turno>();
+    const querySnapshot = await getDocs(collection(this.db, this.cTurnos));
+
+    for(let i = 0; i < querySnapshot.size; i++){
+      let datos = querySnapshot.docs[i].data();
+
+      let auxTurno = new Turno();
+      auxTurno.id = datos['id'];
+      auxTurno.paciente = datos['paciente'];
+      auxTurno.especialista = datos['especialista'];
+      auxTurno.especialidad = datos['especialidad'];
+      auxTurno.historiaClinica = datos['historiaClinica'];
+      auxTurno.estadoTurno = datos['dni'];
+      auxTurno.fecha = datos['fecha'];
+      auxTurno.fechaInicio = datos['fechaInicio'];
+      auxTurno.fechaFinal = datos['fechaFinal'];
+      auxTurno.duracion = datos['duracion'];
+
+      listaTurnos.push(auxTurno);
+    }
+    return listaTurnos;
+  }
+
+
+  obtenerLosRegistrosIngresos() {
+    const registroRef = collection(this.db, this.cRegistrosIngresos);
+    const q = query(registroRef, orderBy('fecha', 'asc'));
+    return collectionData(q) as Observable<Array<LogIngresos>> ;
   }
 
   obtenerUsuarios() {
@@ -59,6 +158,17 @@ export class FirestoreService {
     const q = query(colleccionRef, where(clave, '==', valor));
     return collectionData(q, { idField: 'id' });
   }
+
+  obtenerUsuarioPorEmail(email:string){
+    let usuario = null;
+    this.usuarios.forEach((item:any) => {
+      if (item.email === email) {
+        usuario = item;
+      }
+    });
+    return usuario;
+  }
+
 
   actualizarUsuario(user: Usuario): Promise<void> {
 
