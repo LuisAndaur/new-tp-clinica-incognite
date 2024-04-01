@@ -19,6 +19,7 @@ import { CommonModule, registerLocaleData } from '@angular/common';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SharedModule } from './shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EncuestaComponent } from './core/encuesta/encuesta.component';
 registerLocaleData(localeEs, 'es');
 
 @NgModule({

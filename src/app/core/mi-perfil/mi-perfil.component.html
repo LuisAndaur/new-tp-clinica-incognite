@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 <div class="contenedor">
 
-  <mat-card class="card" [@fadeIn]>
+  <mat-card class="card" [@fadeIn] resaltar>
       <mat-card-header>
         <div mat-card-avatar *ngIf="usuario.tipo == 'paciente'" style="background-image: url('{{img2}}');background-size: cover;"></div>
         <mat-card-title>{{usuario.nombre}} {{usuario.apellido}}</mat-card-title>

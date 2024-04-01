@@ -43,6 +43,7 @@ export class MisTurnosPacienteComponent implements OnInit {
   mostrarhc: boolean = false;
   emailPacientePadre: string = "";
   idTurnoPadre: string = "";
+  mostrarCrear: boolean = false;
 
   constructor(private db: FirestoreService,
               private localStorge: LocalstorageService,
@@ -119,39 +120,17 @@ export class MisTurnosPacienteComponent implements OnInit {
     }
   }
 
-  async realizarEncuesta(turno: any){
-    const respuesta = await this.swal.option(
-      {"opcion1":"Si","opcion2":"No"},"Encuesta","¿Recomendaría la clinica?");
+  async realizarEncuesta(id: string){
+   
+    let auxTurno = new Turno();
 
-    if(respuesta === null || respuesta === undefined){
-      this.swal.info("Encuesta cancelada o no completada.");
-    }
-    else{ 
-      if(respuesta == 'opcion1' || respuesta == 'opcion2'){
+    this.turnos?.forEach( t => {
+      if(t.id === id){
+        auxTurno = t;
+      }
+    });
 
-        let auxTurno = new Turno();
-        this.turnos?.forEach( t => {
-          if(t.id === turno.id){
-            auxTurno = t;
-          }
-        });
-        auxTurno.encuestaPaciente =  respuesta == 'opcion1' ? 'La recomendaría' : "No la recomendaría";
-        this.spinner.mostrar();
-        this.db.modificarTurno(auxTurno)
-          .then(()=>{
-            this.swal.success("Se cancelo el turno");
-          })
-          .catch((e:Error)=>{
-            this.swal.error(e.message);
-          })
-          .finally(()=>{
-            this.spinner.ocultar();
-          })
-      }
-      else{
-        this.swal.error("Error del sistema.");
-      }
-    }
+    this.turnoSeleccionado = auxTurno;
   }
 
   async calificar(turno: any){
@@ -208,7 +187,6 @@ export class MisTurnosPacienteComponent implements OnInit {
         comentarioPaciente: t.comentarioPaciente,
         comentarioAdministrador: t.comentarioAdministrador,
         diagnosticoEspecialista: t.diagnosticoEspecialista,
-        encuestaPaciente: t.encuestaPaciente,
         calificacionPaciente: t.calificacionPaciente,
         historiaClinica: t.historiaClinica
       };
@@ -232,6 +210,10 @@ export class MisTurnosPacienteComponent implements OnInit {
     this.idTurnoPadre = id;
     this.emailPacientePadre = auxTurno.paciente.email;
     this.mostrarhc = true;
+  }
+
+  mostrarCrearEncuesta(mostrarCrear: boolean){
+    this.mostrarCrear = mostrarCrear;
   }
 
   verHistoria(ver: boolean){

@@ -1,0 +1,90 @@
+<div class="contenedor">
+    <mat-card class="tarjeta">
+      <mat-card-title class="title">Cargar encuesta</mat-card-title>
+      <mat-card-content>
+      <form class="form" [formGroup]="form">
+
+        <mat-form-field>
+            <h2>R1. Exprese su opinión de la clínica</h2>
+            <input type="text" matInput formControlName="r1">
+            <mat-error *ngIf="form.controls['r1'].hasError('required') && form.controls['r1'].touched">
+              <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+              La R1 es requerida.
+            </mat-error>
+            <mat-error *ngIf="form.controls['r1'].hasError('minLength')">
+                <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+                R1 muy corto.
+            </mat-error>
+            <mat-error *ngIf="form.controls['r1'].hasError('maxLength')">
+                <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
+                R1 muy largo.
+            </mat-error>
+        </mat-form-field>
+        <br><br><hr>
+
+        <h2>R2. Califica la clínica</h2>
+        <mat-chip-listbox formControlName="r2">
+            <mat-chip-option value="1"><i class="material-icons">star_border</i></mat-chip-option>
+            <mat-chip-option value="2"><i class="material-icons">star_border star_border</i></mat-chip-option>
+            <mat-chip-option value="3"><i class="material-icons">star_border star_border star_border</i></mat-chip-option>
+            <mat-chip-option value="4"><i class="material-icons">star_border star_border star_border star_border</i></mat-chip-option>
+            <mat-chip-option value="5" selected><i class="material-icons">star_border star_border star_border star_border star_border</i></mat-chip-option>
+        </mat-chip-listbox>
+
+        <br><br><hr>
+
+        
+        <h2>R.3 - ¿Cómo valorás la atención del profesional?</h2>
+        <div class="radio">
+            <p>Mal</p>
+            <mat-radio-group aria-label="Select an option" formControlName="r3">
+                <mat-radio-button value="1">1</mat-radio-button>
+                <mat-radio-button value="2">2</mat-radio-button>
+                <mat-radio-button value="3">3</mat-radio-button>
+                <mat-radio-button value="4">4</mat-radio-button>
+                <mat-radio-button value="5">5</mat-radio-button>
+            </mat-radio-group>              
+            <p>Excelente</p>
+        </div>
+        <br><br><hr>
+
+        <h2>R4. Seleccione que considera que habría que reforzar en la clínica.</h2>
+        <mat-checkbox [(ngModel)]="r4_1" [ngModelOptions]="{standalone: true}">Amabilidad</mat-checkbox>
+        <mat-checkbox [(ngModel)]="r4_2" [ngModelOptions]="{standalone: true}">Tecnología</mat-checkbox>
+        <mat-checkbox [(ngModel)]="r4_3" [ngModelOptions]="{standalone: true}">Profesionalismo</mat-checkbox>
+
+        <br><br><hr>
+
+        <h2>R5. ¿Cómo valorás la higuiene de la clínica?</h2>
+        <div class="example-label-container">
+            <!-- <label id="example-name-label" class="example-name-label"></label> -->
+            <label class="example-value-label"><strong>     Opinión: {{slider.value}}     </strong></label>
+        </div>
+        <div class="mySlide">
+          <p>Muy baja</p>
+          <mat-slider
+              class="example-margin"
+              [disabled]="disabled"
+              [max]="max"
+              [min]="min"
+              [step]="step"
+              [discrete]="thumbLabel"
+              [showTickMarks]="showTicks">
+            <input matSliderThumb formControlName="r5" #slider>
+          </mat-slider>
+          <p>Muy Alta</p>
+        </div>
+
+          <br><br>
+
+  
+        <div class="button">
+          <button type="submit" [disabled]="form.invalid" mat-raised-button color="primary" (click)="submit()">Enviar encuesta</button>
+          <button type="button" routerLink="/bienvenida" mat-raised-button color="warn">Cancelar</button>
+        </div>
+  
+      </form>
+  
+      </mat-card-content>
+    </mat-card>
+  </div>

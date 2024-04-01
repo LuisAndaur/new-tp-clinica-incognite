@@ -1,3 +1,4 @@
+import { Encuesta } from "./encuesta.class";
 import { Especialidad } from "./especialidad.class";
 import { Especialista } from "./especialista.class";
 import { HistoriaClinica } from "./historia-clinica.class";
@@ -15,7 +16,7 @@ export class Turno {
     estadoTurno: string = "Libre";
     paciente!: Paciente;
     comentarioPaciente: string = "";
-    encuestaPaciente: string = "";
+    encuestaPaciente!: Encuesta;
     calificacionPaciente: string = "";
     especialista!: Especialista;
     especialidad!: Especialidad;

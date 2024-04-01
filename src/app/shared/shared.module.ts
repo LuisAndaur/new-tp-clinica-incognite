@@ -28,6 +28,7 @@ import { SliceHcPipe } from './pipes/slice-hc.pipe';
 import { DecimalDirective } from './directives/decimal.directive';
 import { SiNoPipe } from './pipes/si-no.pipe';
 import { VerHistoriaClinicaComponent } from './components/ver-historia-clinica/ver-historia-clinica.component';
+import { ResaltarDirective } from './directives/resaltar.directive';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { VerHistoriaClinicaComponent } from './components/ver-historia-clinica/v
     CaptchaDirective,
     EstadoDirective,
     DecimalDirective,
+    ResaltarDirective,
     HorariosComponent,
     VerHistoriaClinicaComponent,
   ],
@@ -76,6 +78,7 @@ import { VerHistoriaClinicaComponent } from './components/ver-historia-clinica/v
     CaptchaDirective,
     EstadoDirective,
     DecimalDirective,
+    ResaltarDirective,
     HorariosComponent,
     VerHistoriaClinicaComponent
   ]

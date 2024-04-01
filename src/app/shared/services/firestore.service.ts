@@ -333,6 +333,25 @@ export class FirestoreService {
     return collectionData(q,{ idField: 'id' }) ;
   }
 
+  async obtenerTurnosDeEstadoPorRangoDeFecha(estado:string, fechaInicio: number, fechaFinal: number): Promise<Array<Turno>> {  
+    const turnosRef = collection(this.db, this.cTurnos);
+    const q = query(turnosRef, 
+      where('fechaInicio','>=', fechaInicio),
+      where('fechaInicio','<=', fechaFinal),
+      where('estadoTurno','==', estado),
+      orderBy('fechaInicio', 'asc'),
+    );
+  
+    const snapshot = await getDocs(q);
+    const turnos: Array<Turno> = [];
+  
+    snapshot.forEach(doc => {
+      turnos.push(doc.data() as Turno);
+    });
+  
+    return turnos;
+  }
+
   obtenerTurnosPorEspecialistaYEspecialidad(idEspecialista: string, especialidad: string){
     debugger;
     const posibilidades : Array<string> = ['Libre'];
@@ -345,14 +364,21 @@ export class FirestoreService {
     return collectionData(q, { idField: 'id' });
   }
 
+  obtenerTurnosSegunEstado(estado: Array<string>, match : 'not-in' | 'in'){  
+    const q = query(collection(this.db, this.cTurnos), 
+      where('estadoTurno',match, estado));
+
+    return collectionData(q)  as Observable<Array<Turno>>;
+  }
+
   modificarTurno(turno:Turno){
 
     if(turno.historiaClinica){
-      // turno.historiaClinica.d1 = {... turno.historiaClinica.d1}
-      // turno.historiaClinica.d2 = {... turno.historiaClinica.d2}
-      // turno.historiaClinica.d3 = {... turno.historiaClinica.d3}
-      // turno.historiaClinica = {... turno.historiaClinica}
       turno.historiaClinica = {... turno.historiaClinica}
+    }
+
+    if(turno.encuestaPaciente){
+      turno.encuestaPaciente = {... turno.encuestaPaciente}
     }
 
     const documento = doc(collection(this.db, this.cTurnos), turno.id);

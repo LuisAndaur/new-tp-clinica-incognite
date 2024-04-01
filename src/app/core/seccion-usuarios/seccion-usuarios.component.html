@@ -88,7 +88,7 @@
 <ng-container *ngIf="!vistaTabla">
   <div class="contenedor">
 
-    <mat-card class="card carta" *ngFor="let item of dataUsuarios" [@fadeInTop]>
+    <mat-card class="card carta" *ngFor="let item of dataUsuarios" [@fadeInTop] resaltar>
         <mat-card-header>
           <div mat-card-avatar style="background-image: url('{{item.img}}');background-size: cover;"></div>
           <mat-card-title>{{item.nombre}} {{item.apellido}}</mat-card-title>

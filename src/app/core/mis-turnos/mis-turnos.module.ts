@@ -15,6 +15,11 @@ import { CargarHistoriaClinicaComponent } from '../cargar-historia-clinica/carga
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import {MatRadioModule} from '@angular/material/radio';
+import { EncuestaComponent } from '../encuesta/encuesta.component';
+import { MatSelectModule } from '@angular/material/select';
+import {MatChipsModule} from '@angular/material/chips';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 
@@ -23,7 +28,8 @@ import { MatButtonModule } from '@angular/material/button';
     MisTurnosComponent,
     MisTurnosPacienteComponent,
     MisTurnosEspecialistaComponent,
-    CargarHistoriaClinicaComponent
+    CargarHistoriaClinicaComponent,
+    EncuestaComponent
    ],
   imports: [
     CommonModule,
@@ -38,7 +44,11 @@ import { MatButtonModule } from '@angular/material/button';
     MatInputModule,
     MatSlideToggleModule,
     MatSliderModule,
-    MatButtonModule
+    MatButtonModule,
+    MatRadioModule,
+    MatSelectModule,
+    MatChipsModule,
+    MatCheckboxModule
   ]
 })
 export class MisTurnosModule { }

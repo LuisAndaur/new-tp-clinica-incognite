@@ -241,43 +241,7 @@ export class MisTurnosEspecialistaComponent implements OnInit {
     }
   }
 
-  async realizarEncuesta(turno: any){
-    const respuesta = await this.swal.option(
-      {"opcion1":"Si","opcion2":"No"},"Encuesta","¿Recomendaría la clinica?");
-
-    if(respuesta === null || respuesta === undefined){
-      this.swal.info("Encuesta cancelada o no completada.");
-    }
-    else{ 
-      if(respuesta == 'opcion1' || respuesta == 'opcion2'){
-
-        let auxTurno = new Turno();
-        this.turnos?.forEach( t => {
-          if(t.id === turno.id){
-            auxTurno = t;
-          }
-        });
-        auxTurno.encuestaPaciente =  respuesta == 'opcion1' ? 'La recomendaría' : "No la recomendaría";
-        this.spinner.mostrar();
-        this.db.modificarTurno(auxTurno)
-          .then(()=>{
-            this.swal.success("Se cancelo el turno");
-          })
-          .catch((e:Error)=>{
-            this.swal.error(e.message);
-          })
-          .finally(()=>{
-            this.spinner.ocultar();
-          })
-      }
-      else{
-        this.swal.error("Error del sistema.");
-      }
-    }
-  }
-
   
- 
 
   private dataFilter(turnos: Turno[]){
     let array: DataTurnoEspecialista[] = [];
@@ -297,7 +261,6 @@ export class MisTurnosEspecialistaComponent implements OnInit {
         comentarioPaciente: t.comentarioPaciente,
         comentarioAdministrador: t.comentarioAdministrador,
         diagnosticoEspecialista: t.diagnosticoEspecialista,
-        encuestaPaciente: t.encuestaPaciente,
         calificacionPaciente: t.calificacionPaciente,
         historiaClinica: t.historiaClinica
       };

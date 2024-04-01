@@ -8,68 +8,31 @@
         <button mat-raised-button color="primary" value="Logs de Ingresos" (click)="this.mostrarLogIngresos()">Logs de ingresos</button>
         <button mat-raised-button color="primary" value="Turnos por especialidad" (click)="this.turnosPorEspecialidad()">Turnos por especialidad</button>
         <button mat-raised-button color="primary" value="Turnos por dia" (click)="this.cantidadTurnosPorDia()">Turnos por dia</button>
-        <button mat-raised-button color="primary" value="Turnos solicitados en un lapso de tiempo" (click)="this.setearOpcion(0)">Turnos solicitados en un lapso de tiempo</button>
-        <button mat-raised-button color="primary" value="Turnos finalizados en un lapso de tiempo" (click)="this.setearOpcion(1)">Turnos finalizados en un lapso de tiempo</button>
+        <button mat-raised-button color="primary" value="Turnos solicitados en un lapso de tiempo" (click)="this.setearOpcion(4)">Turnos solicitados en un lapso de tiempo</button>
+        <button mat-raised-button color="primary" value="Turnos finalizados en un lapso de tiempo" (click)="this.setearOpcion(5)">Turnos finalizados en un lapso de tiempo</button>
     </mat-card-content>
 
-    <mat-card-content class="botoneraFechas" *ngIf="this.opcion != -1">
+    <mat-card-content class="botoneraFechas" *ngIf="this.opcion == 4 || this.opcion == 5">
         <mat-label>Fecha desde</mat-label>
-        <input type="date" [ngModel]="this.fechaInicial" (ngModelChange)="this.actualizarFecha($event, 'inicial')" #fechaInicial name="fechaInicial">
+        <input type="date" [ngModel]="this.fechaDesde" (ngModelChange)="this.actualizarFecha($event, 'desde')" #fechaDesde name="fechaDesde">
         <br><br>
         <mat-label>Fecha hasta</mat-label>
-        <input type="date" [ngModel]="this.fechaMaxima" (ngModelChange)="this.actualizarFecha($event, 'maxima')" #fechaMaxima  name="fechaMaxima">
+        <input type="date" [ngModel]="this.fechaHasta" (ngModelChange)="this.actualizarFecha($event, 'hasta')" #fechaHasta  name="fechaHasta">
     
         <br>
-        <button mat-raised-button color="primary" value="confirmar" (click)="this.confirmar()">Buscar</button>
+        <button mat-raised-button color="primary" value="buscar" (click)="this.buscar()">Buscar</button>
         <button mat-raised-button color="warn" value="cerrar" (click)="this.setearOpcion(-1)">Cancelar</button>
     </mat-card-content>
 </mat-card>
-<!-- <div class="cuerpo">
-
-    <div *ngIf="this.opcion != -1">
-        <br>
-        <label>Fecha inicial</label>
-        <input type="date" [ngModel]="this.fechaInicial" (ngModelChange)="this.actualizarFecha($event, 'inicial')" #fechaInicial name="fechaInicial">
-        <br><br>
-        <label>Fecha Maxima</label>
-        <input type="date" [ngModel]="this.fechaMaxima" (ngModelChange)="this.actualizarFecha($event, 'maxima')" #fechaMaxima  name="fechaMaxima">
-    
-        <br>
-        <input type="button" value="Confirmar" (click)="this.confirmar()">
-        <input type="button" value="Cerrar" (click)="this.setearOpcion(-1)">
-    </div> -->
-
-    <!-- <app-mostrar-usuarios *ngIf="this.mostrarUsuario == true" (eventoSalir)="this.mostrarLogIngresos($event)"></app-mostrar-usuarios> -->
-
-
-    <table *ngIf="this.logsDeUnIngreso.length != 0">
-        <tr>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Fecha</th>
-            <th>Dia</th>
-        </tr>
-
-        <!-- <tr *ngFor="let usuarioLog of this.logsDeUnIngreso">
-            <td>{{this.usuario.nombre}}</td>
-            <td>{{this.usuario.apellido}}</td>
-            <td>{{this.usuarioLog.fecha}}</td>
-            <td>{{this.usuarioLog.email}}</td>
-        </tr> -->
-
-        <input type="button" value="Descargar PDF" >
-    </table>
-
-
     <br>
-    <mat-card class="graficos" id="htmlData">
-        <mat-card-header>
-            <mat-card-title>Gráfico</mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="area-grafico">
-            <canvas id="chart" >{{ this.chart }}</canvas>
-            <button mat-raised-button color="primary" *ngIf="this.chart" type="button" value="Descargar Excel" (click)="descargarExcel()" >Deacargar informe excel</button>
-            <button mat-raised-button color="warn" *ngIf="this.chart" type="button" value="Descargar pdf" (click)="descargarPDF()" >Deacargar pdf</button>
-        </mat-card-content>
-    </mat-card>
+<mat-card class="graficos" id="htmlData">
+    <mat-card-header>
+        <mat-card-title *ngIf="this.chart && this.verGrafico">Gráfico</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="area-grafico">
+        <canvas id="chart" >{{ this.chart }}</canvas>
+        <button mat-raised-button color="primary" *ngIf="this.chart && this.verGrafico" type="button" value="Descargar Excel" (click)="descargarExcel()" >Deacargar informe excel</button>
+        <button mat-raised-button color="warn" *ngIf="this.chart  && this.verGrafico" type="button" value="Descargar pdf" (click)="descargarPDF()" >Deacargar pdf</button>
+    </mat-card-content>
+</mat-card>
 

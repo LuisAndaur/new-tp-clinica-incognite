@@ -87,7 +87,7 @@
         <!-- encuesta -->
         <button mat-icon-button title="encuesta" class="encuesta" 
         *ngIf="element.estado == 'Finalizado'
-        && element.encuestaPaciente == ''" (click)="realizarEncuesta(element)">
+        && element.encuestaPaciente == undefined" (click)="realizarEncuesta(element.id)" (click)="this.mostrarCrear = !this.mostrarCrear">
             <mat-icon>note_alt</mat-icon>
         </button>
 
@@ -121,5 +121,5 @@
 
 
   <app-ver-historia-clinica *ngIf="turnoSeleccionado != null && mostrarhc" (viewHc)="verHistoria($event)" [emailPaciente]="emailPacientePadre" [idTurno]="idTurnoPadre"></app-ver-historia-clinica>
-
+  <app-encuesta *ngIf="turnoSeleccionado != null && mostrarCrear" [turno]="turnoSeleccionado" (mostrarCrear)="mostrarCrearEncuesta($event)"></app-encuesta>
 

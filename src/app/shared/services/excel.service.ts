@@ -5,6 +5,7 @@ import * as fs from 'file-saver';
 import { Paciente } from '../models/paciente.class';
 import { Turno } from '../models/turno.class';
 import { Usuario } from '../models/usuario.class';
+import { IUsuarioCantidad, ITurnoEspecialidadCantidad, ITurnoDiaCantidad, ITurnoEspecialistaCantidad } from 'src/app/core/graficos-y-estadisticas/graficos-y-estadisticas.component';
 
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
@@ -62,18 +63,114 @@ export class ExcelService {
 
   }
 
-  descargarExcelGrafico(json: any[], nombreInforme: string): void {
+  descargarExcelLogIngresos(logs: IUsuarioCantidad[], nombreFile: string) {
 
-    let nombre = `Informe_grafico_de_${nombreInforme}`;
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
-    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
-    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-    this.guardarArchivoExcel(excelBuffer, `${nombre}${this.formatearFecha()}`);
+    let nombre = `${nombreFile}`;
+
+    let workbook = new excel.Workbook();
+    let worksheet = workbook.addWorksheet("Logs de ingresos");
+    let encabezado = ["Email", "Cantidad"];
+    let filaEncabezado = worksheet.addRow(encabezado);
+    let nombreArchivo = `${nombre}${this.formatearFecha()}`;
+
+    for (let l of logs) {
+      let fila = [l.email, l.cantidad];
+      worksheet.addRow(fila);
+    }
+
+    workbook.xlsx.writeBuffer().then((data: any) => {
+      let blob = new Blob([data], { type: EXCEL_TYPE });
+      fs.saveAs(blob, nombreArchivo + EXCEL_EXTENSION);
+    })
+
   }
 
-  private guardarArchivoExcel(buffer: any, fileName: string): void {
-   const data: Blob = new Blob([buffer], {type: EXCEL_TYPE});
-   fs.saveAs(data, fileName + '_export_' + new  Date().getTime() + EXCEL_EXTENSION);
+  descargarExcelTurnosPorEspecialidad(turnosE: ITurnoEspecialidadCantidad[], nombreFile: string) {
+
+    let nombre = `${nombreFile}`;
+
+    let workbook = new excel.Workbook();
+    let worksheet = workbook.addWorksheet("Turnos por especialidad");
+    let encabezado = ["Especialidad", "Cantidad"];
+    let filaEncabezado = worksheet.addRow(encabezado);
+    let nombreArchivo = `${nombre}${this.formatearFecha()}`;
+
+    for (let te of turnosE) {
+      let fila = [te.especialidad, te.cantidad];
+      worksheet.addRow(fila);
+    }
+
+    workbook.xlsx.writeBuffer().then((data: any) => {
+      let blob = new Blob([data], { type: EXCEL_TYPE });
+      fs.saveAs(blob, nombreArchivo + EXCEL_EXTENSION);
+    })
+
+  }
+
+  descargarExcelTurnosPorDia(turnosD: ITurnoDiaCantidad[], nombreFile: string) {
+
+    let nombre = `${nombreFile}`;
+
+    let workbook = new excel.Workbook();
+    let worksheet = workbook.addWorksheet("Turnos por día");
+    let encabezado = ["Día", "Cantidad"];
+    let filaEncabezado = worksheet.addRow(encabezado);
+    let nombreArchivo = `${nombre}${this.formatearFecha()}`;
+
+    for (let td of turnosD) {
+      let fila = [td.dia, td.cantidad];
+      worksheet.addRow(fila);
+    }
+
+    workbook.xlsx.writeBuffer().then((data: any) => {
+      let blob = new Blob([data], { type: EXCEL_TYPE });
+      fs.saveAs(blob, nombreArchivo + EXCEL_EXTENSION);
+    })
+
+  }
+
+  descargarExcelTurnoSolicitados(turnosS: ITurnoEspecialistaCantidad[], nombreFile: string) {
+
+    let nombre = `${nombreFile}`;
+
+    let workbook = new excel.Workbook();
+    let worksheet = workbook.addWorksheet("Turnos solicitados por Especialista");
+    let encabezado = ["Nombre", "Apellido", "Cantidad"];
+    let filaEncabezado = worksheet.addRow(encabezado);
+    let nombreArchivo = `${nombre}${this.formatearFecha()}`;
+
+    for (let ts of turnosS) {
+      let fila = [ts.nombre, ts.apellido, ts.cantidad];
+      worksheet.addRow(fila);
+    }
+
+    workbook.xlsx.writeBuffer().then((data: any) => {
+      let blob = new Blob([data], { type: EXCEL_TYPE });
+      fs.saveAs(blob, nombreArchivo + EXCEL_EXTENSION);
+    })
+
+  }
+
+  descargarExcelTurnoFinalizados(turnosF: ITurnoEspecialistaCantidad[], nombreFile: string) {
+
+    let nombre = `${nombreFile}`;
+
+    let workbook = new excel.Workbook();
+    let worksheet = workbook.addWorksheet("Turnos finalizados por Especialista");
+    let encabezado = ["Nombre", "Apellido", "Cantidad"];
+    let filaEncabezado = worksheet.addRow(encabezado);
+    let nombreArchivo = `${nombre}${this.formatearFecha()}`;
+
+    for (let tf of turnosF) {
+      let fila = [tf.nombre, tf.apellido, tf.cantidad];
+      worksheet.addRow(fila);
+    }
+
+    workbook.xlsx.writeBuffer().then((data: any) => {
+      let blob = new Blob([data], { type: EXCEL_TYPE });
+      fs.saveAs(blob, nombreArchivo + EXCEL_EXTENSION);
+    })
+
   }
 
   private formatearFecha() {
