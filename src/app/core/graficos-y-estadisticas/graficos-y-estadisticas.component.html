@@ -10,6 +10,7 @@
         <button mat-raised-button color="primary" value="Turnos por dia" (click)="this.cantidadTurnosPorDia()">Turnos por dia</button>
         <button mat-raised-button color="primary" value="Turnos solicitados en un lapso de tiempo" (click)="this.setearOpcion(4)">Turnos solicitados en un lapso de tiempo</button>
         <button mat-raised-button color="primary" value="Turnos finalizados en un lapso de tiempo" (click)="this.setearOpcion(5)">Turnos finalizados en un lapso de tiempo</button>
+        <button mat-raised-button color="primary" value="Visitas" (click)="this.mostrarVisitas()">Cantidad de visitas</button>
     </mat-card-content>
 
     <mat-card-content class="botoneraFechas" *ngIf="this.opcion == 4 || this.opcion == 5">
@@ -23,6 +24,49 @@
         <button mat-raised-button color="primary" value="buscar" (click)="this.buscar()">Buscar</button>
         <button mat-raised-button color="warn" value="cerrar" (click)="this.setearOpcion(-1)">Cancelar</button>
     </mat-card-content>
+
+    <ng-container *ngIf="opcion == 1">
+
+        <table mat-table [dataSource]="dataUsuarios" class="mat-elevation-z8">
+        
+            <!--- Note that these columns can be defined in any order.
+                  The actual rendered columns are set as a property on the row definition" -->
+          
+            <!-- fecha Column -->
+            <ng-container matColumnDef="fecha">
+              <th mat-header-cell *matHeaderCellDef> Fecha </th>
+              <td mat-cell *matCellDef="let element"> {{element.fechaRegistro | fechaFull}} </td>
+            </ng-container>
+          
+            <!-- nombre Column -->
+            <ng-container matColumnDef="nombre">
+              <th mat-header-cell *matHeaderCellDef> Nombre </th>
+              <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+            </ng-container>
+          
+            <!-- apwllido Column -->
+            <ng-container matColumnDef="apellido">
+              <th mat-header-cell *matHeaderCellDef> Apellido </th>
+              <td mat-cell *matCellDef="let element"> {{element.apellido}} </td>
+            </ng-container>
+          
+            <!-- email Column -->
+            <ng-container matColumnDef="email">
+              <th mat-header-cell *matHeaderCellDef> Email </th>
+              <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+            </ng-container>
+        
+            <!-- tipo Column -->
+            <ng-container matColumnDef="tipo">
+                <th mat-header-cell *matHeaderCellDef> Tipo </th>
+                <td mat-cell *matCellDef="let element"> {{element.tipo}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="usuariosColumnas"></tr>
+            <tr mat-row *matRowDef="let row; columns: usuariosColumnas;"></tr>
+          </table>
+      </ng-container>
+
 </mat-card>
     <br>
 <mat-card class="graficos" id="htmlData">
@@ -35,4 +79,6 @@
         <button mat-raised-button color="warn" *ngIf="this.chart  && this.verGrafico" type="button" value="Descargar pdf" (click)="descargarPDF()" >Deacargar pdf</button>
     </mat-card-content>
 </mat-card>
+
+
 

@@ -5,24 +5,24 @@
       <mat-card-header>
         <div mat-card-avatar *ngIf="usuario.tipo == 'paciente'" style="background-image: url('{{img2}}');background-size: cover;"></div>
         <mat-card-title>{{usuario.nombre}} {{usuario.apellido}}</mat-card-title>
-        <mat-card-subtitle>{{usuario.tipo | uppercase}}</mat-card-subtitle>
+        <mat-card-subtitle>{{usuario.tipo | translate | uppercase}}</mat-card-subtitle>
       </mat-card-header>
       <img mat-card-image src="{{usuario.img}}" alt="perfil">
       <mat-card-content>
-          <p><strong>Email: </strong>{{usuario.email}}</p>
-          <p><strong>Edad: </strong>{{usuario.edad}}</p>
-          <p><strong>DNI: </strong>{{usuario.dni}}</p>
-          <p *ngIf="usuario.tipo == 'paciente'"><strong>Obra social: </strong>{{obraSocial}}</p>
-          <p *ngIf="usuario.tipo == 'especialista'"><strong>Especialidad/es: </strong>
+          <p><strong>{{'correo' | translate}}: </strong>{{usuario.email}}</p>
+          <p><strong>{{'edad' | translate}}: </strong>{{usuario.edad}}</p>
+          <p><strong>{{'id' | translate}}: </strong>{{usuario.dni}}</p>
+          <p *ngIf="usuario.tipo == 'paciente'"><strong>{{'obraSocial' | translate}}: </strong>{{obraSocial}}</p>
+          <p *ngIf="usuario.tipo == 'especialista'"><strong>{{'especialidades' | translate}}: </strong>
           <ul *ngIf="usuario.tipo == 'especialista'" >
               <li *ngFor="let e of especialidades">{{e.especialidad}}</li>
           </ul>
   
       </mat-card-content>
       <mat-card-actions>
-        <button mat-raised-button color="primary" *ngIf="usuario.tipo == 'paciente'" (click)="mostrarHistoriaClinica(usuario.email)" >Ver historias clinicas</button>
-        <button mat-raised-button color="warn" *ngIf="usuario.tipo == 'paciente'" (click)="descargarPdf(usuario, usuario.email)" >Descargar historias clinicas</button>
-        <button mat-raised-button color="primary" *ngIf="usuario.tipo == 'especialista'" (click)="this.mostrarHorarios = !this.mostrarHorarios">Mis horarios</button>
+        <button mat-raised-button color="primary" *ngIf="usuario.tipo == 'paciente'" (click)="mostrarHistoriaClinica(usuario.email)" >{{'verHc' | translate}}</button>
+        <button mat-raised-button color="warn" *ngIf="usuario.tipo == 'paciente'" (click)="descargarPdf(usuario, usuario.email)" >{{'descargarHc' | translate}}</button>
+        <button mat-raised-button color="primary" *ngIf="usuario.tipo == 'especialista'" (click)="this.mostrarHorarios = !this.mostrarHorarios">{{'horarios' | translate}}</button>
         
       </mat-card-actions>
     </mat-card>

@@ -29,6 +29,7 @@ import { DecimalDirective } from './directives/decimal.directive';
 import { SiNoPipe } from './pipes/si-no.pipe';
 import { VerHistoriaClinicaComponent } from './components/ver-historia-clinica/ver-historia-clinica.component';
 import { ResaltarDirective } from './directives/resaltar.directive';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { ResaltarDirective } from './directives/resaltar.directive';
     MatTableModule,
     MatCheckboxModule,
     MatFormFieldModule,
-    RecaptchaModule
+    RecaptchaModule,
+    TranslateModule
   ],
   exports: [
     NavbarComponent,
@@ -80,7 +82,8 @@ import { ResaltarDirective } from './directives/resaltar.directive';
     DecimalDirective,
     ResaltarDirective,
     HorariosComponent,
-    VerHistoriaClinicaComponent
+    VerHistoriaClinicaComponent,
+    
   ]
 })
 export class SharedModule { }

@@ -11,15 +11,24 @@ import { take } from 'rxjs';
 import { Turno } from 'src/app/shared/models/turno.class';
 import { SwalService } from 'src/app/shared/services/swal.service';
 import { Especialista } from 'src/app/shared/models/especialista.class';
+import { LogIngresos } from 'src/app/shared/models/log-ingresos.class';
 
 export interface IUsuarioCantidad {
   email: string;
   cantidad: number;
 }
 
-export interface ILogIngreso{
-  fecha: number;
-  email: string;
+export interface IVisitaCantidad {
+  tipo: string;
+  cantidad: number;
+}
+
+export class ILogIngreso{
+  fecha!: number;
+  nombre!: string;
+  apellido!: string;
+  email!: string;
+  tipo!: string;
 }
 
 export interface ITurnoEspecialidadCantidad{
@@ -52,7 +61,7 @@ export class GraficosYEstadisticasComponent implements OnInit {
   usuario:any;
   verGrafico: boolean = false;
   dias: Array<string> = ["Domingo", "Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"];
-  logsDeUnIngreso = new Array<ILogIngreso>;
+  listaLogsDeIngresos = new Array<ILogIngreso>;
   mostrarUsuario:boolean = false;
   listaEspecialistas: Array<Especialista> = [];
   listaEspecialidades: Array<Especialidad> = [];
@@ -67,6 +76,11 @@ export class GraficosYEstadisticasComponent implements OnInit {
   fechaDesde = new Date();
   fechaHasta = new Date();
   opcion:number = -1;
+  contadorAdministrador: number = 0;
+  contadorEspecialista: number = 0;
+  contadorPaciente: number = 0;
+  usuariosColumnas: string[] = ['fecha', 'nombre', 'apellido', 'email', 'tipo'];
+  dataUsuarios: Array<any> = [];
 
 
   constructor(private db: FirestoreService,
@@ -95,6 +109,37 @@ export class GraficosYEstadisticasComponent implements OnInit {
       this.logsDeIngresos = logs;
       debugger;
       console.log('logsDeIngresos: ',this.logsDeIngresos);
+
+      this.db.obtenerUsuarios().subscribe((user) => {
+
+        user.forEach((u) => {
+          logs.forEach((l) => {
+            if(l.email == u['email']){
+              let auxLog = new ILogIngreso;
+              auxLog.fecha = new Date(l.fecha).getTime();
+              auxLog.nombre = u['nombre'];
+              auxLog.apellido = u['apellido'];
+              auxLog.email = l.email;
+              auxLog.tipo = u['tipo'];
+
+              this.listaLogsDeIngresos.push(auxLog);
+
+              if(u['tipo'] == 'administrador')
+                this.contadorAdministrador++
+
+              if(u['tipo'] == 'especialista')
+                this.contadorEspecialista++
+
+              if(u['tipo'] == 'paciente')
+                this.contadorPaciente++
+            }
+          });
+        })
+        
+      })
+      
+
+      this.dataUsuarios = this.listaLogsDeIngresos.sort((a, b) => new Date(b.fecha).getTime() - (new Date(a.fecha)).getTime());
     }).finally(()=> this.spinner.ocultar());
   }
 
@@ -137,6 +182,18 @@ export class GraficosYEstadisticasComponent implements OnInit {
 
     this.contadorRegistros = this.obtenerCantidadPorUsuario(this.logsDeIngresos);
     this.chartLogsDeIngresos();
+  }
+
+  mostrarVisitas(){
+
+    this.opcion = 6;
+    this.verGrafico = true;
+    if(this.chart instanceof Chart){
+      this.chart.destroy();
+    }
+
+    // this.contadorRegistros = this.obtenerCantidadPorUsuario(this.logsDeIngresos);
+    this.chartVisitas();
   }
 
   turnosPorEspecialidad(){
@@ -379,6 +436,25 @@ export class GraficosYEstadisticasComponent implements OnInit {
     });
   }
 
+  private chartVisitas(){
+
+    if(this.chart instanceof Chart){
+      this.chart.destroy();
+    }
+
+    this.chart = new Chart('chart', {
+      type: 'doughnut',
+      data: {
+        labels: ['Administradores', 'Especialistas', 'Pacientes'],
+        datasets: [{
+          label: 'Turnos por especialidad',
+          data: [this.contadorAdministrador, this.contadorEspecialista, this.contadorPaciente],
+          borderWidth: 1,
+        }]
+      },
+    });
+  }
+
   private chartTurnosPorEspecialidad(){
     const especialidades = this.contadorTurnoPorEspecialidad.map(e=> e.especialidad);
     const cantidad = this.contadorTurnoPorEspecialidad.map(e=> e.cantidad);
@@ -505,6 +581,15 @@ export class GraficosYEstadisticasComponent implements OnInit {
       case 5:
         this.excel.descargarExcelTurnoFinalizados(this.contadorFinalizadoPorEspecialista, this.setearnombre())
         break;
+
+      case 6:
+        let visitas: Array<IVisitaCantidad> = [
+          { tipo: 'Administrador', cantidad: this.contadorAdministrador},
+          { tipo: 'Especialistas', cantidad: this.contadorEspecialista},
+          { tipo: 'Paciente', cantidad: this.contadorPaciente}
+        ];
+        this.excel.descargarExcelVisitas(visitas, this.setearnombre());
+        break;
     }
   }
 
@@ -555,6 +640,10 @@ export class GraficosYEstadisticasComponent implements OnInit {
       case 5:
         titulo = 'Turnos finalizados por especialista';
         break;
+
+      case 6:
+        titulo = 'Cantidad de visitas que tuvo la clínica';
+        break;
     }
 
     return titulo;
@@ -584,6 +673,10 @@ export class GraficosYEstadisticasComponent implements OnInit {
       case 5:
         nombre = 'turnos_finalizados_por_especialista';
         break;
+
+      case 6:
+        nombre = 'cantidad_de_visitas';
+        break;
     }
 
     return nombre;
@@ -595,5 +688,13 @@ export class GraficosYEstadisticasComponent implements OnInit {
     let fecha = date.toLocaleDateString('es-AR');
     let hora = date.toLocaleTimeString('es-AR').split(':');
     return `_${fecha}_${hora[0]}:${hora[1]}:${hora[2]}`;
+  }
+
+  private formatearFechaRegistro(date: string) {
+
+    let aux = new Date(date);
+    let fecha = aux.toLocaleDateString('es-AR');
+    let hora = aux.toLocaleTimeString('es-AR').split(':');
+    return `${fecha} - ${hora[0]}:${hora[1]}:${hora[2]}`;
   }
 }

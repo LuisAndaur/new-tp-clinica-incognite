@@ -53,11 +53,65 @@ export class FirestoreService {
         usuario.dni = user['dni'];
         usuario.tipo = user['tipo'];
         usuario.fechaRegistro = user['fechaRegistro'];
+        usuario.img = user['img'];
       }
 
     });
 
     return usuario;
+  }
+
+  async obtenerPaciente(email:string){
+    let paciente = new Paciente();
+    const querySnapshot = await getDocs(collection(this.db, this.cUsuarios));
+    querySnapshot.forEach((doc) =>{
+
+      let user = doc.data();
+
+      if(user['email'] == email){
+        paciente.id = user['id'];
+        paciente.nombre = user['nombre'];
+        paciente.apellido = user['apellido'];
+        paciente.email = user['email'];
+        paciente.edad = user['edad'];
+        paciente.estado = user['estado'];
+        paciente.dni = user['dni'];
+        paciente.tipo = user['tipo'];
+        paciente.fechaRegistro = user['fechaRegistro'];
+        paciente.obraSocial = user['obraSocial'];
+        paciente.img = user['img'];
+        paciente.img2 = user['img2'];
+      }
+
+    });
+
+    return paciente;
+  }
+
+  async obtenerEspecialista(email:string){
+    let especialista = new Especialista();
+    const querySnapshot = await getDocs(collection(this.db, this.cUsuarios));
+    querySnapshot.forEach((doc) =>{
+
+      let user = doc.data();
+
+      if(user['email'] == email){
+        especialista.id = user['id'];
+        especialista.nombre = user['nombre'];
+        especialista.apellido = user['apellido'];
+        especialista.email = user['email'];
+        especialista.edad = user['edad'];
+        especialista.estado = user['estado'];
+        especialista.dni = user['dni'];
+        especialista.tipo = user['tipo'];
+        especialista.fechaRegistro = user['fechaRegistro'];
+        especialista.especialidades = user['especialidades'];
+        especialista.img = user['img'];
+      }
+
+    });
+
+    return especialista;
   }
 
   async obtenerRegistrosIngresos() : Promise<Array<LogIngresos>>{

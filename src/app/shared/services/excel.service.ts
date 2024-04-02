@@ -5,7 +5,7 @@ import * as fs from 'file-saver';
 import { Paciente } from '../models/paciente.class';
 import { Turno } from '../models/turno.class';
 import { Usuario } from '../models/usuario.class';
-import { IUsuarioCantidad, ITurnoEspecialidadCantidad, ITurnoDiaCantidad, ITurnoEspecialistaCantidad } from 'src/app/core/graficos-y-estadisticas/graficos-y-estadisticas.component';
+import { IUsuarioCantidad, ITurnoEspecialidadCantidad, ITurnoDiaCantidad, ITurnoEspecialistaCantidad, IVisitaCantidad } from 'src/app/core/graficos-y-estadisticas/graficos-y-estadisticas.component';
 
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
@@ -163,6 +163,28 @@ export class ExcelService {
 
     for (let tf of turnosF) {
       let fila = [tf.nombre, tf.apellido, tf.cantidad];
+      worksheet.addRow(fila);
+    }
+
+    workbook.xlsx.writeBuffer().then((data: any) => {
+      let blob = new Blob([data], { type: EXCEL_TYPE });
+      fs.saveAs(blob, nombreArchivo + EXCEL_EXTENSION);
+    })
+
+  }
+
+  descargarExcelVisitas(visitas: IVisitaCantidad[], nombreFile: string) {
+
+    let nombre = `${nombreFile}`;
+
+    let workbook = new excel.Workbook();
+    let worksheet = workbook.addWorksheet("Cantidad de visitas");
+    let encabezado = ["Tipo usuario", "Cantidad"];
+    let filaEncabezado = worksheet.addRow(encabezado);
+    let nombreArchivo = `${nombre}${this.formatearFecha()}`;
+
+    for (let visita of visitas) {
+      let fila = [visita.tipo, visita.cantidad];
       worksheet.addRow(fila);
     }
 

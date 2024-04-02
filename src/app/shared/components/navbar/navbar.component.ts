@@ -6,6 +6,7 @@ import { Usuario } from '../../models/usuario.class';
 import { LocalstorageService } from '../../services/localstorage.service';
 import { SpinnerService } from '../../services/spinner.service';
 import { SwalService } from '../../services/swal.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-navbar',
@@ -49,13 +50,15 @@ export class NavbarComponent implements OnInit {
   currentUser!: boolean;
   usuario!: Usuario;
   userCurrent!: string;
+  tipo!: string;
   @Output() currentHijo = new EventEmitter<boolean>();
 
   constructor(private auth: AuthService,
               private router: Router,
               private spinner: SpinnerService,
               private localStorage: LocalstorageService,
-              private swal: SwalService){}
+              private swal: SwalService,
+              public translate: TranslateService){}
 
   ngOnInit(): void {
     this.currentUser = false;
@@ -63,6 +66,7 @@ export class NavbarComponent implements OnInit {
 
     this.usuarioActual = this.localStorage.getItem('usuario');
     console.log('CURRENT-USER: ', this.usuarioActual);
+    this.seleccionarTipo(this.usuarioActual.tipo);
 
     this.auth.currentUser().subscribe((usuario) => {
 
@@ -96,5 +100,28 @@ export class NavbarComponent implements OnInit {
         });
     }, 1000);
   }
+
+  switchLang = (lang: string) => {
+    this.translate.use(lang);
+    console.log('Current lang: ', this.translate.currentLang);
+  }
+
+  seleccionarTipo(tipo: string){
+    switch (tipo) {
+      case 'paciente':
+        this.tipo = 'paciente';
+        break;
+
+      case 'especialista':
+        this.tipo = 'especialista';
+        break;
+
+      case 'administrador':
+        this.tipo = 'administrador';
+        break;
+
+    }
+  }
+
 
 }

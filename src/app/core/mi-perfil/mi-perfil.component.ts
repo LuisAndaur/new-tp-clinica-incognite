@@ -26,7 +26,7 @@ import { SwalService } from 'src/app/shared/services/swal.service';
 export class MiPerfilComponent implements OnInit {
 
   usuarioActual!: any;
-  usuario!: Usuario;
+  usuario!: Usuario | Paciente | Especialista;
   obraSocial!:string;
   img2!:any;
   especialidades!:Array<Especialidad>;
@@ -42,21 +42,39 @@ export class MiPerfilComponent implements OnInit {
               private pdf: PdfService ){}
 
   ngOnInit(): void {
+    debugger;
 
     this.usuarioActual = this.localStorage.getItem('usuario');
 
     if(this.usuarioActual != null){
-      
-      this.usuario = this.usuarioActual;
 
-      if(this.usuario.tipo == 'paciente'){
-        this.img2 = this.usuarioActual.img2;
-        this.obraSocial = this.usuarioActual.obraSocial
+      if(this.usuarioActual.tipo == 'paciente'){
+        this.db.obtenerPaciente(this.usuarioActual.email)
+        .then((p) => {
+          this.usuario = p as Paciente;
+          this.img2 = p.img2;
+          this.obraSocial = p.obraSocial
+        });
       }
 
-      if(this.usuario.tipo == 'especialista'){
-        this.especialidades = this.usuarioActual.especialidades;
+      if(this.usuarioActual.tipo == 'especialista'){
+        this.db.obtenerEspecialista(this.usuarioActual.email)
+        .then((u) => {
+          this.usuario = u as Especialista;
+          this.especialidades = u.especialidades;
+        });
+        
       }
+
+      if(this.usuarioActual.tipo == 'administrador'){
+        this.db.obtenerUsuario(this.usuarioActual.email)
+        .then((u) => {
+          this.usuario = u as Usuario;
+        });
+        
+      }
+
+      console.log('User mi perfil: ', this.usuario);
 
     }
   }

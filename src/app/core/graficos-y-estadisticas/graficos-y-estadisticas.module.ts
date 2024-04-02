@@ -7,6 +7,7 @@ import { GraficosYEstadisticasComponent } from './graficos-y-estadisticas.compon
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { MatTableModule } from '@angular/material/table';
 
 
 
@@ -17,6 +18,7 @@ import { MatInputModule } from '@angular/material/input';
     GraficosYEstadisticasRoutingModule,
     SharedModule,
     FormsModule,
+    MatTableModule,
     MatCardModule,
     MatButtonModule,
     MatInputModule

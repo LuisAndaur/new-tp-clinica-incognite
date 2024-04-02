@@ -19,8 +19,11 @@ import { CommonModule, registerLocaleData } from '@angular/common';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SharedModule } from './shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { EncuestaComponent } from './core/encuesta/encuesta.component';
 registerLocaleData(localeEs, 'es');
+
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -35,6 +38,14 @@ registerLocaleData(localeEs, 'es');
     BrowserAnimationsModule,
     NgxSpinnerModule,
     SharedModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: httpTranslateLoader,
+        deps: [HttpClient]
+      }
+    }),
 
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
@@ -51,3 +62,7 @@ registerLocaleData(localeEs, 'es');
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+export function httpTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}

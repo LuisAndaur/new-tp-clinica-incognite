@@ -21,6 +21,7 @@ import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 import { SharedModule } from '../shared/shared.module';
 import { RecaptchaModule } from 'ng-recaptcha';
 import { CaptchaDirective } from '../shared/directives/captcha.directive';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 
@@ -50,7 +51,8 @@ import { CaptchaDirective } from '../shared/directives/captcha.directive';
     MatListModule,
     NgxMatFileInputModule,
     SharedModule,
-    RecaptchaModule
+    RecaptchaModule,
+    TranslateModule
   ],
   exports: [
     LoginComponent,

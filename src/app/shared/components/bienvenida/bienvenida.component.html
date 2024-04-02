@@ -1,6 +1,6 @@
 <app-navbar (currentHijo)="currentPadre($event)" ></app-navbar>
 <div [@EnterLeave]>
-    <h1><span>Bienvenido a la</span><br><hr>CLÍNICA</h1>
+    <h1><span>{{'bienvenido' | translate}}</span><br><hr>{{'nombreClinica' | translate}}</h1>
       <img *ngIf="userCurrent" src="./../../../../assets/logo.png" routerLink="/juegos" alt="" class="img">
       
       <div class="login">

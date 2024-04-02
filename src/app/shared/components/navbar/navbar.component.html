@@ -1,18 +1,27 @@
 <mat-toolbar color="primary" [@flyInOut]>
-    <span><img class="logo" src="../../../../assets/logo.png" alt="">Clínica</span>
+    <span><img class="logo" src="../../../../assets/logo.png" alt="">{{'nombreClinica' | translate}}</span>
 
-    <a mat-button routerLink="/bienvenida">Home</a>
-    <a *ngIf="currentUser" mat-button routerLink="/mi-perfil">Mi perfil</a>
-    <a *ngIf="usuarioActual.tipo == 'administrador'" mat-button routerLink="/seccion-usuarios">Sección usuarios</a>
-    <a *ngIf="usuarioActual.tipo == 'administrador'" mat-button routerLink="/turnos">Turnos</a>
-    <a *ngIf="usuarioActual.tipo == 'administrador'" mat-button routerLink="/graficos-estadistica">Gráficos/Estadistica</a>
-    <a *ngIf="usuarioActual.tipo == 'administrador' || usuarioActual.tipo == 'paciente'" mat-button routerLink="/solicitar-turno">Solicitar turno</a>
-    <a *ngIf="usuarioActual.tipo == 'especialista' || usuarioActual.tipo == 'paciente'" mat-button routerLink="/mis-turnos">Mis turnos</a>
-    <a *ngIf="usuarioActual.tipo == 'especialista'" mat-button routerLink="/seccion-pacientes">Sección pacientes</a>
+    <a mat-button routerLink="/bienvenida">{{'inicio' | translate}}</a>
+    <a *ngIf="currentUser" mat-button routerLink="/mi-perfil">{{'perfil' | translate}}</a>
+    <a *ngIf="usuarioActual.tipo == 'administrador'" mat-button routerLink="/seccion-usuarios">{{'seccionUsuarios' | translate}}</a>
+    <a *ngIf="usuarioActual.tipo == 'administrador'" mat-button routerLink="/turnos">{{'turnos' | translate}}</a>
+    <a *ngIf="usuarioActual.tipo == 'administrador'" mat-button routerLink="/graficos-estadistica">{{'graficos' | translate}}</a>
+    <a *ngIf="usuarioActual.tipo == 'administrador' || usuarioActual.tipo == 'paciente'" mat-button routerLink="/solicitar-turno">{{'solicitarTurno' | translate}}</a>
+    <a *ngIf="usuarioActual.tipo == 'especialista' || usuarioActual.tipo == 'paciente'" mat-button routerLink="/mis-turnos">{{'misTurnos' | translate}}</a>
+    <a *ngIf="usuarioActual.tipo == 'especialista'" mat-button routerLink="/seccion-pacientes">{{'seccionPacientes' | translate}}</a>
 
     <span *ngIf="currentUser">|</span>
 
-    <a *ngIf="currentUser" ng mat-button>{{usuarioActual.nombre}} {{usuarioActual.apellido}} [{{usuarioActual.tipo}}]</a>
+    <a *ngIf="currentUser" ng mat-button>{{usuarioActual.nombre}} {{usuarioActual.apellido}} [{{usuarioActual.tipo | translate}}]</a>
+    <span>
+        <select class="idiomaSelector" #selectedLang (change)="switchLang(selectedLang.value)">
+          <option *ngFor="let language of translate.getLangs()" 
+            [value]="language"
+            [selected]="language === translate.currentLang">
+            {{ language }}
+          </option>
+        </select>
+    </span>
     <mat-icon *ngIf="currentUser" (click)="logout()" style="cursor: pointer;" aria-hidden="false" aria-label="logout icon" fontIcon="logout"></mat-icon>
 
 </mat-toolbar>

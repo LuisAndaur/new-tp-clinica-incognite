@@ -1,157 +1,157 @@
 <div class="contenedor">
     <mat-card class="tarjeta" [@routeAnimation]>
-      <mat-card-title class="title">Especialista</mat-card-title>
+      <mat-card-title class="title">{{'especialista' | translate}}</mat-card-title>
       <mat-card-content>
       <form class="form" [formGroup]="form" >
 
         <mat-form-field>
-          <mat-label>Nombre</mat-label>
-          <input type="text" matInput placeholder="Nombre" formControlName="nombre">
+          <mat-label>{{'nombre' | translate}}</mat-label>
+          <input type="text" matInput placeholder="{{'nombre' | translate}}" formControlName="nombre">
           <mat-error *ngIf="form.controls['nombre'].hasError('required') && form.controls['nombre'].touched">
             <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
-            El nombre es requerido.
+            {{'nombre' | translate}} {{'requerido' | translate}}.
           </mat-error>
-          <mat-error *ngIf="form.controls['nombre'].hasError('minLength')">
+          <mat-error *ngIf="!form.controls['nombre'].hasError('minLength')">
             <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
-            Nombre muy corto.
+            {{'nombre' | translate}} {{'corto' | translate}}.
           </mat-error>
-          <mat-error *ngIf="form.controls['nombre'].hasError('maxLength')">
+          <mat-error *ngIf="!form.controls['nombre'].hasError('maxLength')">
             <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
-            Nombre muy largo.
+            {{'nombre' | translate}} {{'largo' | translate}}.
           </mat-error>
         </mat-form-field>
 
         <mat-form-field>
-          <mat-label>Apellido</mat-label>
-          <input type="text" matInput placeholder="Apellido" formControlName="apellido">
+          <mat-label>{{'apellido' | translate}}</mat-label>
+          <input type="text" matInput placeholder="{{'apellido' | translate}}" formControlName="apellido">
           <mat-error *ngIf="form.controls['apellido'].hasError('required') && form.controls['apellido'].touched">
             <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
-            El apellido es requerido.
+            {{'apellido' | translate}} {{'requerido' | translate}}.
           </mat-error>
-          <mat-error *ngIf="form.controls['apellido'].hasError('minLength')">
+          <mat-error *ngIf="!form.controls['apellido'].hasError('minLength')">
             <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
-            Apellido muy corto.
+            {{'apellido' | translate}} {{'corto' | translate}}.
           </mat-error>
-          <mat-error *ngIf="form.controls['apellido'].hasError('maxLength')">
+          <mat-error *ngIf="!form.controls['apellido'].hasError('maxLength')">
             <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
-            Apellido muy largo.
+            {{'apellido' | translate}} {{'largo' | translate}}.
           </mat-error>
         </mat-form-field>
 
         <mat-form-field>
-            <mat-label>Edad</mat-label>
-            <input type="number" matInput placeholder="edad" formControlName="edad">
+            <mat-label>{{'edad' | translate}}</mat-label>
+            <input type="number" matInput placeholder="{{'apellido' | translate}}" formControlName="edad">
             <mat-error *ngIf="form.controls['edad'].hasError('required') && form.controls['edad'].touched">
               <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
-              La edad es requerida.
+              {{'edad' | translate}} {{'requerido' | translate}}.
             </mat-error>
             <mat-error *ngIf="form.controls['edad'].hasError('min')">
               <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
-              Edad mínima 1.
+              {{'edad' | translate}} {{'corto' | translate}}.
             </mat-error>
             <mat-error *ngIf="form.controls['edad'].hasError('max')">
               <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
-              Edad máxima 120.
+              {{'edad' | translate}} {{'largo' | translate}}.
             </mat-error>
         </mat-form-field>
 
         <mat-form-field>
-            <mat-label>DNI</mat-label>
-            <input type="number" matInput placeholder="dni" formControlName="dni">
+            <mat-label>{{'id' | translate}}</mat-label>
+            <input type="number" matInput placeholder="{{'id' | translate}}" formControlName="dni">
             <mat-error *ngIf="form.controls['dni'].hasError('required') && form.controls['dni'].touched">
               <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
-              El dni es requerido.
+              {{'id' | translate}} {{'requerido' | translate}}.
             </mat-error>
             <mat-error *ngIf="form.controls['dni'].hasError('min')">
               <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
-              El dni muy corto.
+              {{'id' | translate}} {{'corto' | translate}}.
             </mat-error>
             <mat-error *ngIf="form.controls['dni'].hasError('max')">
               <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
-              El dni muy largo.
+              {{'id' | translate}} {{'largo' | translate}}.
             </mat-error>
         </mat-form-field>
 
         <mat-form-field *ngIf="this.listaEspecialidades.length>0">
-            <mat-label>Seleccione</mat-label>
+            <mat-label>{{'seleccione' | translate}}</mat-label>
             <mat-select (selectionChange)="seleccion($event.value)">
               <mat-option *ngFor="let auxespecialidad of listaEspecialidades;"
-              [value]="auxespecialidad.id">{{auxespecialidad.especialidad}}</mat-option>
+              [value]="auxespecialidad.id">{{auxespecialidad.especialidad | translate}}</mat-option>
             </mat-select>       
           </mat-form-field>
           <div>
-            <button mat-raised-button color="primary" (click)="sumarEspecialidad()">Sumar</button>
-            <button mat-raised-button color="warn" (click)="restarEspecialidad()">Eliminar</button>
+            <button mat-raised-button color="primary" (click)="sumarEspecialidad()">{{'sumar' | translate}}</button>
+            <button mat-raised-button color="warn" (click)="restarEspecialidad()">{{'eliminar' | translate}}</button>
           </div>
           
           <div>
-            <h3 style="margin: 0;">Mis especialidades:</h3>
-            <ul *ngFor="let miEspecialidad of especialidadesElegidas">{{miEspecialidad.especialidad}}</ul>          
+            <h3 style="margin: 0;">{{'especialidades' | translate}}:</h3>
+            <ul *ngFor="let miEspecialidad of especialidadesElegidas">{{miEspecialidad.especialidad | translate}}</ul>          
             
           </div>
           
         <mat-form-field>
-          <mat-label>Agregar otra especialidad</mat-label>
+          <mat-label>{{'agragarEspecialidad' | translate}}</mat-label>
           <input matInput [(ngModel)]="nuevaEspecialidad" [ngModelOptions]="{standalone: true}">
           <div>
-            <button mat-raised-button color="primary" (click)="agregarEspecialidad()">Agregar otro</button>
+            <button mat-raised-button color="primary" (click)="agregarEspecialidad()">{{'agragar' | translate}}</button>
           </div>
         </mat-form-field>
         <mat-form-field>
-          <mat-label>Correo electrónico</mat-label>
-          <input type="mail" matInput placeholder="Correo electrónico" formControlName="email">
+          <mat-label>{{'correo' | translate}}</mat-label>
+          <input type="mail" matInput placeholder="{{'correo' | translate}}" formControlName="email">
           <mat-error *ngIf="form.controls['email'].hasError('required') && form.controls['email'].touched">
             <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
-            El email es requerido.
+            {{'correo' | translate}} {{'requerido' | translate}}.
           </mat-error>
           <mat-error *ngIf="form.controls['email'].hasError('email')">
             <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
-            Formato inválido.
+            {{'formatoInvalido' | translate}}.
           </mat-error>
         </mat-form-field> 
         
         <mat-form-field>
-            <mat-label>Imagen 1</mat-label>
-            <ngx-mat-file-input placeholder="Imagen1" formControlName="imagen1" (change)="cargarImg(0)">
+            <mat-label>{{'imagen' | translate}} 1</mat-label>
+            <ngx-mat-file-input placeholder="{{'imagen' | translate}}1" formControlName="imagen1" (change)="cargarImg(0)">
                 <mat-icon ngxMatFileInputIcon>attach_file</mat-icon>
             </ngx-mat-file-input>
             <mat-error *ngIf="form.controls['imagen1'].hasError('required') && form.controls['imagen1'].touched">
               <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
-              La imagen 1 es requerida.
+              {{'imagen' | translate}} {{'requerido' | translate}}.
             </mat-error>
         </mat-form-field>
   
         <mat-form-field>
-          <mat-label>Contraseña</mat-label>
-          <input type="password" matInput placeholder="Contraseña" formControlName="password">
+          <mat-label>{{'pass' | translate}}</mat-label>
+          <input type="password" matInput placeholder="{{'pass' | translate}}" formControlName="password">
           <mat-error *ngIf="form.controls['password'].hasError('required') && form.controls['password'].touched">
             <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
-            La password es requerido.
+            {{'pass' | translate}} {{'requerido' | translate}}.
           </mat-error>
-          <mat-error *ngIf="form.controls['password'].hasError('minLength')">
+          <mat-error *ngIf="!form.controls['password'].hasError('minLength')">
             <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
-            Contraseña muy corta.
+            {{'pass' | translate}} {{'corto' | translate}}.
           </mat-error>
-          <mat-error *ngIf="form.controls['password'].hasError('maxLength')">
+          <mat-error *ngIf="!form.controls['password'].hasError('maxLength')">
             <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
-            Contraseña muy larga.
+            {{'pass' | translate}} {{'largo' | translate}}.
           </mat-error>
         </mat-form-field>
 
         <mat-form-field>
-          <mat-label>Repita la contraseña</mat-label>
-          <input type="password" matInput placeholder="Contraseña" formControlName="password2">
+          <mat-label>{{'repetirPass' | translate}}</mat-label>
+          <input type="password" matInput placeholder="{{'repetirPass' | translate}}" formControlName="password2">
           <mat-error *ngIf="form.controls['password2'].hasError('required') && form.controls['password2'].touched">
             <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
-            Repetir la password es requerido.
+            {{'repetirPass' | translate}} {{'requerido' | translate}}.
           </mat-error>
           <mat-error *ngIf="form.controls['password2'].hasError('minLength')">
             <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
-            Contraseña muy corta.
+            {{'repetirPass' | translate}} {{'corto' | translate}}.
           </mat-error>
           <mat-error *ngIf="form.controls['password2'].hasError('maxLength')">
             <mat-icon><span class="material-symbols-outlined">report</span></mat-icon>
-            Contraseña muy larga.
+            {{'repetirPass' | translate}} {{'largo' | translate}}.
           </mat-error>
         </mat-form-field>
 
@@ -159,16 +159,16 @@
 
         <ng-container  *ngIf="isChecked">
           <mat-form-field>
-            <mat-label>Complete el CAPTCHA: {{captchaCode}}</mat-label>
+            <mat-label>{{'complete' | translate}} CAPTCHA: {{captchaCode}}</mat-label>
             <input matInput type="text" [myCaptcha]="captchaCode" (captchaCodeGenerated)="onCaptchaGenerador($event)"
-            (captchaVerified)="onCaptchaVerificador($event)" [regenerate]="regenerate" [disabled]="isOk" placeholder="Ingrese el código de captcha">
+            (captchaVerified)="onCaptchaVerificador($event)" [regenerate]="regenerate" [disabled]="isOk" placeholder="{{'ingrese' | translate}} captcha">
           </mat-form-field>
-          <button mat-raised-button color="primary" (click)="verificar()">Verificar</button><br><br>
+          <button mat-raised-button color="primary" (click)="verificar()">{{'verificar' | translate}}</button><br><br>
         </ng-container>
 
         <div class="button">
-          <button type="button" [disabled]="form.invalid" mat-raised-button color="primary" (click)="submit()">Registrarse</button>
-          <button type="button" routerLink="/bienvenida" mat-raised-button color="warn">Cancelar</button>
+          <button type="button" [disabled]="form.invalid" mat-raised-button color="primary" (click)="submit()">{{'btnRegistrarse' | translate}}</button>
+          <button type="button" routerLink="/bienvenida" mat-raised-button color="warn">{{'cancelar' | translate}}</button>
         </div>
   
       </form>
