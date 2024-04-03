@@ -18,13 +18,26 @@
               <li *ngFor="let e of especialidades">{{e.especialidad}}</li>
           </ul>
   
+      </mat-card-content> 
+      <mat-card-content *ngIf="usuario.tipo == 'paciente'">
+        <button mat-raised-button color="primary" (click)="mostrarHistoriaClinica(usuario.email)" >{{'verHc' | translate}}</button><br>
       </mat-card-content>
-      <mat-card-actions>
-        <button mat-raised-button color="primary" *ngIf="usuario.tipo == 'paciente'" (click)="mostrarHistoriaClinica(usuario.email)" >{{'verHc' | translate}}</button>
-        <button mat-raised-button color="warn" *ngIf="usuario.tipo == 'paciente'" (click)="descargarPdf(usuario, usuario.email)" >{{'descargarHc' | translate}}</button>
-        <button mat-raised-button color="primary" *ngIf="usuario.tipo == 'especialista'" (click)="this.mostrarHorarios = !this.mostrarHorarios">{{'horarios' | translate}}</button>
+      <mat-card-content *ngIf="usuario.tipo == 'paciente'">
+
+        <mat-form-field *ngIf="this.listaEspecialidades.length>0">
+          <mat-label>{{'seleccione' | translate}}</mat-label>
+          <mat-select (selectionChange)="seleccion($event.value)">
+            <mat-option *ngFor="let auxespecialidad of listaEspecialidades;"
+            [value]="auxespecialidad.id">{{auxespecialidad.especialidad | translate}}</mat-option>
+          </mat-select>       
+        </mat-form-field>
+
+        <button mat-raised-button color="warn" (click)="descargarPdf(usuario, usuario.email)" >{{'descargarHc' | translate}}</button>
+      </mat-card-content>
+      <mat-card-content *ngIf="usuario.tipo == 'especialista'">
+        <button mat-raised-button color="primary" (click)="this.mostrarHorarios = !this.mostrarHorarios">{{'horarios' | translate}}</button>
+      </mat-card-content>
         
-      </mat-card-actions>
     </mat-card>
     
     <app-horarios *ngIf="this.mostrarHorarios == true" (eventoSalir)="this.mostrarHorarios = false"></app-horarios>

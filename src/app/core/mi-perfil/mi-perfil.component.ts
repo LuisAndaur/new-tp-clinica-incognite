@@ -7,6 +7,7 @@ import { Usuario } from 'src/app/shared/models/usuario.class';
 import { FirestoreService } from 'src/app/shared/services/firestore.service';
 import { LocalstorageService } from 'src/app/shared/services/localstorage.service';
 import { PdfService } from 'src/app/shared/services/pdf.service';
+import { SpinnerService } from 'src/app/shared/services/spinner.service';
 import { SwalService } from 'src/app/shared/services/swal.service';
 
 @Component({
@@ -30,19 +31,29 @@ export class MiPerfilComponent implements OnInit {
   obraSocial!:string;
   img2!:any;
   especialidades!:Array<Especialidad>;
+  listaEspecialidades: Array<Especialidad> = [];
   mostrarHorarios:boolean = false;
+  especialidadElegida:string = '';
   turnos: Array<any> | null = [];
   mostrarhc: boolean = false;
   emailPacientePadre: string = "";
   idTurnoPadre: string = "";
 
   constructor(private db: FirestoreService,
+              private spinner: SpinnerService,
               private localStorage: LocalstorageService,
               private swal: SwalService,
               private pdf: PdfService ){}
 
   ngOnInit(): void {
     debugger;
+    this.spinner.mostrar();
+
+    this.db.obtenerEspecialidades().subscribe((e) => {
+      console.log("Especialidades: ", e);
+      this.listaEspecialidades = e;
+      this.spinner.ocultar();
+    });
 
     this.usuarioActual = this.localStorage.getItem('usuario');
 
@@ -54,7 +65,7 @@ export class MiPerfilComponent implements OnInit {
           this.usuario = p as Paciente;
           this.img2 = p.img2;
           this.obraSocial = p.obraSocial
-        });
+        }).finally(() => this.spinner.ocultar());
       }
 
       if(this.usuarioActual.tipo == 'especialista'){
@@ -62,7 +73,7 @@ export class MiPerfilComponent implements OnInit {
         .then((u) => {
           this.usuario = u as Especialista;
           this.especialidades = u.especialidades;
-        });
+        }).finally(() => this.spinner.ocultar());
         
       }
 
@@ -70,12 +81,13 @@ export class MiPerfilComponent implements OnInit {
         this.db.obtenerUsuario(this.usuarioActual.email)
         .then((u) => {
           this.usuario = u as Usuario;
-        });
+        }).finally(() => this.spinner.ocultar());
         
       }
 
       console.log('User mi perfil: ', this.usuario);
 
+      
     }
   }
 
@@ -101,12 +113,26 @@ export class MiPerfilComponent implements OnInit {
     this.mostrarhc = ver;
   }
 
+  seleccion(user: string){
+    this.especialidadElegida = user;
+  }
+
   descargarPdf(paciente: Usuario, email: string) {
 
     debugger;
+
+    if(this.especialidadElegida == ''){
+      this.swal.warning('Elija una especialidad!');
+      return;
+    }
     
     this.db.obtenerTurnosPaciente(email as string).subscribe((t) => {
-      this.turnos = t.filter((x) => x['historiaClinica'] != undefined);
+      this.turnos = t.filter((x) => (x['historiaClinica'] != undefined) && x['especialidad']['id'] == this.especialidadElegida);
+
+      if(this.turnos.length < 1){
+        this.swal.warning('No tiene historias con esa especialidad!');
+        return;
+      }
 
       if(this.turnos.length>0){
         if(this.turnos != null){

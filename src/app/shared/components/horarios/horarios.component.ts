@@ -47,6 +47,7 @@ export class HorariosComponent {
   horarios!: Horarios;
   displayedColumns: string[] = ['especialidad', 'dia', 'inicio', 'fin', 'duracion'];
   misHorarios: Array<Horarios> = [];
+  auxEspecialista: Especialista = new Especialista();
 
   constructor(
         private localStorage: LocalstorageService,
@@ -55,16 +56,38 @@ export class HorariosComponent {
         private spinner: SpinnerService){}
 
   ngOnInit(): void {
+
+    debugger;
+    this.spinner.mostrar();
     this.currentUser = this.localStorage.getItem('usuario');
     console.log(this.currentUser);
-    this.ordenarHorarios();
+    
 
-    this.asignarDia("Lunes");
-    this.formInit();
+    if(this.currentUser != null){
 
-    this.misHorarios = this.currentUser.horarios;
+      if(this.currentUser.tipo == 'especialista'){
+        
+        this.db.obtenerEspecialista(this.currentUser.email)
+        .then((u) => {
+          console.log('user horarios: ', u);
+          this.auxEspecialista = u;
+          this.currentUser = this.auxEspecialista;
+
+          this.misHorarios = this.auxEspecialista.horarios;
+
+          this.ordenarHorarios();
+
+          this.asignarDia("Lunes");
+          this.formInit();
+          
+        }).finally(() => this.spinner.ocultar());
+        
+      }
+      
+    }
 
   }
+
 
 
   formInit(){

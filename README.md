@@ -1,27 +1,59 @@
-# Clinica
+# Páginas comunes a todos los usuarios y no usuarios
+## Página bienvenido
+![página de inicio](./src/assets/readme/bienvenido.JPG)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.4.
+## Página login
+![Página login](./src/assets/readme/login.JPG)
 
-## Development server
+## Página de registro
+![página de registro](./src/assets/readme/registro.JPG)
+> Puede elegir registrarse como especialista o paciente.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### Página de registro especialista
+![página de registro](./src/assets/readme/registro-especialista.JPG)
 
-## Code scaffolding
+### Página de registro paciente
+![página de registro](./src/assets/readme/registro-paciente.JPG)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Build
+# Administrador
+## Página mi perfil
+![Página mi perfil](./src/assets/readme/mi-perfil-admin.JPG)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Página solicitar turno
+![Página solicitar turno](./src/assets/readme/solicitar-turno-admin.JPG)
+1. Elige un paciente
+2. Elige una especialidad
+3. Elige un especialista
+4. Elige un turno (si es que existe)
 
-## Running unit tests
+## Página administrar usuarios
+![Página administrar usuarios](./src/assets/readme/admin-usuarios.JPG)
+El admin puede
+1. Ver información de los usuarios
+1. Aceptar o rechazar a los especialistas
+1. Agregar un nuevo especialista, paciente o administrador
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Running end-to-end tests
+# Paciente
+## Página mi perfil
+![Página mi perfil](./src/assets/readme/mi-perfil-paciente.JPG)
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Página solicitar turno
+![Página solicitar turno](./src/assets/readme/solicitar-turno-paciente.JPG)
+1. Elige una especialidad
+2. Elige un especialista
+3. Elige un turno (si es que existe)
 
-## Further help
+# Especialista
+## Página mi perfil
+![Página mi perfil](./src/assets/readme/mi-perfil-especialista.JPG)
+> Tiene la posibilidad de entrar a mis horarios a cargar su disponibilidad
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Página mis horarios
+![Página mis horarios](./src/assets/readme/mis-horarios.JPG)
+1. Elige especialidad
+2. Elige dia
+3. Elige hora de inicio
+4. Elige hora finalización
+5. Elige duración

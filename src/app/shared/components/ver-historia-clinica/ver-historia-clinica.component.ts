@@ -7,6 +7,30 @@ import { FirestoreService } from '../../services/firestore.service';
 import { SpinnerService } from '../../services/spinner.service';
 import { SwalService } from '../../services/swal.service';
 
+export interface DataTurnoHistoriaClinica {
+  id: string;
+  fecha: string;
+  paciente: string;
+  especialista: string;
+  especialidad: string;
+  altura: string;
+  peso: string;
+  temperatura: string;
+  presion: string;
+  clave_1: string;
+  clave_2: string;
+  clave_3: string;
+  clave_4: string;
+  clave_5: string;
+  clave_6: string;
+  valor_1: string;
+  valor_2: string;
+  valor_3: string;
+  valor_4: string;
+  valor_5: string;
+  valor_6: string;
+}
+
 @Component({
   selector: 'app-ver-historia-clinica',
   templateUrl: './ver-historia-clinica.component.html',
@@ -21,7 +45,7 @@ export class VerHistoriaClinicaComponent {
   filtro: string = "";
   turnos: Array<any> | null = [];
   historiasClinicas: any;
-  hcColumnas: string[] = ['altura', 'peso', 'temperatura', 'presion', 'clave_1', 'clave_2', 'clave_3', 'clave_4', 'clave_5', 'clave_6'];
+  hcColumnas: string[] = ['fecha','paciente','especialista', 'especialidad','altura', 'peso', 'temperatura', 'presion', 'clave_1', 'clave_2', 'clave_3', 'clave_4', 'clave_5', 'clave_6'];
   turnoSeleccionado!: Turno;
   mostrarVer: boolean = false;
   verHc: boolean = false;
@@ -86,14 +110,19 @@ export class VerHistoriaClinicaComponent {
   }
 
   private dataFilterHc(turnos: Turno[]){
-    let array: HistoriaClinica[] = [];
-    let data = <HistoriaClinica>{};
+    let array: DataTurnoHistoriaClinica[] = [];
+    let data = <DataTurnoHistoriaClinica>{};
     debugger;
 
     let aux = turnos.filter((x) => x.historiaClinica != undefined)
 
     aux.forEach( t => {
-      data = <HistoriaClinica>{
+      data = <DataTurnoHistoriaClinica>{
+        id: t.id,
+        fecha: t.fecha,
+        paciente: t.paciente.apellido,
+        especialista: t.especialista.apellido,
+        especialidad: t.especialidad.especialidad,
         altura: t.historiaClinica.altura,
         peso: t.historiaClinica.peso,
         temperatura: t.historiaClinica.temperatura,

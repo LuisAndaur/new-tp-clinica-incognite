@@ -12,6 +12,8 @@ import { Turno } from 'src/app/shared/models/turno.class';
 import { SwalService } from 'src/app/shared/services/swal.service';
 import { Especialista } from 'src/app/shared/models/especialista.class';
 import { LogIngresos } from 'src/app/shared/models/log-ingresos.class';
+import { debugErrorMap } from '@angular/fire/auth';
+import { Paciente } from 'src/app/shared/models/paciente.class';
 
 export interface IUsuarioCantidad {
   email: string;
@@ -24,7 +26,7 @@ export interface IVisitaCantidad {
 }
 
 export class ILogIngreso{
-  fecha!: number;
+  fecha!: Date;
   nombre!: string;
   apellido!: string;
   email!: string;
@@ -61,10 +63,11 @@ export class GraficosYEstadisticasComponent implements OnInit {
   usuario:any;
   verGrafico: boolean = false;
   dias: Array<string> = ["Domingo", "Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"];
-  listaLogsDeIngresos = new Array<ILogIngreso>;
+  listaLogsDeIngresos: Array<ILogIngreso> = [];
   mostrarUsuario:boolean = false;
   listaEspecialistas: Array<Especialista> = [];
   listaEspecialidades: Array<Especialidad> = [];
+  listaPaciente: Array<Paciente> = [];
   listaTurnosSolicitados: Array<Turno> = [];
   listaTurnosFinalizados: Array<Turno> = [];
   turnos: Array<any> | null = [];
@@ -115,8 +118,9 @@ export class GraficosYEstadisticasComponent implements OnInit {
         user.forEach((u) => {
           logs.forEach((l) => {
             if(l.email == u['email']){
+              // debugger;
               let auxLog = new ILogIngreso;
-              auxLog.fecha = new Date(l.fecha).getTime();
+              auxLog.fecha = new Date(l.fecha);
               auxLog.nombre = u['nombre'];
               auxLog.apellido = u['apellido'];
               auxLog.email = l.email;
@@ -137,9 +141,9 @@ export class GraficosYEstadisticasComponent implements OnInit {
         })
         
       })
+      debugger;
+      // this.dataUsuarios = this.listaLogsDeIngresos;
       
-
-      this.dataUsuarios = this.listaLogsDeIngresos.sort((a, b) => new Date(b.fecha).getTime() - (new Date(a.fecha)).getTime());
     }).finally(()=> this.spinner.ocultar());
   }
 
@@ -179,6 +183,8 @@ export class GraficosYEstadisticasComponent implements OnInit {
     if(this.chart instanceof Chart){
       this.chart.destroy();
     }
+
+    this.dataUsuarios = this.listaLogsDeIngresos.sort((a, b) => b.fecha.getTime() - a.fecha.getTime());
 
     this.contadorRegistros = this.obtenerCantidadPorUsuario(this.logsDeIngresos);
     this.chartLogsDeIngresos();
@@ -315,7 +321,7 @@ export class GraficosYEstadisticasComponent implements OnInit {
 
   private obtenerCantidadPorUsuario(data: any):Array<IUsuarioCantidad>{
     return data.reduce((accumulator:any, item:any) => {
-      debugger;
+
       const existingItem = accumulator.find((entry:any) => {
         return entry.email === item.email
       });
