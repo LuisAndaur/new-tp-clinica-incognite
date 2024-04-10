@@ -28,6 +28,7 @@ export class MiPerfilComponent implements OnInit {
 
   usuarioActual!: any;
   usuario!: Usuario | Paciente | Especialista;
+  usuarioEspecialista!: Especialista;
   obraSocial!:string;
   img2!:any;
   especialidades!:Array<Especialidad>;
@@ -48,45 +49,47 @@ export class MiPerfilComponent implements OnInit {
   ngOnInit(): void {
     debugger;
     this.spinner.mostrar();
+    this.usuarioActual = this.localStorage.getItem('usuario');
 
-    this.db.obtenerEspecialidades().subscribe((e) => {
+    if(this.usuarioActual != null){
+
+      this.cargarDatos();
+      console.log('User mi perfil: ', this.usuario);
+    }
+  }
+
+  async cargarDatos(){
+
+    await this.db.obtenerEspecialidades().subscribe((e) => {
       console.log("Especialidades: ", e);
       this.listaEspecialidades = e;
       this.spinner.ocultar();
     });
 
-    this.usuarioActual = this.localStorage.getItem('usuario');
+    if(this.usuarioActual.tipo == 'paciente'){
+      await this.db.obtenerPaciente(this.usuarioActual.email)
+      .then((p) => {
+        this.usuario = p;
+        this.img2 = p.img2;
+        this.obraSocial = p.obraSocial
+      }).finally(() => this.spinner.ocultar());
+    }
 
-    if(this.usuarioActual != null){
+    if(this.usuarioActual.tipo == 'especialista'){
+      await this.db.obtenerEspecialista(this.usuarioActual.email)
+      .then((u) => {
+        this.usuario = u;
+        this.usuarioEspecialista = u;
+        this.especialidades = u.especialidades;
+      }).finally(() => this.spinner.ocultar());
+      
+    }
 
-      if(this.usuarioActual.tipo == 'paciente'){
-        this.db.obtenerPaciente(this.usuarioActual.email)
-        .then((p) => {
-          this.usuario = p as Paciente;
-          this.img2 = p.img2;
-          this.obraSocial = p.obraSocial
-        }).finally(() => this.spinner.ocultar());
-      }
-
-      if(this.usuarioActual.tipo == 'especialista'){
-        this.db.obtenerEspecialista(this.usuarioActual.email)
-        .then((u) => {
-          this.usuario = u as Especialista;
-          this.especialidades = u.especialidades;
-        }).finally(() => this.spinner.ocultar());
-        
-      }
-
-      if(this.usuarioActual.tipo == 'administrador'){
-        this.db.obtenerUsuario(this.usuarioActual.email)
-        .then((u) => {
-          this.usuario = u as Usuario;
-        }).finally(() => this.spinner.ocultar());
-        
-      }
-
-      console.log('User mi perfil: ', this.usuario);
-
+    if(this.usuarioActual.tipo == 'administrador'){
+      await this.db.obtenerUsuario(this.usuarioActual.email)
+      .then((u) => {
+        this.usuario = u;
+      }).finally(() => this.spinner.ocultar());
       
     }
   }

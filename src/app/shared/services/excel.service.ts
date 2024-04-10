@@ -5,7 +5,8 @@ import * as fs from 'file-saver';
 import { Paciente } from '../models/paciente.class';
 import { Turno } from '../models/turno.class';
 import { Usuario } from '../models/usuario.class';
-import { IUsuarioCantidad, ITurnoEspecialidadCantidad, ITurnoDiaCantidad, ITurnoEspecialistaCantidad, IVisitaCantidad } from 'src/app/core/graficos-y-estadisticas/graficos-y-estadisticas.component';
+import { IUsuarioCantidad, ITurnoDiaCantidad, ITurnoEspecialistaCantidad, IVisitaCantidad } from 'src/app/core/graficos-y-estadisticas/graficos-y-estadisticas.component';
+import { IEspecialidadCantidad } from 'src/app/core/graficos-y-estadisticas/components/informes/informes.component';
 
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
@@ -85,7 +86,7 @@ export class ExcelService {
 
   }
 
-  descargarExcelTurnosPorEspecialidad(turnosE: ITurnoEspecialidadCantidad[], nombreFile: string) {
+  descargarExcelTurnosPorEspecialidad(turnosE: IEspecialidadCantidad[], nombreFile: string) {
 
     let nombre = `${nombreFile}`;
 
@@ -185,6 +186,50 @@ export class ExcelService {
 
     for (let visita of visitas) {
       let fila = [visita.tipo, visita.cantidad];
+      worksheet.addRow(fila);
+    }
+
+    workbook.xlsx.writeBuffer().then((data: any) => {
+      let blob = new Blob([data], { type: EXCEL_TYPE });
+      fs.saveAs(blob, nombreArchivo + EXCEL_EXTENSION);
+    })
+
+  }
+
+  descargarExcelPacientesPorEspecialidad(especialidades: IEspecialidadCantidad[], nombreFile: string) {
+
+    let nombre = `${nombreFile}`;
+
+    let workbook = new excel.Workbook();
+    let worksheet = workbook.addWorksheet("Cantidad de pacientes por Especialista");
+    let encabezado = ["Especialidad", "Cantidad de pacientes"];
+    let filaEncabezado = worksheet.addRow(encabezado);
+    let nombreArchivo = `${nombre}${this.formatearFecha()}`;
+
+    for (let e of especialidades) {
+      let fila = [e.especialidad, e.cantidad];
+      worksheet.addRow(fila);
+    }
+
+    workbook.xlsx.writeBuffer().then((data: any) => {
+      let blob = new Blob([data], { type: EXCEL_TYPE });
+      fs.saveAs(blob, nombreArchivo + EXCEL_EXTENSION);
+    })
+
+  }
+
+  descargarExcelMedicosPorEspecialidad(especialidades: IEspecialidadCantidad[], nombreFile: string) {
+
+    let nombre = `${nombreFile}`;
+
+    let workbook = new excel.Workbook();
+    let worksheet = workbook.addWorksheet("Cantidad de médicos por Especialista");
+    let encabezado = ["Especialidad", "Cantidad de médicos"];
+    let filaEncabezado = worksheet.addRow(encabezado);
+    let nombreArchivo = `${nombre}${this.formatearFecha()}`;
+
+    for (let e of especialidades) {
+      let fila = [e.especialidad, e.cantidad];
       worksheet.addRow(fila);
     }
 

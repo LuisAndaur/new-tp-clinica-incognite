@@ -1,5 +1,5 @@
 import { animate, query, stagger, state, style, transition, trigger } from '@angular/animations';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Especialista } from '../../models/especialista.class';
 import { Horarios } from '../../models/horarios.class';
@@ -36,6 +36,7 @@ export class HorariosComponent {
 
   form!: FormGroup;
   currentUser!: Especialista;
+  @Input() especialista!: Especialista;
   dia: Array<string> = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
   horaSeleccionInicio: Array<number> = [];
   horaSeleccionFinal: Array<number> = [];
@@ -49,46 +50,26 @@ export class HorariosComponent {
   misHorarios: Array<Horarios> = [];
   auxEspecialista: Especialista = new Especialista();
 
-  constructor(
-        private localStorage: LocalstorageService,
-        private swal: SwalService,
-        private db: FirestoreService,
-        private spinner: SpinnerService){}
+  constructor(private localStorage: LocalstorageService,
+              private swal: SwalService,
+              private db: FirestoreService,
+              private spinner: SpinnerService){}
 
   ngOnInit(): void {
 
-    debugger;
     this.spinner.mostrar();
-    this.currentUser = this.localStorage.getItem('usuario');
-    console.log(this.currentUser);
-    
+    this.currentUser = this.especialista;
+    this.misHorarios = this.especialista.horarios;
+    console.log('ESPECIALISTA USER: ', this.currentUser);
 
     if(this.currentUser != null){
-
-      if(this.currentUser.tipo == 'especialista'){
-        
-        this.db.obtenerEspecialista(this.currentUser.email)
-        .then((u) => {
-          console.log('user horarios: ', u);
-          this.auxEspecialista = u;
-          this.currentUser = this.auxEspecialista;
-
-          this.misHorarios = this.auxEspecialista.horarios;
-
-          this.ordenarHorarios();
-
-          this.asignarDia("Lunes");
-          this.formInit();
-          
-        }).finally(() => this.spinner.ocultar());
-        
-      }
-      
+      this.ordenarHorarios();
+      this.asignarDia("Lunes");
+      this.formInit();    
     }
 
+    this.spinner.ocultar();
   }
-
-
 
   formInit(){
     this.form = new FormGroup({
@@ -110,7 +91,7 @@ export class HorariosComponent {
         if(!this.currentUser?.horarios){
           this.currentUser.horarios = [];
         }
-        if(this.db.existeTurno(horarios.diaNumero,horarios.horaInicio,horarios.horaFinal,this.currentUser.horarios)){
+        if(!this.db.existeTurno(horarios.diaNumero,horarios.horaInicio,horarios.horaFinal,this.currentUser.horarios, this.getEspecialidades?.value)){
 
           const turnos = this.db.generarTurnos(horarios.horaInicio,horarios.horaFinal,horarios.duracion);
           const turnosProyectados = this.db.proyectarTurnos(this.currentUser, turnos,horarios.diaNumero);
@@ -118,7 +99,7 @@ export class HorariosComponent {
           this.misHorarios = this.currentUser.horarios;
         }
         else{
-          this.swal.error("Ya existe este turno!");
+          this.swal.error("Este horario ya lo tiene ocupado!");
         }
       } 
       else {
@@ -190,7 +171,7 @@ export class HorariosComponent {
 
             })
             .catch((e:Error)=>{
-              this.swal.error(e.message);
+              this.swal.error('obtenerTurno: ' + e.message);
             })
             .finally(()=>{
               if(index == turnos.length -1 ){
@@ -202,7 +183,7 @@ export class HorariosComponent {
 
       })
       .catch((e:Error)=>{
-        this.swal.error(e.message);
+        this.swal.error('modificarEspecialista' + e.message);
         this.spinner.ocultar();
       })
   }

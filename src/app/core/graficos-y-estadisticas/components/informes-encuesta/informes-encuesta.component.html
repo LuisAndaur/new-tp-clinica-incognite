@@ -1,0 +1,67 @@
+<mat-card class="botonera">
+    <mat-card-header>
+        <mat-card-title>Botonera</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="botones">
+        <button mat-raised-button color="accent" value="encuesta" (click)="this.mostrarVisitas()">R1</button>
+        <button mat-raised-button color="accent" value="encuesta" (click)="this.mostrarVisitas()">R2</button>
+        <button mat-raised-button color="accent" value="encuesta" (click)="this.mostrarVisitas()">R3</button>
+        <button mat-raised-button color="accent" value="encuesta" (click)="this.mostrarVisitas()">R4</button>
+        <button mat-raised-button color="accent" value="encuesta" (click)="this.mostrarVisitas()">R5</button>
+        <button mat-raised-button color="accent" value="Visitas" (click)="this.mostrarVisitas()">Cantidad de visitas</button>
+    </mat-card-content>
+
+    <ng-container *ngIf="opcion == 1">
+
+        <table mat-table [dataSource]="dataUsuarios" class="mat-elevation-z8">
+        
+            <!-- fecha Column -->
+            <ng-container matColumnDef="fecha">
+              <th mat-header-cell *matHeaderCellDef> Fecha </th>
+              <td mat-cell *matCellDef="let element"> {{element.fecha | fechaFull}} </td>
+            </ng-container>
+          
+            <!-- nombre Column -->
+            <ng-container matColumnDef="nombre">
+              <th mat-header-cell *matHeaderCellDef> Nombre </th>
+              <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+            </ng-container>
+          
+            <!-- apwllido Column -->
+            <ng-container matColumnDef="apellido">
+              <th mat-header-cell *matHeaderCellDef> Apellido </th>
+              <td mat-cell *matCellDef="let element"> {{element.apellido}} </td>
+            </ng-container>
+          
+            <!-- email Column -->
+            <ng-container matColumnDef="email">
+              <th mat-header-cell *matHeaderCellDef> Email </th>
+              <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+            </ng-container>
+        
+            <!-- tipo Column -->
+            <ng-container matColumnDef="tipo">
+                <th mat-header-cell *matHeaderCellDef> Tipo </th>
+                <td mat-cell *matCellDef="let element"> {{element.tipo | uppercase}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="usuariosColumnas"></tr>
+            <tr mat-row *matRowDef="let row; columns: usuariosColumnas;"></tr>
+          </table>
+      </ng-container>
+
+</mat-card>
+    <br>
+<mat-card class="graficos" id="htmlData">
+    <mat-card-header>
+        <mat-card-title *ngIf="this.chart && this.verGrafico">Gráfico</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="area-grafico">
+        <canvas id="chart" >{{ this.chart }}</canvas>
+        <button mat-raised-button color="primary" *ngIf="this.chart && this.verGrafico" type="button" value="Descargar Excel" (click)="descargarExcel()" >Deacargar informe excel</button>
+        <button mat-raised-button color="warn" *ngIf="this.chart  && this.verGrafico" type="button" value="Descargar pdf" (click)="descargarPDF()" >Deacargar pdf</button>
+    </mat-card-content>
+</mat-card>
+
+
+

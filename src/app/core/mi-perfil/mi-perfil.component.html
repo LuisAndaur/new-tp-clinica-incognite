@@ -3,26 +3,26 @@
 
   <mat-card class="card" [@fadeIn] resaltar>
       <mat-card-header>
-        <div mat-card-avatar *ngIf="usuario.tipo == 'paciente'" style="background-image: url('{{img2}}');background-size: cover;"></div>
-        <mat-card-title>{{usuario.nombre}} {{usuario.apellido}}</mat-card-title>
-        <mat-card-subtitle>{{usuario.tipo | translate | uppercase}}</mat-card-subtitle>
+        <div mat-card-avatar *ngIf="usuarioActual.tipo == 'paciente'" style="background-image: url('{{img2}}');background-size: cover;"></div>
+        <mat-card-title>{{usuarioActual.nombre}} {{usuarioActual.apellido}}</mat-card-title>
+        <mat-card-subtitle>{{usuarioActual.tipo | translate | uppercase}}</mat-card-subtitle>
       </mat-card-header>
       <img mat-card-image src="{{usuario.img}}" alt="perfil">
       <mat-card-content>
           <p><strong>{{'correo' | translate}}: </strong>{{usuario.email}}</p>
           <p><strong>{{'edad' | translate}}: </strong>{{usuario.edad}}</p>
           <p><strong>{{'id' | translate}}: </strong>{{usuario.dni}}</p>
-          <p *ngIf="usuario.tipo == 'paciente'"><strong>{{'obraSocial' | translate}}: </strong>{{obraSocial}}</p>
-          <p *ngIf="usuario.tipo == 'especialista'"><strong>{{'especialidades' | translate}}: </strong>
-          <ul *ngIf="usuario.tipo == 'especialista'" >
+          <p *ngIf="usuarioActual.tipo == 'paciente'"><strong>{{'obraSocial' | translate}}: </strong>{{obraSocial}}</p>
+          <p *ngIf="usuarioActual.tipo == 'especialista'"><strong>{{'especialidades' | translate}}: </strong>
+          <ul *ngIf="usuarioActual.tipo == 'especialista'" >
               <li *ngFor="let e of especialidades">{{e.especialidad}}</li>
           </ul>
   
       </mat-card-content> 
-      <mat-card-content *ngIf="usuario.tipo == 'paciente'">
+      <mat-card-content *ngIf="usuarioActual.tipo == 'paciente'">
         <button mat-raised-button color="primary" (click)="mostrarHistoriaClinica(usuario.email)" >{{'verHc' | translate}}</button><br>
       </mat-card-content>
-      <mat-card-content *ngIf="usuario.tipo == 'paciente'">
+      <mat-card-content *ngIf="usuarioActual.tipo == 'paciente'">
 
         <mat-form-field *ngIf="this.listaEspecialidades.length>0">
           <mat-label>{{'seleccione' | translate}}</mat-label>
@@ -34,12 +34,12 @@
 
         <button mat-raised-button color="warn" (click)="descargarPdf(usuario, usuario.email)" >{{'descargarHc' | translate}}</button>
       </mat-card-content>
-      <mat-card-content *ngIf="usuario.tipo == 'especialista'">
+      <mat-card-content *ngIf="usuarioActual.tipo == 'especialista'">
         <button mat-raised-button color="primary" (click)="this.mostrarHorarios = !this.mostrarHorarios">{{'horarios' | translate}}</button>
       </mat-card-content>
         
     </mat-card>
     
-    <app-horarios *ngIf="this.mostrarHorarios == true" (eventoSalir)="this.mostrarHorarios = false"></app-horarios>
+    <app-horarios [especialista]="usuarioEspecialista" *ngIf="this.mostrarHorarios == true" (eventoSalir)="this.mostrarHorarios = false"></app-horarios>
   </div>
   <app-ver-historia-clinica *ngIf="mostrarhc" (viewHc)="verHistoria($event)" [emailPaciente]="emailPacientePadre" [idTurno]="idTurnoPadre"></app-ver-historia-clinica>

@@ -8,11 +8,15 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTabsModule } from '@angular/material/tabs';
+import { InformesComponent } from './components/informes/informes.component';
+import { InformesEncuestaComponent } from './components/informes-encuesta/informes-encuesta.component';
 
 
 
 @NgModule({
-  declarations: [ GraficosYEstadisticasComponent ],
+  declarations: [ GraficosYEstadisticasComponent, InformesComponent, InformesEncuestaComponent ],
   imports: [
     CommonModule,
     GraficosYEstadisticasRoutingModule,
@@ -21,7 +25,9 @@ import { MatTableModule } from '@angular/material/table';
     MatTableModule,
     MatCardModule,
     MatButtonModule,
-    MatInputModule
+    MatInputModule,
+    MatIconModule,
+    MatTabsModule
   ]
 })
 export class GraficosYEstadisticasModule { }

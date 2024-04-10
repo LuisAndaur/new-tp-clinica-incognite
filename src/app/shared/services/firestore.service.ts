@@ -107,6 +107,7 @@ export class FirestoreService {
         especialista.fechaRegistro = user['fechaRegistro'];
         especialista.especialidades = user['especialidades'];
         especialista.img = user['img'];
+        especialista.horarios = user['horarios'];
       }
 
     });
@@ -270,7 +271,18 @@ export class FirestoreService {
     especialista.horarios = especialista.horarios.map((horarios: Horarios) => { return { ...horarios } });
     const documento = doc(collection(this.db, this.cUsuarios), id);
     return updateDoc(documento, {
-      ...especialista,
+      id: especialista.id,
+      fechaRegistro: especialista.fechaRegistro,
+      nombre: especialista.nombre,
+      apellido: especialista.apellido,
+      edad: especialista.edad,
+      dni: especialista.dni,
+      email: especialista.email,
+      img: especialista.img,
+      tipo: especialista.tipo,
+      estado: especialista.estado,
+      especialidades: especialista.especialidades,
+      horarios: especialista.horarios
     });
   }
 
@@ -290,7 +302,7 @@ export class FirestoreService {
 
   async guardarEspecialidad(especialidad: string) {
 
-    const docRef = await addDoc(collection(this.db, this.cEspecialidades), {especialidad});
+    const docRef = await addDoc(collection(this.db, this.cEspecialidades), {id: '', especialidad: especialidad});
 
     return await updateDoc(docRef, {
       id: docRef.id,
@@ -359,7 +371,26 @@ export class FirestoreService {
   }
 
   obtenerTurno(turno: Turno){
-    return addDoc(collection(this.db, this.cTurnos), {...turno});
+    return addDoc(collection(this.db, this.cTurnos), 
+    {
+      id: turno.id,
+      fecha: turno.fecha,
+      horaInicio: turno.horaInicio,
+      horaFinal: turno.horaFinal,
+      duracion: turno.duracion,
+      fechaInicio: turno.fechaInicio,
+      fechaFinal: turno.fechaFinal,
+      estadoTurno: turno.estadoTurno,
+      paciente: turno.paciente,
+      encuestaPaciente: turno.encuestaPaciente,
+      calificacionPaciente: turno.calificacionPaciente,
+      especialista: turno.especialista,
+      especialidad: turno.especialidad,
+      comentarioEspecialista: turno.comentarioEspecialista,
+      diagnosticoEspecialista: turno.diagnosticoEspecialista,
+      comentarioAdministrador: turno.comentarioAdministrador,
+      historiaClinica: turno.historiaClinica
+    });
   }
 
   obtenerTurnosCompletos() {
@@ -441,21 +472,22 @@ export class FirestoreService {
     });
   }
 
-  existeTurno(dia:number, horaInicio:number, horaFinal:number, horarios:Array<Horarios>) {
+  existeTurno(dia:number, horaInicio:number, horaFinal:number, horarios:Array<Horarios>, idEspecialidad: number) {
 
+    debugger;
     for (let turno of horarios) {
 
       if (turno.diaNumero === dia) {
 
         if ((horaInicio >= turno.horaInicio && horaInicio < turno.horaFinal) ||
-           (horaFinal > turno.horaInicio && horaFinal <= turno.horaFinal) ||
-           (horaInicio <= turno.horaInicio && horaFinal >= turno.horaFinal)) {
+           (horaFinal > turno.horaInicio && horaFinal <= turno.horaFinal)) {
 
-            return false;
+             return true;
+
         }
       }
     }
-    return true;
+    return false;
   }
 
   calcularTurnosPorDuracion(horaInicio:number, horaFinal:number, duracion:number) {
