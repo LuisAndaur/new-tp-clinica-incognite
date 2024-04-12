@@ -3,7 +3,7 @@
         <mat-card-title>Botonera</mat-card-title>
     </mat-card-header>
     <mat-card-content class="botones">
-        <button mat-raised-button color="accent" value="encuesta" (click)="this.mostrarVisitas()">R1</button>
+        <button mat-raised-button color="accent" value="encuesta" (click)="this.mostrarR1()">R1</button>
         <button mat-raised-button color="accent" value="encuesta" (click)="this.mostrarVisitas()">R2</button>
         <button mat-raised-button color="accent" value="encuesta" (click)="this.mostrarVisitas()">R3</button>
         <button mat-raised-button color="accent" value="encuesta" (click)="this.mostrarVisitas()">R4</button>
@@ -13,6 +13,8 @@
 
     <ng-container *ngIf="opcion == 1">
 
+      <h2>R1. Exprese su opinión de la clínica</h2>
+
         <table mat-table [dataSource]="dataUsuarios" class="mat-elevation-z8">
         
             <!-- fecha Column -->
@@ -21,16 +23,10 @@
               <td mat-cell *matCellDef="let element"> {{element.fecha | fechaFull}} </td>
             </ng-container>
           
-            <!-- nombre Column -->
-            <ng-container matColumnDef="nombre">
-              <th mat-header-cell *matHeaderCellDef> Nombre </th>
-              <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
-            </ng-container>
-          
-            <!-- apwllido Column -->
-            <ng-container matColumnDef="apellido">
-              <th mat-header-cell *matHeaderCellDef> Apellido </th>
-              <td mat-cell *matCellDef="let element"> {{element.apellido}} </td>
+            <!-- paciente Column -->
+            <ng-container matColumnDef="paciente">
+              <th mat-header-cell *matHeaderCellDef> Paciente </th>
+              <td mat-cell *matCellDef="let element"> {{element.paciente}} </td>
             </ng-container>
           
             <!-- email Column -->
@@ -38,11 +34,11 @@
               <th mat-header-cell *matHeaderCellDef> Email </th>
               <td mat-cell *matCellDef="let element"> {{element.email}} </td>
             </ng-container>
-        
-            <!-- tipo Column -->
-            <ng-container matColumnDef="tipo">
-                <th mat-header-cell *matHeaderCellDef> Tipo </th>
-                <td mat-cell *matCellDef="let element"> {{element.tipo | uppercase}} </td>
+          
+            <!-- respuesta Column -->
+            <ng-container matColumnDef="respuesta">
+              <th mat-header-cell *matHeaderCellDef> Respuesta </th>
+              <td mat-cell *matCellDef="let element"> {{element.respuesta}} </td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="usuariosColumnas"></tr>

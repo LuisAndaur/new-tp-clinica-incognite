@@ -11,6 +11,7 @@ import { Turno } from 'src/app/shared/models/turno.class';
 import { SwalService } from 'src/app/shared/services/swal.service';
 import { Especialista } from 'src/app/shared/models/especialista.class';
 import { Paciente } from 'src/app/shared/models/paciente.class';
+import { Usuario } from 'src/app/shared/models/usuario.class';
 
 export interface IUsuarioCantidad {
   email: string;
@@ -67,6 +68,7 @@ export class InformesComponent implements OnInit {
   listaPaciente: Array<Paciente> = [];
   listaTurnosSolicitados: Array<Turno> = [];
   listaTurnosFinalizados: Array<Turno> = [];
+  listaUsuarios: Array<any> = [];
   turnos: Array<any> | null = [];
   private contadorRegistros: Array<IUsuarioCantidad> = [];
   private contadorTurnoPorEspecialidad: Array<IEspecialidadCantidad> = [];
@@ -109,23 +111,25 @@ export class InformesComponent implements OnInit {
     await this.db.obtenerRegistrosIngresos()
     .then((logs)=>{
       this.logsDeIngresos = logs;
-      debugger;
       console.log('logsDeIngresos: ',this.logsDeIngresos);
+      debugger;
 
       this.db.obtenerUsuarios().subscribe((user) => {
+
+        this.listaUsuarios = user;
 
         user.forEach((u) => {
           logs.forEach((l) => {
             if(l.email == u['email']){
               // debugger;
-              let auxLog = new ILogIngreso;
-              auxLog.fecha = new Date(l.fecha);
-              auxLog.nombre = u['nombre'];
-              auxLog.apellido = u['apellido'];
-              auxLog.email = l.email;
-              auxLog.tipo = u['tipo'];
-
-              this.listaLogsDeIngresos.push(auxLog);
+              // let auxLog = new ILogIngreso;
+              // auxLog.fecha = new Date(l.fecha);
+              // auxLog.nombre = u['nombre'];
+              // auxLog.apellido = u['apellido'];
+              // auxLog.email = l.email;
+              // auxLog.tipo = u['tipo'];  
+              
+              // this.listaLogsDeIngresos.push(auxLog);
 
               if(u['tipo'] == 'administrador')
                 this.contadorAdministrador++
@@ -138,7 +142,7 @@ export class InformesComponent implements OnInit {
             }
           });
         })
-        
+        console.log('lista dentro del obserbable: ', this.listaLogsDeIngresos.length);
       })
       debugger;
       // this.dataUsuarios = this.listaLogsDeIngresos;
@@ -183,7 +187,28 @@ export class InformesComponent implements OnInit {
       this.chart.destroy();
     }
 
+    this.listaUsuarios.forEach((u) => {
+      this.logsDeIngresos.forEach((l) => {
+        if(l.email == u['email']){
+          // debugger;
+          let auxLog = new ILogIngreso;
+          auxLog.fecha = new Date(l.fecha);
+          auxLog.nombre = u['nombre'];
+          auxLog.apellido = u['apellido'];
+          auxLog.email = l.email;
+          auxLog.tipo = u['tipo'];  
+          
+          this.listaLogsDeIngresos.push(auxLog);
+        }
+      });
+    })
+
+    console.log("lita: ",this.listaLogsDeIngresos);
+    console.log("logNo Lista: ",this.logsDeIngresos);
+
     this.dataUsuarios = this.listaLogsDeIngresos.sort((a, b) => b.fecha.getTime() - a.fecha.getTime());
+
+    console.log("dataUsuarios: ",this.dataUsuarios);
 
     this.contadorRegistros = this.obtenerCantidadPorUsuario(this.logsDeIngresos);
     this.chartLogsDeIngresos();

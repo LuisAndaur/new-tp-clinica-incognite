@@ -87,16 +87,17 @@
         <!-- encuesta -->
         <button mat-icon-button title="encuesta" class="encuesta" 
         *ngIf="element.estado == 'Finalizado'
-        && element.encuestaPaciente == undefined" (click)="realizarEncuesta(element.id)" (click)="this.mostrarCrear = !this.mostrarCrear">
+        && (element.encuestaPaciente == undefined
+        || element.encuestaPaciente == '')" (click)="realizarEncuesta(element.id)" (click)="this.mostrarCrear = !this.mostrarCrear">
             <mat-icon>note_alt</mat-icon>
         </button>
 
         <!-- calificar -->
-        <button mat-icon-button title="calificar" class="calificar" 
+        <!-- <button mat-icon-button title="calificar" class="calificar" 
         *ngIf="element.estado == 'Finalizado'
         && element.calificacionPaciente == ''" (click)="calificar(element)">
             <mat-icon>stars</mat-icon>
-        </button>
+        </button> -->
       </td>
     </ng-container>
 

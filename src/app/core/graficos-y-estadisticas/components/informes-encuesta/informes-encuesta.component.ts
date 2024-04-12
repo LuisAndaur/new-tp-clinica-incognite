@@ -11,8 +11,6 @@ import { take } from 'rxjs';
 import { Turno } from 'src/app/shared/models/turno.class';
 import { SwalService } from 'src/app/shared/services/swal.service';
 import { Especialista } from 'src/app/shared/models/especialista.class';
-import { LogIngresos } from 'src/app/shared/models/log-ingresos.class';
-import { debugErrorMap } from '@angular/fire/auth';
 import { Paciente } from 'src/app/shared/models/paciente.class';
 
 export interface IUsuarioCantidad {
@@ -25,12 +23,11 @@ export interface IVisitaCantidad {
   cantidad: number;
 }
 
-export class ILogIngreso{
+export class IR1{
   fecha!: Date;
-  nombre!: string;
-  apellido!: string;
+  paciente!: string;
   email!: string;
-  tipo!: string;
+  respuesta!: string;
 }
 
 export interface ITurnoEspecialidadCantidad{
@@ -63,7 +60,7 @@ export class InformesEncuestaComponent implements OnInit {
   usuario:any;
   verGrafico: boolean = false;
   dias: Array<string> = ["Domingo", "Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"];
-  listaLogsDeIngresos: Array<ILogIngreso> = [];
+  listaR1: Array<IR1> = [];
   mostrarUsuario:boolean = false;
   listaEspecialistas: Array<Especialista> = [];
   listaEspecialidades: Array<Especialidad> = [];
@@ -82,7 +79,7 @@ export class InformesEncuestaComponent implements OnInit {
   contadorAdministrador: number = 0;
   contadorEspecialista: number = 0;
   contadorPaciente: number = 0;
-  usuariosColumnas: string[] = ['fecha', 'nombre', 'apellido', 'email', 'tipo'];
+  usuariosColumnas: string[] = ['fecha', 'paciente', 'email', 'respuesta'];
   dataUsuarios: Array<any> = [];
 
 
@@ -94,57 +91,12 @@ export class InformesEncuestaComponent implements OnInit {
 
   ngOnInit(): void {
     this.spinner.mostrar();
-    this.cargarLogIngresos();
 
     this.cargarTurnos();
 
     this.cargarEspecialidades();
 
     this.cargarEspecialistas();
-
-    
-  }
-
-  private async cargarLogIngresos(){
-
-    await this.db.obtenerRegistrosIngresos()
-    .then((logs)=>{
-      this.logsDeIngresos = logs;
-      debugger;
-      console.log('logsDeIngresos: ',this.logsDeIngresos);
-
-      this.db.obtenerUsuarios().subscribe((user) => {
-
-        user.forEach((u) => {
-          logs.forEach((l) => {
-            if(l.email == u['email']){
-              // debugger;
-              let auxLog = new ILogIngreso;
-              auxLog.fecha = new Date(l.fecha);
-              auxLog.nombre = u['nombre'];
-              auxLog.apellido = u['apellido'];
-              auxLog.email = l.email;
-              auxLog.tipo = u['tipo'];
-
-              this.listaLogsDeIngresos.push(auxLog);
-
-              if(u['tipo'] == 'administrador')
-                this.contadorAdministrador++
-
-              if(u['tipo'] == 'especialista')
-                this.contadorEspecialista++
-
-              if(u['tipo'] == 'paciente')
-                this.contadorPaciente++
-            }
-          });
-        })
-        
-      })
-      debugger;
-      // this.dataUsuarios = this.listaLogsDeIngresos;
-      
-    }).finally(()=> this.spinner.ocultar());
   }
 
   private async cargarEspecialistas(){
@@ -176,7 +128,7 @@ export class InformesEncuestaComponent implements OnInit {
     });
   }
 
-  mostrarLogIngresos(){
+  mostrarR1(){
 
     this.opcion = 1;
     this.verGrafico = true;
@@ -184,10 +136,29 @@ export class InformesEncuestaComponent implements OnInit {
       this.chart.destroy();
     }
 
-    this.dataUsuarios = this.listaLogsDeIngresos.sort((a, b) => b.fecha.getTime() - a.fecha.getTime());
+    const misTurnos = this.turnos?.filter((t) => t.estadoTurno == 'Finalizado');
 
-    this.contadorRegistros = this.obtenerCantidadPorUsuario(this.logsDeIngresos);
-    this.chartLogsDeIngresos();
+    misTurnos?.forEach((t) => {
+      debugger;
+      if(t.encuestaPaciente !== ""){
+        if(t.encuestaPaciente != undefined){
+
+          let aux: IR1 = {
+            fecha: t.fechaInicio,
+            paciente: t.paciente.nombre + ' ' + t.paciente.apellido,
+            email: t.paciente.email,
+            respuesta: t.encuestaPaciente.r1
+          }
+  
+          this.listaR1.push(aux);
+        }
+      }
+    });
+
+    console.log('R1: ', this.listaR1);
+
+    this.dataUsuarios = this.listaR1.sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
+
   }
 
   mostrarVisitas(){

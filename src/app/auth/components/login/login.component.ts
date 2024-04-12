@@ -90,22 +90,24 @@ export class LoginComponent implements OnInit {
                         this.router.navigateByUrl('/bienvenida');
                       }
                       else{
-                        if(user['estado'] == 'aceptado'){
-                          this.ingreso.setRegistroIngreso(this.email?.value);
-                          this.localStorage.setItem('usuario', user);
-                          console.log('Current: ', this.localStorage.getItem('usuario'));
-                          this.swal.success('Bienvenido ' + user['nombre'] + '!');
-                          this.router.navigate(['/bienvenida']);
-                        }
-                        else if(user['estado'] == 'pendiente'){
-                          this.swal.info("El administrador no activó su cuenta");
-                        }
-                        else if(user['estado'] == 'rechazado'){
-                          this.swal.info("Su cuenta ha sido rechazada.");
-                        }
-                        else{
-                          this.auth.logout();
-                          this.router.navigateByUrl('/bienvenida');
+                        if(user['tipo'] == 'especialista'){
+                          if(user['estado'] == 'aceptado'){
+                            this.ingreso.setRegistroIngreso(this.email?.value);
+                            this.localStorage.setItem('usuario', user);
+                            console.log('Current: ', this.localStorage.getItem('usuario'));
+                            this.swal.success('Bienvenido ' + user['nombre'] + '!');
+                            this.router.navigate(['/bienvenida']);
+                          }
+                          else if(user['estado'] == 'pendiente'){
+                            this.swal.info("El administrador no activó su cuenta");
+                          }
+                          else if(user['estado'] == 'rechazado'){
+                            this.swal.info("Su cuenta ha sido rechazada.");
+                          }
+                          else{
+                            this.auth.logout();
+                            this.router.navigateByUrl('/bienvenida');
+                          }
                         }
                       }
                     }

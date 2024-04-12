@@ -35,7 +35,7 @@
             <!-- fecha Column -->
             <ng-container matColumnDef="fecha">
               <th mat-header-cell *matHeaderCellDef> Fecha </th>
-              <td mat-cell *matCellDef="let element"> {{element.fecha | fechaFull}} </td>
+              <td mat-cell *matCellDef="let element"> {{element.fecha | date: 'medium'}} </td>
             </ng-container>
           
             <!-- nombre Column -->

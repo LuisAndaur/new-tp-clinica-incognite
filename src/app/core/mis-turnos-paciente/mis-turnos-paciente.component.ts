@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { Encuesta } from 'src/app/shared/models/encuesta.class';
 import { HistoriaClinica } from 'src/app/shared/models/historia-clinica.class';
 import { Turno } from 'src/app/shared/models/turno.class';
 import { Usuario } from 'src/app/shared/models/usuario.class';
@@ -22,7 +23,7 @@ export interface DataTurnoPaciente {
   comentarioPaciente: string;
   comentarioAdministrador: string;
   diagnosticoEspecialista: string;
-  encuestaPaciente: string;
+  encuestaPaciente: Encuesta;
   calificacionPaciente: string;
   historiaClinica: HistoriaClinica;
 }
@@ -187,6 +188,7 @@ export class MisTurnosPacienteComponent implements OnInit {
         comentarioPaciente: t.comentarioPaciente,
         comentarioAdministrador: t.comentarioAdministrador,
         diagnosticoEspecialista: t.diagnosticoEspecialista,
+        encuestaPaciente: t.encuestaPaciente,
         calificacionPaciente: t.calificacionPaciente,
         historiaClinica: t.historiaClinica
       };
