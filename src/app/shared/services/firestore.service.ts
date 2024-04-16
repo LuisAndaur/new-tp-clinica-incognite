@@ -171,6 +171,33 @@ export class FirestoreService {
     return listaEspecialistas;
   }
 
+  async obtenerPacientes() : Promise<Array<Paciente>>{
+    let listaPacientes = Array<Paciente>();
+    const querySnapshot = await getDocs(collection(this.db, this.cUsuarios));
+
+    for(let i = 0; i < querySnapshot.size; i++){
+      let datos = querySnapshot.docs[i].data();
+
+      if(datos['tipo'] == 'paciente'){
+        let auxPaciente = new Paciente();
+        auxPaciente.id = datos['id'];
+        auxPaciente.nombre = datos['nombre'];
+        auxPaciente.apellido = datos['apellido'];
+        auxPaciente.edad = datos['edad'];
+        auxPaciente.email = datos['email'];
+        auxPaciente.dni = datos['dni'];
+        auxPaciente.obraSocial = datos['obraSocial'];
+        auxPaciente.estado = datos['estado'];
+        auxPaciente.fechaRegistro = datos['fechaRegistro'];
+        auxPaciente.tipo = datos['tipo'];
+
+        listaPacientes.push(auxPaciente);
+
+      }
+    }
+    return listaPacientes;
+  }
+
   async obtenerLosTurnos() : Promise<Array<Turno>>{
     let listaTurnos = Array<Turno>();
     const querySnapshot = await getDocs(collection(this.db, this.cTurnos));

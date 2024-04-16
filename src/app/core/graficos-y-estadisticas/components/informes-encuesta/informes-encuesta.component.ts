@@ -23,11 +23,27 @@ export interface IVisitaCantidad {
   cantidad: number;
 }
 
+export class IDetallePaciente{
+  solicitado: number = 0;
+  aceptado: number = 0;
+  realizado: number = 0;
+  finalizado: number = 0;
+  cancelado: number = 0;
+}
+
 export class IR1{
   fecha!: Date;
   paciente!: string;
   email!: string;
   respuesta!: string;
+}
+
+export class IR2{
+  una: number = 0;
+  dos: number = 0;
+  tres: number = 0;
+  cuatro: number = 0;
+  cinco: number = 0;
 }
 
 export interface ITurnoEspecialidadCantidad{
@@ -61,12 +77,18 @@ export class InformesEncuestaComponent implements OnInit {
   verGrafico: boolean = false;
   dias: Array<string> = ["Domingo", "Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"];
   listaR1: Array<IR1> = [];
+  respuesta2: IR2 = new IR2();
   mostrarUsuario:boolean = false;
+  pacienteElegido:string = '';
+  preguntaEncuesta:string = '';
+  nombrePacienteElegido:string = '';
   listaEspecialistas: Array<Especialista> = [];
+  listaPacientes: Array<Paciente> = [];
   listaEspecialidades: Array<Especialidad> = [];
   listaPaciente: Array<Paciente> = [];
   listaTurnosSolicitados: Array<Turno> = [];
   listaTurnosFinalizados: Array<Turno> = [];
+  detallePacienteGral: IDetallePaciente = new IDetallePaciente();
   turnos: Array<any> | null = [];
   private contadorRegistros: Array<IUsuarioCantidad> = [];
   private contadorTurnoPorEspecialidad: Array<ITurnoEspecialidadCantidad> = [];
@@ -92,11 +114,45 @@ export class InformesEncuestaComponent implements OnInit {
   ngOnInit(): void {
     this.spinner.mostrar();
 
+    this.cargarLogIngresos();
+
     this.cargarTurnos();
+
+    this.cargarPacientes();
 
     this.cargarEspecialidades();
 
     this.cargarEspecialistas();
+  }
+
+  private async cargarLogIngresos(){
+
+    await this.db.obtenerRegistrosIngresos()
+    .then((logs)=>{
+
+      this.db.obtenerUsuarios().subscribe((user) => {
+
+        user.forEach((u) => {
+          logs.forEach((l) => {
+            if(l.email == u['email']){
+
+              if(u['tipo'] == 'administrador')
+                this.contadorAdministrador++
+
+              if(u['tipo'] == 'especialista')
+                this.contadorEspecialista++
+
+              if(u['tipo'] == 'paciente')
+                this.contadorPaciente++
+            }
+          });
+        })
+
+      })
+      debugger;
+      // this.dataUsuarios = this.listaLogsDeIngresos;
+      
+    }).finally(()=> this.spinner.ocultar());
   }
 
   private async cargarEspecialistas(){
@@ -104,8 +160,17 @@ export class InformesEncuestaComponent implements OnInit {
     await this.db.obtenerLosEspecialistas()
     .then((e)=>{
       this.listaEspecialistas = e;
-      console.log('listaEspecialistas: ',this.listaEspecialistas);
-    }).finally(()=> this.spinner.ocultar());;
+      console.log('listaEspecialistasEncuesta: ',this.listaEspecialistas);
+    }).finally(()=> this.spinner.ocultar());
+  }
+
+  private async cargarPacientes(){
+
+    await this.db.obtenerPacientes()
+    .then((p)=>{
+      this.listaPacientes = p;
+      console.log('listaPacientes: ',this.listaPacientes);
+    }).finally(()=> this.spinner.ocultar());
   }
 
   private async cargarEspecialidades(){
@@ -114,7 +179,7 @@ export class InformesEncuestaComponent implements OnInit {
     .then((e)=>{
       this.listaEspecialidades = e;
       console.log('listaEspecialidades: ',this.listaEspecialidades);
-    }).finally(()=> this.spinner.ocultar());;
+    }).finally(()=> this.spinner.ocultar());
   }
 
   private cargarTurnos(){
@@ -130,8 +195,10 @@ export class InformesEncuestaComponent implements OnInit {
 
   mostrarR1(){
 
+    this.preguntaEncuesta = 'R1. Exprese su opinión de la clínica';
+
     this.opcion = 1;
-    this.verGrafico = true;
+    this.verGrafico = false;
     if(this.chart instanceof Chart){
       this.chart.destroy();
     }
@@ -161,9 +228,90 @@ export class InformesEncuestaComponent implements OnInit {
 
   }
 
+  mostrarR2(){
+
+    this.preguntaEncuesta = 'R2. Califica la clínica';
+
+    this.opcion = 2;
+    this.verGrafico = true;
+    if(this.chart instanceof Chart){
+      this.chart.destroy();
+    }
+
+    let r2: IR2 = new IR2();
+    this.respuesta2 = r2;
+    const misTurnos = this.turnos?.filter((t) => t.estadoTurno == 'Finalizado');
+
+    misTurnos?.forEach((t) => {
+      debugger;
+      if(t.encuestaPaciente !== ""){
+        if(t.encuestaPaciente != undefined){
+
+          if(t.encuestaPaciente.r2 == 1)
+            r2.una++;
+
+          if(t.encuestaPaciente.r2 == 2)
+            r2.dos++;
+
+          if(t.encuestaPaciente.r2 == 3)
+            r2.tres++;
+
+          if(t.encuestaPaciente.r2 == 4)
+            r2.cuatro++;
+
+          if(t.encuestaPaciente.r2 == 5)
+            r2.cinco++;
+        }
+      }
+    });
+
+    console.log('R2: ', r2);
+
+    this.chartR2();
+  }
+
+  private detallePaciente(id: string){
+
+    this.preguntaEncuesta = '';
+
+    this.verGrafico = true;
+    if(this.chart instanceof Chart){
+      this.chart.destroy();
+    }
+
+    let detallePaciente: IDetallePaciente = new IDetallePaciente();
+    this.detallePacienteGral = detallePaciente;
+    const misTurnos = this.turnos?.filter((t) => t.paciente.id == id);
+
+    misTurnos?.forEach((t) => {
+
+      this.nombrePacienteElegido = t.paciente.nombre + ' ' + t.paciente.apellido;
+      debugger;
+      if(t.estadoTurno == "Solicitado")
+        detallePaciente.solicitado++;
+
+      if(t.estadoTurno == "Cancelado")
+        detallePaciente.cancelado++;
+
+      if(t.estadoTurno == "Aceptado")
+        detallePaciente.aceptado++;
+
+      if(t.estadoTurno == "Realizado")
+        detallePaciente.realizado++;
+
+      if(t.estadoTurno == "Finalizado")
+        detallePaciente.finalizado++;
+    });
+
+    this.detallePacienteGral = detallePaciente;
+
+    this.chartDetallePaciente();
+
+  }
+
   mostrarVisitas(){
 
-    this.opcion = 6;
+    this.opcion = 7;
     this.verGrafico = true;
     if(this.chart instanceof Chart){
       this.chart.destroy();
@@ -176,40 +324,34 @@ export class InformesEncuestaComponent implements OnInit {
     this.mostrarUsuario = !this.mostrarUsuario;
   }
 
-  private obtenerCantidadPorUsuario(data: any):Array<IUsuarioCantidad>{
-    return data.reduce((accumulator:any, item:any) => {
-
-      const existingItem = accumulator.find((entry:any) => {
-        return entry.email === item.email
-      });
-      if (existingItem) {
-        existingItem.cantidad++;
-      } else {
-        accumulator.push({ cantidad: 1, email: item.email });
-      }
-      return accumulator;
-    }, []);
-  }
-
-  private chartLogsDeIngresos(){
-    const emails = this.contadorRegistros.map(e=> e.email);
-    const cantidad = this.contadorRegistros.map(e=> e.cantidad);
-  
+  setearOpcion(index:number){
+    this.preguntaEncuesta = '';
+    this.verGrafico = false;
     if(this.chart instanceof Chart){
       this.chart.destroy();
     }
 
-    this.chart = new Chart('chart', {
-      type: 'doughnut',
-      data: {
-        labels: emails,
-        datasets: [{
-          label: 'Turnos por especialidad',
-          data: cantidad,
-          borderWidth: 1,
-        }]
-      },
-    });
+    this.opcion = index;
+  }
+
+  buscar(){
+
+    if(this.chart instanceof Chart){
+      this.chart.destroy();
+    }
+
+    if(this.pacienteElegido == ''){
+      this.swal.warning('Debe seleccionar un paciente!')
+    }
+    else{
+      this.detallePaciente(this.pacienteElegido);
+    }
+
+  }
+
+  seleccion(user: string){
+    console.log('paciente elegido: ', user);
+    this.pacienteElegido = user;
   }
 
   private chartVisitas(){
@@ -231,15 +373,63 @@ export class InformesEncuestaComponent implements OnInit {
     });
   }
 
+  private chartR2(){
+
+    if(this.chart instanceof Chart){
+      this.chart.destroy();
+    }
+
+    this.chart = new Chart('chart', {
+      type: 'pie',
+      data: {
+        labels: ['1 Estrella', '2 Estrellas', '3 Estrellas', '4 Estrellas', '5 Estrellas'],
+        datasets: [{
+          label: 'Encuesta - R2. Califica la clínica',
+          data: [ this.respuesta2.una, 
+                  this.respuesta2.dos, 
+                  this.respuesta2.tres, 
+                  this.respuesta2.cuatro, 
+                  this.respuesta2.cinco,         
+          ],
+          borderWidth: 1,
+        }]
+      },
+    });
+  }
+
+  private chartDetallePaciente(){
+
+    if(this.chart instanceof Chart){
+      this.chart.destroy();
+    }
+
+    this.chart = new Chart('chart', {
+      type: 'bar',
+      data: {
+        labels: ['Solicitados', 'Aceptados', 'Realizados', 'Finalizados', 'Cancelados'],
+        datasets: [{
+          label: 'Detalle de paciente: ' + this.nombrePacienteElegido,
+          data: [ this.detallePacienteGral.solicitado, 
+                  this.detallePacienteGral.aceptado, 
+                  this.detallePacienteGral.realizado, 
+                  this.detallePacienteGral.finalizado, 
+                  this.detallePacienteGral.cancelado,         
+          ],
+          borderWidth: 1,
+        }]
+      },
+    });
+  }
+
   descargarExcel(){
 
     switch(this.opcion){
       case 1:
-        this.excel.descargarExcelLogIngresos(this.contadorRegistros, this.setearnombre());
+        this.excel.descargarExcelEncuestaR1(this.dataUsuarios, this.setearnombre());
         break;
 
       case 2:
-          this.excel.descargarExcelTurnosPorEspecialidad(this.contadorTurnoPorEspecialidad, this.setearnombre());
+          this.excel.descargarExcelEncuestaR2(this.respuesta2, this.setearnombre());
           break;
 
       case 3:
@@ -255,6 +445,10 @@ export class InformesEncuestaComponent implements OnInit {
         break;
 
       case 6:
+        this.excel.descargarExcelDetallePaciente(this.detallePacienteGral, this.nombrePacienteElegido, this.setearnombre())
+        break;
+
+      case 7:
         let visitas: Array<IVisitaCantidad> = [
           { tipo: 'Administrador', cantidad: this.contadorAdministrador},
           { tipo: 'Especialistas', cantidad: this.contadorEspecialista},
@@ -294,26 +488,30 @@ export class InformesEncuestaComponent implements OnInit {
 
     switch(this.opcion){
       case 1:
-        titulo = 'Logs de ingresos';
+        titulo = 'Encuesta: R1. Exprese su opinión de la clínica';
         break;
 
       case 2:
-          titulo = 'Turnos por especialidad';
+          titulo = 'Encuesta: R2. Califica la clínica';
           break;
 
       case 3:
-        titulo = 'Turnos por día';
+        titulo = 'Encuesta: R3. ¿Cómo valorás la atención del profesional?';
         break;
 
       case 4:
-        titulo = 'Turnos solicitados por especialista';
+        titulo = 'Encuesta: R4. Seleccione que considera que habría que reforzar en la clínica';
         break;
 
       case 5:
-        titulo = 'Turnos finalizados por especialista';
+        titulo = 'Encuesta: R5. ¿Cómo valorás la higuiene de la clínica?';
         break;
 
       case 6:
+        titulo = 'Detalle paciente: ' + this.nombrePacienteElegido;
+        break;
+
+      case 7:
         titulo = 'Cantidad de visitas que tuvo la clínica';
         break;
     }
@@ -327,26 +525,30 @@ export class InformesEncuestaComponent implements OnInit {
 
     switch(this.opcion){
       case 1:
-        nombre = 'logs_de_ingresos';
+        nombre = 'encuesta_r1';
         break;
 
       case 2:
-          nombre = 'turnos_por_especialidad';
+          nombre = 'encuesta_r2';
           break;
 
       case 3:
-        nombre = 'turnos_por_dia';
+        nombre = 'encuesta_r3';
         break;
 
       case 4:
-        nombre = 'turnos_solicitados_por_especialista';
+        nombre = 'encuesta_r4';
         break;
 
       case 5:
-        nombre = 'turnos_finalizados_por_especialista';
+        nombre = 'encuesta_r5';
         break;
 
       case 6:
+        nombre = 'detalle_paciente_' + this.nombrePacienteElegido;
+        break;
+
+      case 7:
         nombre = 'cantidad_de_visitas';
         break;
     }

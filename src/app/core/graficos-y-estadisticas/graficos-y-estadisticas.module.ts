@@ -12,6 +12,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { InformesComponent } from './components/informes/informes.component';
 import { InformesEncuestaComponent } from './components/informes-encuesta/informes-encuesta.component';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 
@@ -27,7 +29,9 @@ import { InformesEncuestaComponent } from './components/informes-encuesta/inform
     MatButtonModule,
     MatInputModule,
     MatIconModule,
-    MatTabsModule
+    MatTabsModule,
+    MatSelectModule,
+    MatFormFieldModule
   ]
 })
 export class GraficosYEstadisticasModule { }

@@ -7,6 +7,7 @@ import { Turno } from '../models/turno.class';
 import { Usuario } from '../models/usuario.class';
 import { IUsuarioCantidad, ITurnoDiaCantidad, ITurnoEspecialistaCantidad, IVisitaCantidad } from 'src/app/core/graficos-y-estadisticas/graficos-y-estadisticas.component';
 import { IEspecialidadCantidad } from 'src/app/core/graficos-y-estadisticas/components/informes/informes.component';
+import { IDetallePaciente, IR2 } from 'src/app/core/graficos-y-estadisticas/components/informes-encuesta/informes-encuesta.component';
 
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
@@ -232,6 +233,94 @@ export class ExcelService {
       let fila = [e.especialidad, e.cantidad];
       worksheet.addRow(fila);
     }
+
+    workbook.xlsx.writeBuffer().then((data: any) => {
+      let blob = new Blob([data], { type: EXCEL_TYPE });
+      fs.saveAs(blob, nombreArchivo + EXCEL_EXTENSION);
+    })
+
+  }
+
+  descargarExcelEncuestaR1(dataUsuarios: any[], nombreFile: string) {
+
+    let nombre = `${nombreFile}`;
+
+    let workbook = new excel.Workbook();
+    let worksheet = workbook.addWorksheet("Encuesta - R1. Exprese su opinión de la clínica");
+    let encabezado = ["Fecha", "Paciente", "Email", "Respuesta"];
+    let filaEncabezado = worksheet.addRow(encabezado);
+    let nombreArchivo = `${nombre}${this.formatearFecha()}`;
+
+    for (let u of dataUsuarios) {
+      let fila = [this.formatearFechaRegistro(new Date(u.fecha)), u.paciente, u.email, u.respuesta];
+      worksheet.addRow(fila);
+    }
+
+    workbook.xlsx.writeBuffer().then((data: any) => {
+      let blob = new Blob([data], { type: EXCEL_TYPE });
+      fs.saveAs(blob, nombreArchivo + EXCEL_EXTENSION);
+    })
+
+  }
+
+  descargarExcelEncuestaR2(r2: IR2, nombreFile: string) {
+
+    let nombre = `${nombreFile}`;
+
+    let workbook = new excel.Workbook();
+    let worksheet = workbook.addWorksheet("R2. Califica la clínica");
+    let encabezado = ["Calificación", "Cantidad"];
+    
+    let filaEncabezado = worksheet.addRow(encabezado);
+    let nombreArchivo = `${nombre}${this.formatearFecha()}`;
+
+    let fila = ['1 estrella', r2.una];
+      worksheet.addRow(fila);
+    fila = ['2 estrellas', r2.dos];
+      worksheet.addRow(fila);
+
+    fila = ['3 estrellas', r2.tres];
+      worksheet.addRow(fila);
+
+    fila = ['4 estrellas', r2.cuatro];
+      worksheet.addRow(fila);
+
+    fila = ['5 estrellas', r2.cinco];
+      worksheet.addRow(fila);
+
+    workbook.xlsx.writeBuffer().then((data: any) => {
+      let blob = new Blob([data], { type: EXCEL_TYPE });
+      fs.saveAs(blob, nombreArchivo + EXCEL_EXTENSION);
+    })
+
+  }
+
+  descargarExcelDetallePaciente(detallePaciente: IDetallePaciente, nombrePaciente: string, nombreFile: string) {
+
+    let nombre = `${nombreFile}`;
+
+    let workbook = new excel.Workbook();
+    let worksheet = workbook.addWorksheet("Detalle paciente " + nombrePaciente);
+    let encabezado = ["Paciente ", nombrePaciente];
+    worksheet.addRow(encabezado);
+    encabezado = ["Estados de turno", "Cantidad"];
+    
+    let filaEncabezado = worksheet.addRow(encabezado);
+    let nombreArchivo = `${nombre}${this.formatearFecha()}`;
+
+    let fila = ['Solicitados', detallePaciente.solicitado];
+      worksheet.addRow(fila);
+    fila = ['Aceptados', detallePaciente.aceptado];
+      worksheet.addRow(fila);
+
+    fila = ['Realizados', detallePaciente.realizado];
+      worksheet.addRow(fila);
+
+    fila = ['Finalizados', detallePaciente.finalizado];
+      worksheet.addRow(fila);
+
+    fila = ['Cancelados', detallePaciente.cancelado];
+      worksheet.addRow(fila);
 
     workbook.xlsx.writeBuffer().then((data: any) => {
       let blob = new Blob([data], { type: EXCEL_TYPE });
