@@ -7,7 +7,7 @@ import { Turno } from '../models/turno.class';
 import { Usuario } from '../models/usuario.class';
 import { IUsuarioCantidad, ITurnoDiaCantidad, ITurnoEspecialistaCantidad, IVisitaCantidad } from 'src/app/core/graficos-y-estadisticas/graficos-y-estadisticas.component';
 import { IEspecialidadCantidad } from 'src/app/core/graficos-y-estadisticas/components/informes/informes.component';
-import { IDetallePaciente, IR2 } from 'src/app/core/graficos-y-estadisticas/components/informes-encuesta/informes-encuesta.component';
+import { IDetallePaciente, IR2, IR3, IR4, IR5 } from 'src/app/core/graficos-y-estadisticas/components/informes-encuesta/informes-encuesta.component';
 
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
@@ -286,6 +286,116 @@ export class ExcelService {
       worksheet.addRow(fila);
 
     fila = ['5 estrellas', r2.cinco];
+      worksheet.addRow(fila);
+
+    workbook.xlsx.writeBuffer().then((data: any) => {
+      let blob = new Blob([data], { type: EXCEL_TYPE });
+      fs.saveAs(blob, nombreArchivo + EXCEL_EXTENSION);
+    })
+
+  }
+
+  descargarExcelEncuestaR3(r3: IR3, nombreFile: string) {
+
+    let nombre = `${nombreFile}`;
+
+    let workbook = new excel.Workbook();
+    let worksheet = workbook.addWorksheet("R3. Como valora la atención del profesional");
+    let encabezado = ["Calificación", "Cantidad"];
+    
+    let filaEncabezado = worksheet.addRow(encabezado);
+    let nombreArchivo = `${nombre}${this.formatearFecha()}`;
+
+    let fila = ['1. Muy mal', r3.uno];
+      worksheet.addRow(fila);
+    fila = ['2. Mal', r3.dos];
+      worksheet.addRow(fila);
+
+    fila = ['3. Normal', r3.tres];
+      worksheet.addRow(fila);
+
+    fila = ['4. Bien', r3.cuatro];
+      worksheet.addRow(fila);
+
+    fila = ['5. Excelente', r3.cinco];
+      worksheet.addRow(fila);
+
+    workbook.xlsx.writeBuffer().then((data: any) => {
+      let blob = new Blob([data], { type: EXCEL_TYPE });
+      fs.saveAs(blob, nombreArchivo + EXCEL_EXTENSION);
+    })
+
+  }
+
+  descargarExcelEncuestaR4(r4: IR4, nombreFile: string) {
+
+    let nombre = `${nombreFile}`;
+
+    let workbook = new excel.Workbook();
+    let worksheet = workbook.addWorksheet("R4. Seleccione que considera que habría que reforzar en la clínica.");
+    let encabezado = ["Aptitud", "Cantidad"];
+    
+    let filaEncabezado = worksheet.addRow(encabezado);
+    let nombreArchivo = `${nombre}${this.formatearFecha()}`;
+
+    let fila = ['Amabilidad', r4.amabilidad];
+      worksheet.addRow(fila);
+
+    fila = ['Tecnología', r4.tecnologia];
+      worksheet.addRow(fila);
+
+    fila = ['Profesionalismo', r4.profesionalismo];
+      worksheet.addRow(fila);
+
+    workbook.xlsx.writeBuffer().then((data: any) => {
+      let blob = new Blob([data], { type: EXCEL_TYPE });
+      fs.saveAs(blob, nombreArchivo + EXCEL_EXTENSION);
+    })
+
+  }
+
+  descargarExcelEncuestaR5(r5: IR5, nombreFile: string) {
+
+    let nombre = `${nombreFile}`;
+
+    let workbook = new excel.Workbook();
+    let worksheet = workbook.addWorksheet("R5. Como valora la higuiene de la clínica");
+    let encabezado = ["Calificación Higuiene de 0 a 10", "Cantidad"];
+    
+    let filaEncabezado = worksheet.addRow(encabezado);
+    let nombreArchivo = `${nombre}${this.formatearFecha()}`;
+
+    let fila = ['0', r5.cero];
+      worksheet.addRow(fila);
+
+    fila = ['1', r5.una];
+      worksheet.addRow(fila);
+
+    fila = ['2', r5.dos];
+      worksheet.addRow(fila);
+
+    fila = ['3', r5.tres];
+      worksheet.addRow(fila);
+
+    fila = ['4', r5.cuatro];
+      worksheet.addRow(fila);
+
+    fila = ['5', r5.cinco];
+      worksheet.addRow(fila);
+
+    fila = ['6', r5.seis];
+      worksheet.addRow(fila);
+
+    fila = ['7', r5.siete];
+      worksheet.addRow(fila);
+
+    fila = ['8', r5.ocho];
+      worksheet.addRow(fila);
+
+    fila = ['9', r5.nueve];
+      worksheet.addRow(fila);
+
+    fila = ['10', r5.diez];
       worksheet.addRow(fila);
 
     workbook.xlsx.writeBuffer().then((data: any) => {

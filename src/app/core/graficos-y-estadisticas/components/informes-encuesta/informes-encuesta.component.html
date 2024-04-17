@@ -5,11 +5,13 @@
     <mat-card-content class="botones">
         <button mat-raised-button color="accent" value="encuesta" (click)="this.mostrarR1()">R1</button>
         <button mat-raised-button color="accent" value="encuesta" (click)="this.mostrarR2()">R2</button>
-        <button mat-raised-button color="accent" value="encuesta" (click)="this.mostrarVisitas()">R3</button>
-        <button mat-raised-button color="accent" value="encuesta" (click)="this.mostrarVisitas()">R4</button>
-        <button mat-raised-button color="accent" value="encuesta" (click)="this.mostrarVisitas()">R5</button>
+        <button mat-raised-button color="accent" value="encuesta" (click)="this.mostrarR3()">R3</button>
+        <button mat-raised-button color="accent" value="encuesta" (click)="this.mostrarR4()">R4</button>
+        <button mat-raised-button color="accent" value="encuesta" (click)="this.mostrarR5()">R5</button>
         <button mat-raised-button color="accent" value="detalle-paciente" (click)="this.setearOpcion(6)">Paciente detalle</button>
         <button mat-raised-button color="accent" value="Visitas" (click)="this.mostrarVisitas()">Cantidad de visitas</button>
+        <button mat-raised-button color="accent" value="pacientes por especialidad" (click)="this.pacientesPorEspecialidad()">Pacientes por especialidad</button>
+        <button mat-raised-button color="accent" value="medicos por especialidad" (click)="this.medicosPorEspecialidad()">Médicos por especialidad</button>
     </mat-card-content>
 
     <mat-card-content class="botoneraFechas" *ngIf="this.opcion == 6">
