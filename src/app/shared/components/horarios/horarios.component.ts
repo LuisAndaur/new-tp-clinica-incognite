@@ -46,6 +46,7 @@ export class HorariosComponent {
   horaSabadoFinal: Array<number> = [9, 10, 11, 12, 13, 14];
   duracion: Array<number> = [ 30, 60 ];
   horarios!: Horarios;
+  e!: Especialista | null;
   displayedColumns: string[] = ['especialidad', 'dia', 'inicio', 'fin', 'duracion'];
   misHorarios: Array<Horarios> = [];
   auxEspecialista: Especialista = new Especialista();
@@ -65,8 +66,9 @@ export class HorariosComponent {
     if(this.currentUser != null){
       this.ordenarHorarios();
       this.asignarDia("Lunes");
-      this.formInit();    
+      this.formInit(); 
     }
+
 
     this.spinner.ocultar();
   }
@@ -81,7 +83,7 @@ export class HorariosComponent {
     });
   }
 
-  submit(){
+  async submit(){
     debugger;
     if(this.form.valid){
 
@@ -92,21 +94,25 @@ export class HorariosComponent {
           this.currentUser.horarios = [];
         }
         if(!this.db.existeTurno(horarios.diaNumero,horarios.horaInicio,horarios.horaFinal,this.currentUser.horarios, this.getEspecialidades?.value)){
-
+debugger;
           const turnos = this.db.generarTurnos(horarios.horaInicio,horarios.horaFinal,horarios.duracion);
           const turnosProyectados = this.db.proyectarTurnos(this.currentUser, turnos,horarios.diaNumero);
-          this.actualizarEspecialista(horarios,turnosProyectados);
+          await this.actualizarEspecialista(horarios,turnosProyectados);
           this.misHorarios = this.currentUser.horarios;
+          this.spinner.ocultar();
         }
         else{
+          this.spinner.ocultar();
           this.swal.error("Este horario ya lo tiene ocupado!");
         }
       } 
       else {
+        this.spinner.ocultar();
         this.swal.error(respuesta[1]);
       }
     }
     else{
+      this.spinner.ocultar();
       this.swal.info("Formulario no válido!");
     }
   }
@@ -154,24 +160,29 @@ export class HorariosComponent {
   }
 
 
-  private actualizarEspecialista(horarios: Horarios, turnos: Array<Turno>) {
+  private async actualizarEspecialista(horarios: Horarios, turnos: Array<Turno>) {
+    debugger;
     this.currentUser.horarios.push(horarios);
     this.spinner.mostrar();
-    this.db.modificarEspecialista(this.currentUser,this.currentUser.id)
+    await this.db.modificarEspecialista(this.currentUser,this.currentUser.id)
       .then(()=>{
         this.localStorage.setItem('usuario',this.currentUser);
         this.ordenarHorarios();
         this.swal.success("Se guardo el horario");
 
-        turnos.flat().forEach((turno,index) => {
-          turno.especialista = this.currentUser;
+        console.log("TURNOS A GUARDAR: ", turnos);
+
+        turnos.flat().forEach(async (turno,index) => {
+          turno.especialista = {...this.especialista};
+
+          turno.especialista.password = "123123"
           turno.especialidad = horarios.especialidad;
-          this.db.obtenerTurno(turno)
+          await this.db.guardarTurno(turno)
             .then(()=>{
 
             })
             .catch((e:Error)=>{
-              this.swal.error('obtenerTurno: ' + e.message);
+              this.swal.error('ObtenerTurno: ' + e.message);
             })
             .finally(()=>{
               if(index == turnos.length -1 ){

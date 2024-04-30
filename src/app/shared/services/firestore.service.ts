@@ -294,10 +294,22 @@ export class FirestoreService {
   }
 
   modificarEspecialista(especialista: Especialista, id: string): Promise<void> {
-
-    especialista.horarios = especialista.horarios.map((horarios: Horarios) => { return { ...horarios } });
+debugger;
+    especialista.horarios = especialista.horarios.map((horarios: Horarios) => { 
+      return { 
+        dia: horarios.dia,
+        diaNumero: horarios.diaNumero,
+        duracion: horarios.duracion,
+        horaInicio: horarios.horaInicio,
+        horaFinal: horarios.horaFinal,
+        especialidad: horarios.especialidad,
+        id: ''
+       } 
+    });
+    debugger;
     const documento = doc(collection(this.db, this.cUsuarios), id);
     return updateDoc(documento, {
+
       id: especialista.id,
       fechaRegistro: especialista.fechaRegistro,
       nombre: especialista.nombre,
@@ -397,27 +409,20 @@ export class FirestoreService {
     return addDoc(collection(this.db, this.cTurnos), {...turnos});
   }
 
-  obtenerTurno(turno: Turno){
-    return addDoc(collection(this.db, this.cTurnos), 
-    {
-      id: turno.id,
-      fecha: turno.fecha,
-      horaInicio: turno.horaInicio,
-      horaFinal: turno.horaFinal,
-      duracion: turno.duracion,
-      fechaInicio: turno.fechaInicio,
-      fechaFinal: turno.fechaFinal,
-      estadoTurno: turno.estadoTurno,
-      paciente: turno.paciente,
-      encuestaPaciente: turno.encuestaPaciente,
-      calificacionPaciente: turno.calificacionPaciente,
-      especialista: turno.especialista,
-      especialidad: turno.especialidad,
-      comentarioEspecialista: turno.comentarioEspecialista,
-      diagnosticoEspecialista: turno.diagnosticoEspecialista,
-      comentarioAdministrador: turno.comentarioAdministrador,
-      historiaClinica: turno.historiaClinica
-    });
+  guardarTurno(turno: Turno){
+
+    return addDoc(collection(this.db, this.cTurnos),{...turno});
+    // return addDoc(collection(this.db, this.cTurnos), 
+    // {
+    //   fecha: turno.fecha,
+    //   horaInicio: turno.horaInicio,
+    //   horaFinal: turno.horaFinal,
+    //   duracion: turno.duracion,
+    //   fechaInicio: turno.fechaInicio,
+    //   fechaFinal: turno.fechaFinal,
+    //   especialista: turno.especialista,
+    //   especialidad: turno.especialidad
+    // });
   }
 
   obtenerTurnosCompletos() {
@@ -466,7 +471,7 @@ export class FirestoreService {
 
   obtenerTurnosPorEspecialistaYEspecialidad(idEspecialista: string, especialidad: string){
     debugger;
-    const posibilidades : Array<string> = ['Libre'];
+    const posibilidades : Array<string> = ["Libre"];
 
     const q = query(collection(this.db, this.cTurnos),
       where('especialista.id', '==', idEspecialista),
@@ -569,7 +574,7 @@ export class FirestoreService {
     return turnos;
   }
 
-  calcularProyeccionTurnos(numeroDeSemanas: number = 5, diaSemana: number = new Date().getDate()) {
+  calcularProyeccionTurnos(numeroDeSemanas: number = 7, diaSemana: number = new Date().getDate()) {
 
     if(numeroDeSemanas<1){
       numeroDeSemanas = 1;
@@ -594,7 +599,7 @@ export class FirestoreService {
     return fechas;
   }
 
-  proyectarTurnos(currentUser: Especialista, turnos: Array<Turno>, diaSemana: number = new Date().getDate(), cantidadDeSemanas: number = 5) : Array<Turno> {
+  proyectarTurnos(currentUser: Especialista, turnos: Array<Turno>, diaSemana: number = new Date().getDate(), cantidadDeSemanas: number = 7) : Array<Turno> {
     const proximosDias = this.calcularProyeccionTurnos(cantidadDeSemanas, diaSemana);
 
     return proximosDias.map(fecha=>{

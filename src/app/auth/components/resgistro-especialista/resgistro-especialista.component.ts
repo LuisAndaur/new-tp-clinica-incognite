@@ -246,8 +246,8 @@ debugger;
 
         })
         .catch((e:Error)=>{
+          console.log("Guardar especialidad: ");
           this.swal.error(e.message);
-          
         })
         .finally(()=>{
           this.nuevaEspecialidad ='';

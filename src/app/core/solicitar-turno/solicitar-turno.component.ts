@@ -90,12 +90,18 @@ export class SolicitarTurnoComponent implements OnInit {
     const unsubTurnos = this.db.obtenerTurnosPorEspecialistaYEspecialidad(this.filtroEspecialista!.id,this.filtroEspecialidad)
     .subscribe((_turnos=>{
       unsubTurnos.unsubscribe();
-      console.log("TURNOS: ",_turnos);
+      console.log("TURNOS traidos: ",_turnos);
 
       const fechaActual = new Date().getTime();
+      console.log("FECHA ACTUAL: ", new Date(fechaActual));
       const fechaAFuturo = new Date();
+
       fechaAFuturo.setDate(fechaAFuturo.getDate() + 15);
+      console.log("FECHA FUTURO1: ", fechaAFuturo);
+      console.log("FECHA FUTURO2: ", new Date(fechaAFuturo));
+
       const fechaLimite = fechaAFuturo.getTime();
+      console.log("FECHA LIMITE: ", new Date(fechaLimite));
 
       this.turnos = _turnos as Array<Turno>;
       this.turnos = this.turnos
@@ -104,6 +110,7 @@ export class SolicitarTurnoComponent implements OnInit {
         });
       this.turnos?.sort((a,b)=> a.fechaInicio - b.fechaInicio);
 
+      console.log("TURNOS CARGADOS: ", this.turnos);
       this.turnos?.forEach(turno => {
 
         if(!fechas.includes(turno.fecha)){
