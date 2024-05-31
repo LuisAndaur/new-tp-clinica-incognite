@@ -34,12 +34,12 @@ export class SeccionPacientesComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.currentUser = this.localStorage.getItem('usuario');
-
     this.spinner.mostrar();
 
+    this.currentUser = this.localStorage.getItem('usuario');
+
     this.db.obtenerTurnosEspecialistaAtendidos(this.currentUser.id).subscribe( (t) => {
-      this.turnos = t;
+      this.turnos = t.filter((x) => x['historiaClinica'] != undefined);
 
       this.db.obtenerUsuariosPorFiltro('tipo', 'paciente').subscribe( p => {
         this.pacientes = p;
@@ -49,11 +49,12 @@ export class SeccionPacientesComponent implements OnInit {
           const pacAux = p.filter(x => x.id === auxP.id);
           const tNotLibres = this.turnos!.filter(x => x.estadoTurno != 'Libre');
           const tAux = tNotLibres.filter(x => x.paciente.id === auxP.id && x.especialista.id === this.currentUser.id);
-        
+          let tAuxSort: Turno[] = tAux.sort((a, b) => b.fechaInicio - a.fechaInicio);
+
           if(tAux.length>0){
             const pacienteTurno: any = {
               paciente: pacAux[0],
-              turnos: tAux
+              turnos: tAuxSort
             }
     
             this.pacienteTurnos.push(pacienteTurno);
@@ -64,6 +65,8 @@ export class SeccionPacientesComponent implements OnInit {
 
         this.spinner.ocultar();
       });
+      
+      this.spinner.ocultar();
 
     });
 

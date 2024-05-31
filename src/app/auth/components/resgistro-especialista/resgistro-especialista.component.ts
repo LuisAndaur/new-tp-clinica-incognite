@@ -172,7 +172,8 @@ export class ResgistroEspecialistaComponent implements OnInit {
     let flag = false;
 
     this.listaEspecialidades.forEach( e => {
-      if(e.especialidad==especialidad){
+      // if(e.especialidad==especialidad){a.localeCompare(b, 'es', { sensitivity: 'base' }) === 0
+      if(e.especialidad.localeCompare(especialidad, 'es', { sensitivity: 'base' }) === 0){
         flag = true;
       }
     });
@@ -232,10 +233,11 @@ debugger;
   }
 
   agregarEspecialidad(){
+    debugger;
 
     if(this.nuevaEspecialidad!=''){
 
-      if(this.existeEspecialidad(this.nuevaEspecialidad)){
+      if(this.existeEspecialidad(this.nuevaEspecialidad.toUpperCase())){
         this.swal.info("La especialidad ya existe.");
       }
       else{

@@ -444,7 +444,7 @@ debugger;
   }
 
   obtenerTurnosEspecialistaAtendidos(id: string) {
-    const estados : Array<string> = ['Libre', 'Solicitado', 'Cancelado'];
+    const estados : Array<string> = ['Libre', 'Solicitado', 'Cancelado', 'Rechazado', 'Aceptado'];
     const turnosRef = collection(this.db, this.cTurnos);
     const q = query(turnosRef, where('estadoTurno', 'not-in', estados), where('especialista.id', '==', id));
     return collectionData(q,{ idField: 'id' }) ;

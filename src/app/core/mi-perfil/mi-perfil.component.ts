@@ -98,6 +98,8 @@ export class MiPerfilComponent implements OnInit {
     
     this.db.obtenerTurnosPaciente(email as string).subscribe((t) => {
       this.turnos = t.filter((x) => x['historiaClinica'] != undefined);
+      let aux = this.turnos;
+      this.turnos = aux.sort((a, b) => b.fechaInicio - a.fechaInicio);
 
       debugger;
       if(this.turnos.length > 0){
@@ -118,11 +120,10 @@ export class MiPerfilComponent implements OnInit {
 
   seleccion(user: string){
     this.especialidadElegida = user;
+    console.log('espeialidad: ', this.especialidadElegida)
   }
 
   descargarPdf(paciente: Usuario, email: string) {
-
-    debugger;
 
     if(this.especialidadElegida == ''){
       this.swal.warning('Elija una especialidad!');
@@ -130,6 +131,7 @@ export class MiPerfilComponent implements OnInit {
     }
     
     this.db.obtenerTurnosPaciente(email as string).subscribe((t) => {
+      this.turnos = [];
       this.turnos = t.filter((x) => (x['historiaClinica'] != undefined) && x['especialidad']['id'] == this.especialidadElegida);
 
       if(this.turnos.length < 1){

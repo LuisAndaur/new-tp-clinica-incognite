@@ -73,11 +73,13 @@ export class VerHistoriaClinicaComponent {
         debugger;
         if(this.idTurno != ''){
           let aux = this.turnos.filter((x) => x.id == this.idTurno);
-          let data = this.dataFilterHc(aux);
+          let aux2 = aux.sort((a, b) => b.fechaInicio - a.fechaInicio);
+          let data = this.dataFilterHc(aux2);
           this.historiasClinicas = new MatTableDataSource(data);
         }
         else{
-          let data = this.dataFilterHc(this.turnos);
+          let aux = this.turnos.sort((a, b) => b.fechaInicio - a.fechaInicio);
+          let data = this.dataFilterHc(aux);
           this.historiasClinicas = new MatTableDataSource(data);
         }
 

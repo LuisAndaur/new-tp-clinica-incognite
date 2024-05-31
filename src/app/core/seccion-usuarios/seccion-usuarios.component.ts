@@ -119,8 +119,9 @@ export class SeccionUsuariosComponent implements OnInit{
   descargarDatosUsuario(paciente: Paciente, email: string) {
     
     this.db.obtenerTurnosPaciente(email as string).subscribe((t) => {
-      this.turnos = t.filter((x) => x['historiaClinica'] != undefined);
+      this.turnos = t.filter((x) => x['estadoTurno'] == 'Finalizado');
 
+      debugger;
       if(this.turnos.length>0){
         if(this.turnos != null){
           this.excel.descargarExcelDatosPaciente(paciente, this.turnos);
