@@ -78,32 +78,41 @@ export class CargarHistoriaClinicaComponent {
   }
 
   async submit() {
-    if (this.form.valid) {
+    this.spinner.mostrar();
+    if (this.form.valid) {     
       
-      this.spinner.mostrar();
       debugger;
       const hc = this.getHistoriaClinica;
       this.turno.historiaClinica = hc;
 
       await this.db.modificarTurno(this.turno)
               .then(()=>{
+                this.spinner.ocultar();
                 this.swal.success("Se agregó la historia clínica");
                 
               })
               .catch((e:Error)=>{
                 console.log("ERROR DENTRO DE GUARDAR HISTORIA CLINICA");
-                this.swal.error(e.message);
+                this.spinner.ocultar();
+                this.swal.error('ERROR DENTRO DE GUARDAR HISTORIA CLINICA');
+                console.log(e.message);
               })
               .finally(()=>{
                 this.form.reset();
-                this.spinner.ocultar();
                 this.mostrarCrear.emit(false);
+                
                 this.router.navigateByUrl('/mis-turnos');
               });
     }
     else{
       this.swal.error("Formulario inválido.");
+      this.spinner.ocultar();
     }
+  }
+
+  cancelar() {
+    this.mostrarCrear.emit(false);
+    this.router.navigateByUrl('/mis-turnos');
   }
 
   get altura() {

@@ -105,8 +105,8 @@
               <li *ngFor="let e of item.especialidades">{{e.especialidad}}</li>
           </ul>
 
-          <button mat-raised-button color="primary" *ngIf="item.tipo == 'paciente'" (click)="mostrarHistoriaClinica(item.email)" >Ver historias clinicas</button>
-          <button mat-raised-button color="warn" *ngIf="item.tipo == 'paciente'" (click)="descargarDatosUsuario(item, item.email)" >Descargar datos</button>
+          <button mat-raised-button color="primary" *ngIf="item.tipo == 'paciente' && item.estado == 'aceptado'" (click)="mostrarHistoriaClinica(item.email)" >Ver historias clinicas</button>
+          <button mat-raised-button color="warn" *ngIf="item.tipo == 'paciente' && item.estado == 'aceptado'" (click)="descargarDatosUsuario(item, item.email)" >Descargar datos</button>
         </mat-card-content>
       </mat-card>
   </div>

@@ -295,6 +295,7 @@ export class InformesComponent implements OnInit {
 
   cantidadTurnosPorDia(){
     this.opcion = 3;
+    this.verGrafico = true;
     if(this.chart instanceof Chart){
       this.chart.destroy();
     }
@@ -420,7 +421,7 @@ export class InformesComponent implements OnInit {
 
       this.listaEspecialistas.forEach((especialista) => {
         especialista.especialidades.forEach((e) => {
-          if(especialidad.especialidad == e.especialidad){
+          if(especialidad.especialidad == e.especialidad && especialista.estado == 'aceptado'){
             auxEspecialidad = e.especialidad;
             cantidad++;
           }
@@ -546,7 +547,7 @@ export class InformesComponent implements OnInit {
       data: {
         labels: ['Administradores', 'Especialistas', 'Pacientes'],
         datasets: [{
-          label: 'Turnos por especialidad',
+          label: 'Cantidad de visitas',
           data: [this.contadorAdministrador, this.contadorEspecialista, this.contadorPaciente],
           borderWidth: 1,
         }]

@@ -537,7 +537,7 @@ export class InformesEncuestaComponent implements OnInit {
       data: {
         labels: ['Administradores', 'Especialistas', 'Pacientes'],
         datasets: [{
-          label: 'Turnos por especialidad',
+          label: 'Cantidad de visitas',
           data: [this.contadorAdministrador, this.contadorEspecialista, this.contadorPaciente],
           borderWidth: 1,
         }]
@@ -718,7 +718,7 @@ export class InformesEncuestaComponent implements OnInit {
 
       this.listaEspecialistas.forEach((especialista) => {
         especialista.especialidades.forEach((e) => {
-          if(especialidad.especialidad == e.especialidad){
+          if(especialidad.especialidad == e.especialidad && especialista.estado == 'aceptado'){
             auxEspecialidad = e.especialidad;
             cantidad++;
           }
